@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="14dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+
+                >
+
+
+
+                    <customfonts.MyTextView
+                        android:layout_weight="1"
+                        android:id="@+id/shipping"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SHIPPING TO:"
+                        android:textSize="12dp"
+                        android:textColor="@color/color"
+                        />
+
+
+
+
+                    <customfonts.MyTextView
+
+                        android:id="@+id/edit"
+                        android:layout_weight="0.6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:textSize="12dp"
+                        android:textColor="#51a3df"
+                        android:text="EDIT"
+                        android:gravity="right"
+
+                        />
+
+
+            </LinearLayout>
+
+
+
+
+
+            <customfonts.MyTextView
+                android:paddingTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ester Smith"
+                android:textSize="16dp"
+                android:textColor="#333333"
+                />
+
+            <customfonts.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="309, Baker Street, 390022 NY"
+                android:textSize="16dp"
+                android:textColor="#333333"
+                />
+
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dad8d8"
+            android:gravity="bottom"/>
+
+
+
+        <ListView
+
+            android:layout_marginBottom="89dp"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dad8d8"
+        android:gravity="bottom"
+        android:layout_above="@+id/amount"
+        android:elevation="1dp"
+        />
+
+
+
+    <!--******TOTAL*******-->
+
+    <LinearLayout
+        android:id="@+id/amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:layout_above="@+id/pay"
+        android:background="#fff"
+        android:gravity="center"
+
+        >
+
+
+            <customfonts.MyTextView
+                android:layout_weight="1"
+                android:id="@+id/total1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TOTAL AMOUNT"
+                android:textSize="12dp"
+                android:textColor="#333333"
+
+                />
+
+
+
+            <customfonts.MyTextView
+
+                android:id="@+id/total2"
+                android:layout_weight="0.6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:textSize="18dp"
+                android:textColor="#333333"
+                android:text="$ 858.00"
+                android:gravity="right"
+
+                />
+
+
+
+    </LinearLayout>
+
+
+
+
+    <customfonts.MyTextView
+        android:id="@+id/pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#51a3df"
+        android:text="CONFIRM &amp; PAY"
+        android:textSize="16dp"
+        android:textColor="#fff"
+        android:padding="16dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:drawableRight="@drawable/next"
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff"
+    >
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="52.5dp">
+
+        <!--//main-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="#fbfaff"
+                >
+
+
+
+                    <customfonts.MyTextView
+                        android:layout_weight="1"
+                        android:id="@+id/payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PAYMENT METHOD"
+                        android:textSize="12dp"
+                        android:textColor="#333333"
+                        android:paddingTop="8dp"/>
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fbfaff"
+                android:scrollbars="none"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <include layout="@layout/payment1"></include>
+                    <include layout="@layout/payment2"></include>
+                    <include layout="@layout/payment4"></include>
+                    <include layout="@layout/payment3"></include>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="#fff"
+            >
+
+
+
+                <customfonts.MyTextView
+                    android:layout_weight="1"
+                    android:id="@+id/detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PAYMENT DETAIL"
+                    android:textSize="12dp"
+                    android:textColor="#333333"
+                    android:paddingTop="8dp"/>
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+            <!--******CARD NO*******-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="16dp"
+
+                >
+
+
+                    <customfonts.MyTextView
+                        android:layout_weight="1"
+                        android:id="@+id/cardno1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CARD NUMBER"
+                        android:textSize="12dp"
+                        android:textColor="@color/color" />
+
+
+                <LinearLayout
+                    android:layout_weight="0.6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <customfonts.MyEditText
+
+                        android:id="@+id/cardno2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:background="#00000000"
+                        android:maxLines="1"
+                        android:inputType="number"
+                        android:drawableRight="@drawable/card"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#dad8d8" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_weight="0.6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="16dp"
+
+                >
+
+
+
+                    <customfonts.MyTextView
+                        android:layout_weight="1"
+                        android:id="@+id/date1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="EXP DATE"
+                        android:textSize="12dp"
+                        android:textColor="@color/color" />
+
+
+
+                <LinearLayout
+                    android:layout_weight="0.6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <customfonts.MyEditText
+
+                        android:id="@+id/date2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:background="#00000000"
+                        android:maxLines="1"
+                        android:maxLength="8"
+                        android:hint="dd/year"
+                        android:textSize="13dp"
+                        android:textColorHint="@color/color"
+
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#dad8d8" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+                 <LinearLayout
+                     android:layout_weight="1"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:orientation="horizontal"
+                     android:padding="16dp"
+
+                     >
+
+                     <LinearLayout
+                         android:layout_weight="1"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="vertical"
+
+                         >
+
+                         <customfonts.MyTextView
+                             android:layout_weight="1"
+                             android:id="@+id/cvv1"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:text="CVV"
+                             android:textSize="12dp"
+                             android:textColor="@color/color" />
+                     </LinearLayout>
+
+
+                     <LinearLayout
+                         android:layout_weight="0.6"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="vertical">
+
+                         <customfonts.MyEditText
+
+                             android:id="@+id/cvv2"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:textColor="#333333"
+                             android:background="#00000000"
+                             android:maxLines="1"
+                             android:textSize="13dp"
+
+                             android:inputType="number"
+                             android:maxLength="3"
+
+                             />
+
+                         <View
+                             android:layout_width="match_parent"
+                             android:layout_height="1dp"
+                             android:background="#dad8d8" />
+
+                     </LinearLayout>
+                 </LinearLayout>
+             </LinearLayout>
+
+
+
+            <!--****** NAME*******-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="16dp"
+
+                >
+
+
+                    <customfonts.MyTextView
+                        android:layout_weight="1"
+                        android:id="@+id/name1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CARDHOLDER NAME"
+                        android:textSize="12dp"
+                        android:textColor="@color/color" />
+
+
+                <LinearLayout
+                    android:layout_weight="0.6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <customfonts.MyEditText
+
+                        android:id="@+id/name2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:background="#00000000"
+                        android:maxLines="1"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#dad8d8" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+             <!--******TOTAL*******-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center"
+
+                >
+
+
+
+                    <customfonts.MyTextView
+                        android:layout_weight="1"
+                        android:id="@+id/total1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TOTAL AMOUNT"
+                        android:textSize="12dp"
+                        android:textColor="#333333"
+                        />
+
+
+
+
+
+                    <customfonts.MyTextView
+
+                        android:id="@+id/total2"
+                        android:layout_weight="0.6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:textSize="16dp"
+                        android:textColor="#333333"
+                        android:text="$ 858.00"
+                        android:gravity="right"
+
+                        />
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    ******ORDER******
+
+
+    <customfonts.MyTextView
+        android:id="@+id/order_stage2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#51a3df"
+        android:text="CONTINUE TO CONFIRMATION"
+        android:textSize="16dp"
+        android:textColor="#fff"
+        android:padding="16dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:drawableRight="@drawable/next"
+        />
+
+
+</RelativeLayout>

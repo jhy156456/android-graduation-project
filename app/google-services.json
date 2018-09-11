@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1031773891390",
+    "firebase_url": "https://graduation-project-push.firebaseio.com",
+    "project_id": "graduation-project-push",
+    "storage_bucket": "graduation-project-push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031773891390:android:3aab8df5490c5eeb",
+        "android_client_info": {
+          "package_name": "com.mobitant.bestfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031773891390-cd5i2a2m9nkc34l82879e76jurs83jun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmWIhnANzUGMwIz7WIMNXBof9lE61JKpc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

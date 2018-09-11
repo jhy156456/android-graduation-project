@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/formBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/register_background" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/logo_height"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/logo" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/ti_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_logo"
+                    android:layout_marginTop="24dp">
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableRight="@drawable/ic_personhint"
+                        android:hint="이름"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@android:color/white" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/ti_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ti_name"
+                    android:layout_marginTop="0dp">
+
+
+                    <EditText
+                        android:id="@+id/et_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableRight="@drawable/ic_email"
+                        android:hint="이메일"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@android:color/white" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/ti_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ti_email"
+                    android:layout_marginTop="0dp"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@android:color/white">
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="비밀번호"
+                        android:inputType="textPassword"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@android:color/white" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TableLayout
+                    android:id="@+id/table_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ti_nickname"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_round"
+                    android:stretchColumns="0,1,2,3">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center_horizontal">
+
+                        <CheckBox
+                            android:id="@+id/select_android"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="구매자"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center_horizontal">
+
+                        <CheckBox
+                            android:id="@+id/select_html"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="판매자"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center_horizontal">
+
+                        <CheckBox
+                            android:id="@+id/select_java"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="서포터즈"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center_horizontal">
+
+                        <CheckBox
+                            android:id="@+id/select_server"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="박윤범씹새끼"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                </TableRow>
+                </TableLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/ti_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/ti_password"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="0dp">
+
+                    <EditText
+                        android:id="@+id/et_nickname"
+                        android:layout_width="264dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:drawableRight="@drawable/ic_personhint"
+                        android:hint="별명"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@android:color/white" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <EditText
+                    android:id="@+id/profile_sextype"
+                    android:layout_width="154dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="139dp"
+                    android:layout_marginStart="11dp"
+                    android:background="@drawable/rounded_white"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:hint="생일"
+                    android:paddingStart="10dp"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/profile_birth"
+                    android:layout_width="159dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/profile_sextype"
+                    android:background="@drawable/rounded_white"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:hint="성별"
+                    android:paddingStart="10dp"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ti_password"
+                    android:layout_marginTop="200dp"
+                    android:drawableRight="@drawable/ic_arrow_forward"
+                    android:paddingLeft="@dimen/button_padding"
+                    android:text="회원가입 완료" />
+
+                <TextView
+                    android:id="@+id/tv_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_register"
+                    android:padding="@dimen/button_margin"
+                    android:text="로그인하러가기"
+                    android:textAlignment="center" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_login"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/button_margin"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ti_nickname"
+                    android:layout_alignParentEnd="true"
+                    android:text="중복확인" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>

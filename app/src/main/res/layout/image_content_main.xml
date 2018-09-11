@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/image_content_main_relative"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mobitant.bestfood.BestFoodRegisterActivity"
+    tools:showIn="@layout/fragment_bestfood_register_input">
+
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/recycler_view_images"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="@dimen/spacing_small"
+       android:background="@drawable/bg_round"
+       android:layout_centerInParent="true"
+       android:scaleType="fitCenter"/>
+   <ImageView
+       android:id="@+id/bestfood_image_register"
+       android:layout_width="48dp"
+       android:layout_height="48dp"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentEnd="true"
+       android:layout_marginBottom="4dp"
+       android:layout_marginEnd="4dp"
+       android:background="@drawable/button_circle"
+       android:elevation="4dp"
+       android:padding="8dp"
+       android:scaleType="fitCenter"
+       android:src="@drawable/camera" />
+   <!--<ImageView
+               android:id="@+id/bestfood_image"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:background="@drawable/bg_round_gray"
+               android:layout_margin="@dimen/spacing_large"
+               android:layout_centerInParent="true"
+               android:scaleType="fitCenter" />
+               !-->
+   </RelativeLayout>

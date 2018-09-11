@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_default"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar_layout"
+        layout="@layout/toolbar" />
+
+            <RelativeLayout
+                android:id="@+id/viewedPage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_below="@+id/toolbar_layout"
+                android:background="@drawable/bg_round"
+                android:orientation="vertical"
+               >
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/viwedlistView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/viwedtemp" />
+            </RelativeLayout>
+
+
+</RelativeLayout>
