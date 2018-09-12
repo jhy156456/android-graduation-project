@@ -30,7 +30,7 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeActivity extends AppCompatActivity   implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener {
     private final String TAG = this.getClass().getSimpleName();
     LinearLayout linearLayout;
     DrawerLayout drawer;
@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
     CircleImageView profileIconImage;
     Menu menu;
     MenuItem menuItem;
-    MenuItem profileMenuItem,logoutMenuItem;
+    MenuItem profileMenuItem, logoutMenuItem;
     SliderLayout mDemoSlider;
     NavigationView navigationView;
     TextView nameText;
@@ -53,15 +53,15 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
 
 
         //슬라이더시작
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
+        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
         file_maps.put("1", R.drawable.s1);
-        file_maps.put("2",R.drawable.s2);
-        file_maps.put("3",R.drawable.s3);
+        file_maps.put("2", R.drawable.s2);
+        file_maps.put("3", R.drawable.s3);
 
 
-        for(String name : file_maps.keySet()){
+        for (String name : file_maps.keySet()) {
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
         setNavLogin();
 
         linearLayout = (LinearLayout) findViewById(R.id.buy);
-        linearLayout.setOnClickListener(new View.OnClickListener(){
+        linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 linearLayout.requestFocus();
@@ -111,14 +111,15 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
                 startActivity(intent);
                 finish();
             }
+
             public boolean onTouch(View arg0, MotionEvent arg1) {
-                linearLayout.setSelected(arg1.getAction()==MotionEvent.ACTION_DOWN);
+                linearLayout.setSelected(arg1.getAction() == MotionEvent.ACTION_DOWN);
                 return true;
             }
         });
     }
 
-    public void setNavLogin(){
+    public void setNavLogin() {
         menuItem = menu.getItem(4);
         profileMenuItem = menu.getItem(6);
         logoutMenuItem = menu.getItem(5);
@@ -138,6 +139,7 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
+     *
      * @param menu 메뉴 객체
      * @return 메뉴를 보여준다면 true, 보여주지 않는다면 false
      */
@@ -151,6 +153,7 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
      * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
      * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
      * 여기서는 모든 버튼이 액티비티를 종료한다.
+     *
      * @param item 메뉴 아이템 객체
      * @return 메뉴를 처리했다면 true, 그렇지 않다면 false
      */
@@ -168,19 +171,20 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
 
         return true;
     }
-    /**
-           * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
-           * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
-           */
-     @Override
-      protected void onResume() {
-         super.onResume();
 
-         currentUser = ((MyApp) getApplication()).getMemberInfoItem();
-         MyLog.d(TAG , "온리쥼의시ㅜ이이이이이벌 : " + currentUser.nickname);
-         setNavLogin();
-         setProfileView();
-     }
+    /**
+     * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
+     * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        currentUser = ((MyApp) getApplication()).getMemberInfoItem();
+        MyLog.d(TAG, "온리쥼의시ㅜ이이이이이벌 : " + currentUser.nickname);
+        setNavLogin();
+        setProfileView();
+    }
 
     /**
      * 프로필 이미지와 프로필 이름을 설정한다.
@@ -203,7 +207,7 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
                     .into(profileIconImage);
         }
 
-         nameText = (TextView) headerLayout.findViewById(R.id.name);
+        nameText = (TextView) headerLayout.findViewById(R.id.name);
 
         if (currentUser.nickname == null || currentUser.nickname.equals("")) {
             nameText.setText("로그인해주세요");
@@ -214,6 +218,7 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
 
     /**
      * 네비게이션 메뉴를 클릭했을 때 호출되는 메소드
+     *
      * @param item 메뉴 아이템 객체
      * @return 메뉴 클릭 이벤트의 처리 여부
      */
@@ -223,13 +228,14 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_list) {
-                GoLib.getInstance().goFragment(getSupportFragmentManager(),
-                        R.id.home_linearlayout, BestFoodListFragment.newInstance());
-                //GoLib.getInstance().goBestFoodMainActivity(this);
-            }
-            else if (id == R.id.nav_keep) {
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+                    R.id.home_linearlayout, BestFoodListFragment.newInstance());
+            //GoLib.getInstance().goBestFoodMainActivity(this);
+        } else if (id == R.id.nav_notice) {
+            GoLib.getInstance().goNotificationActivity(this);
+        } else if (id == R.id.nav_keep) {
 
-                GoLib.getInstance().goFragment(getSupportFragmentManager(),
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.home_linearlayout, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {
@@ -239,11 +245,9 @@ public class HomeActivity extends AppCompatActivity   implements NavigationView.
             }
             GoLib.getInstance().goBestFoodRegisterActivity(this);
 
-        }else if(id == R.id.nav_login){
-           GoLib.getInstance().goLoginActivity(this);
-        }
-
-        else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_login) {
+            GoLib.getInstance().goLoginActivity(this);
+        } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
         }
 

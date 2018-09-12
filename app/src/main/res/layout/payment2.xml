@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:text="DEBIT CARD"
+                android:text="신용카드"
                 android:textColor="#868688"
                 android:gravity="center"
                 android:layout_marginTop="61dp"

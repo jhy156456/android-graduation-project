@@ -11,7 +11,9 @@ import com.mobitant.bestfood.HomeActivity;
 import com.mobitant.bestfood.MainActivity;
 import com.mobitant.bestfood.MainActivity2;
 import com.mobitant.bestfood.MemberProfile;
+import com.mobitant.bestfood.NotificationActivity;
 import com.mobitant.bestfood.SoftwareBuyActivity;
+import com.mobitant.bestfood.adapter.NotificationAdapter;
 
 /**
  * 액티비티나 프래그먼트 실행 라이브러리
@@ -42,6 +44,15 @@ public class GoLib {
         fragmentManager.beginTransaction()
                 .replace(containerViewId, fragment)
                 .commit();
+    }
+    /**
+     * 공지사항 액티비티 실행
+     * @param context 컨텍스트
+     */
+    public void goNotificationActivity(Context context) {
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
     /**
      * 구매 액티비티 실행

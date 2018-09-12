@@ -33,4 +33,8 @@
     <color name="colorPinkRose">#EC87C0</color>
     <color name="colorPinkRoseDark">#D770AD</color>
     <color name="color">#767578</color>
+    <color name="colorOrange">#F68159</color>
+    <color name="colorLightGray">#a6abae</color>
+    <color name="colorBackroundWhite">#f0f2ea</color>
+    <color name="colorGray">#495C67</color>
 </resources>

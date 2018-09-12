@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="background">#FFFFFF</color>
-    <color name="colorPrimary" tools:override="true">#094578</color>
+    <color name="colorPrimary" tools:override="true">#3F51B5</color>
     <color name="colorPrimaryDark" tools:override="true">#094578</color>
     <color name="colorAccent" tools:override="true">#7395b9</color>
     <color name="done_button_bg">#FFFFFF</color>

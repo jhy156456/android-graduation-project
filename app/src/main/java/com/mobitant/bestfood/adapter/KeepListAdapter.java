@@ -104,7 +104,6 @@ public class KeepListAdapter extends RecyclerView.Adapter<KeepListAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
-
         return new ViewHolder(v);
     }
 
@@ -167,7 +166,6 @@ public class KeepListAdapter extends RecyclerView.Adapter<KeepListAdapter.ViewHo
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             removeItem(msg.what);
         }
     };

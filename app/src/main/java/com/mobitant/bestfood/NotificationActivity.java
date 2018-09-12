@@ -1,78 +1,73 @@
 package com.mobitant.bestfood;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.TextView;
 
+import com.mobitant.bestfood.adapter.NotificationAdapter;
 import com.mobitant.bestfood.fragments.BestFoodKeepFragment;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
-import com.mobitant.bestfood.item.MemberInfoItem;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.StringLib;
+import com.mobitant.bestfood.model.User;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
-import com.mobitant.bestfood.model.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * 맛집 정보앱의 핵심 액티비티이며 왼쪽에 네비게이션 뷰를 가지며
- * 다양한 프래그먼트를 보여주는 컨테이너 역할을 한다.
- */
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    private final String TAG = getClass().getSimpleName();
-
+public class NotificationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
     View headerLayout;
-    User userItem;
-    CircleImageView profileIconImage;
     Menu menu;
     MenuItem menuItem;
     MenuItem profileMenuItem,logoutMenuItem;
     NavigationView navigationView;
-    /**
-     * 액티비티와 네비게이션 뷰를 설정하고 BestFoodListFragment를 화면에 보여준다.
-     * @param savedInstanceState 액티비티가 새로 생성되었을 경우, 이전 상태 값을 가지는 객체
-     */
+    User userItem;
+    CircleImageView profileIconImage;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    NotificationAdapter adapter;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        userItem = ((MyApp)getApplication()).getUserItem();
-
+        setContentView(R.layout.notification_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        userItem = ((MyApp)getApplication()).getUserItem();
+        recyclerView = (RecyclerView) findViewById(R.id.notification_list);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
+        adapter = new NotificationAdapter();
+        recyclerView.setAdapter(adapter);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
-                                         R.string.navigation_drawer_close);
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();//동적 메뉴아이템을위함
         navigationView.setNavigationItemSelectedListener(this);
-
         headerLayout = navigationView.getHeaderView(0);//동적 메뉴아이템을위함
 
         setNavLogin();
-        GoLib.getInstance()
-                .goFragment(getSupportFragmentManager(), R.id.content_main,
-                        BestFoodListFragment.newInstance());
-
 
     }
 
@@ -115,6 +110,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
     /**
      * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
      * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
@@ -125,7 +121,6 @@ public class MainActivity extends AppCompatActivity
         setNavLogin();
         setProfileView();
     }
-
     /**
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
@@ -135,7 +130,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
-                GoLib.getInstance().goProfileActivity(MainActivity.this);
+                GoLib.getInstance().goProfileActivity(NotificationActivity.this);
             }
         });
 
@@ -157,19 +152,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * 폰에서 뒤로가기 버튼을 클릭했을 때 호출하는 메소드이며
-     * 네비게이션 메뉴가 보여진 상태일 경우, 네비게이션 메뉴를 닫는다.
-     */
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    /**
      * 네비게이션 메뉴를 클릭했을 때 호출되는 메소드
      * @param item 메뉴 아이템 객체
      * @return 메뉴 클릭 이벤트의 처리 여부
@@ -183,11 +165,7 @@ public class MainActivity extends AppCompatActivity
             GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.content_main, BestFoodListFragment.newInstance());
 
-        }else if (id == R.id.nav_notice){
-            GoLib.getInstance().goNotificationActivity(this);
-        }
-
-        else if (id == R.id.nav_keep) {
+        } else if (id == R.id.nav_keep) {
             GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.content_main, BestFoodKeepFragment.newInstance());
 
