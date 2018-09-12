@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        android:background="@color/bg_default"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/inqure_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/bg_round"
+            android:gravity="start"
+            android:hint="문의제목을 입력해주세요."
+            android:maxLength="20"
+            android:maxLines="1"
+            android:padding="@dimen/spacing_large"
+            android:textSize="@dimen/text_size_small2" />
+
+        <EditText
+            android:id="@+id/bestfood_os"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/bg_round"
+            android:gravity="start"
+            android:hint="기반 OS를 입력하세요"
+            android:maxLines="1"
+            android:padding="@dimen/spacing_large"
+            android:textSize="@dimen/text_size_small2" />
+
+        <EditText
+            android:id="@+id/bestfood_tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/bg_round"
+            android:gravity="start"
+            android:hint="@string/input_bestfood_tel"
+            android:inputType="phone"
+            android:maxLength="13"
+            android:maxLines="1"
+            android:padding="@dimen/spacing_large"
+            android:textSize="@dimen/text_size_small2" />
+
+        <TableLayout
+            android:id="@+id/table_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="73dp"
+            android:layout_margin="4dp"
+            android:layout_below="@+id/top_layout"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:background="@drawable/bg_round"
+            android:stretchColumns="0,1,2,3"
+            >
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left">
+
+                    <CheckBox
+                        android:id="@+id/select_android"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp"
+                        android:text="안드로이드"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/select_ios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="0dp"
+                        android:text="아이폰"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/select_web"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="0dp"
+                        android:text="웹페이지"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/select_d"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="0dp"
+                        android:text="데이터베이스"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/select_sql"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="0dp"
+                        android:text="서버"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/select_yea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="0dp"
+                        android:text="빅데이터"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                    <CheckBox
+                        android:padding="0dp"
+                        android:id="@+id/select_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="0dp"
+                        android:text="인공지능"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+
+
+
+        <include layout="@layout/image_content_main" />
+        <!--
+        <ImageView
+            android:id="@+id/bestfood_image"
+            android:layout_width="match_parent"
+            android:layout_height="199dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginLeft="@dimen/spacing_large"
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:background="@drawable/bg_round_gray"
+            android:scaleType="fitCenter" />
+!-->
+
+
+
+
+        <EditText
+            android:id="@+id/register_image_memo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:layout_above="@+id/bottom_layout"
+            android:background="@drawable/bg_round"
+            android:gravity="top"
+            android:lines="7"
+            android:maxLength="200"
+            android:hint="@string/input_bestfood_image_memo"
+            android:textSize="@dimen/text_size_small2" />
+        <LinearLayout
+            android:id="@+id/current_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:gravity="end">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@string/input_text_length"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/current_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/text_max_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/input_text_max_length"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_small" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/bestfood_description"
+            android:layout_width="match_parent"
+            android:layout_height="414dp"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/bg_round"
+            android:fadeScrollbars="false"
+            android:gravity="start"
+            android:hint="@string/input_bestfood_description"
+            android:lines="9"
+            android:maxLength="500"
+            android:overScrollMode="always"
+            android:padding="@dimen/spacing_large"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:textSize="@dimen/text_size_small2" />
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small2"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/prev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:background="@drawable/button_round"
+                android:text="@string/prev"
+                android:textSize="@dimen/text_size_small2" />
+
+            <Button
+                android:id="@+id/next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:background="@drawable/button_round"
+                android:text="완료"
+                android:textSize="@dimen/text_size_small2" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

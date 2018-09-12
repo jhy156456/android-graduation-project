@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.mobitant.bestfood.adapter.NotificationAdapter;
 import com.mobitant.bestfood.fragments.BestFoodKeepFragment;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
+import com.mobitant.bestfood.fragments.NotificationListFragment;
+import com.mobitant.bestfood.fragments.NotificationRegisterFragment;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.model.User;
@@ -38,9 +40,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
     NavigationView navigationView;
     User userItem;
     CircleImageView profileIconImage;
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    NotificationAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +49,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
         setSupportActionBar(toolbar);
 
         userItem = ((MyApp)getApplication()).getUserItem();
-        recyclerView = (RecyclerView) findViewById(R.id.notification_list);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new NotificationAdapter();
-        recyclerView.setAdapter(adapter);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -68,6 +63,9 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
         headerLayout = navigationView.getHeaderView(0);//동적 메뉴아이템을위함
 
         setNavLogin();
+        GoLib.getInstance()
+                .goFragment(getSupportFragmentManager(), R.id.notification_change_fragment,
+                        NotificationListFragment.newInstance());
 
     }
 
@@ -91,6 +89,10 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
         switch (item.getItemId()) {
             case R.id.go_home:
                 GoLib.getInstance().goHomeActivity(this);
+            case R.id.go_write:
+                GoLib.getInstance().goFragment(getSupportFragmentManager(),
+                        R.id.notification_change_fragment, NotificationRegisterFragment.newInstance());
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.RecyclerView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/notification_list"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_below="@+id/table_layout"
+android:layout_marginTop="@dimen/spacing_small"
+android:background="@drawable/bg_round"
+android:dividerHeight="@dimen/spacing_small"
+
+    />

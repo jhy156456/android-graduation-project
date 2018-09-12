@@ -21,14 +21,14 @@
       />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/notification_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/table_layout"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:background="@drawable/bg_round"
-        android:dividerHeight="@dimen/spacing_small" />
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id ="@+id/notification_change_fragment"
+      >
+
+
+  </RelativeLayout>
 </LinearLayout>
 
     <android.support.design.widget.NavigationView
