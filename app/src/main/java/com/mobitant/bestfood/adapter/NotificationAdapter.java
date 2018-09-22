@@ -11,6 +11,7 @@ import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.NotificationItem;
+import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.model.User;
 
 import java.util.ArrayList;
@@ -51,12 +52,17 @@ public class NotificationAdapter extends RecyclerView.Adapter <NotificationAdapt
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textView.setText("쉬벌");
+
+        final NotificationItem item = itemList.get(position);
+        MyLog.d("이런씨빠라라라랄 : "+item.name);
+        holder.textView.setText(item.getTitle());
+
+
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return this.itemList.size();
     }
 
 
@@ -67,7 +73,7 @@ public class NotificationAdapter extends RecyclerView.Adapter <NotificationAdapt
 
             super(itemView);
 
-            textView = (TextView) itemView.findViewById(R.id.notification_text);
+            textView = (TextView) itemView.findViewById(R.id.notification_title);
         }
     }
 }

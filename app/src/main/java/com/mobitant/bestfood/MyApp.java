@@ -15,9 +15,11 @@ public class MyApp extends Application {
     private FoodInfoItem foodInfoItem;
     private boolean isNewBestFood;
     private boolean isLogin;
+    private boolean isNewNotification;
 
     public MyApp() {
         isNewBestFood = false;
+        isNewNotification =false;
     }
 
     @Override
@@ -86,6 +88,15 @@ public String getMemberNickname(){
     public boolean getIsNewBestfood() {
         return isNewBestFood;
     }
+
+    //문의사항 등록 후 목록으로 돌아왔을때 갱신하기위함
+    public boolean getIsNewNotification() {
+        return isNewBestFood;
+    }
+    public void setIsNewNotification(boolean isNewNotification) {
+        this.isNewNotification = isNewNotification;
+    }
+
 
     public String getMemberIconFilename() {
         return userItem.memberIconFilename;

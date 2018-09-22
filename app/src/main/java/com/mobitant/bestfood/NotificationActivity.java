@@ -75,7 +75,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.homeactivity_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.notificationactivity_toolbar_menu, menu);
         return true;
     }
 
@@ -89,10 +89,9 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
         switch (item.getItemId()) {
             case R.id.go_home:
                 GoLib.getInstance().goHomeActivity(this);
-            case R.id.go_write:
+            case R.id.go_notification_write:
                 GoLib.getInstance().goFragment(getSupportFragmentManager(),
                         R.id.notification_change_fragment, NotificationRegisterFragment.newInstance());
-
         }
         return super.onOptionsItemSelected(item);
     }

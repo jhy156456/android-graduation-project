@@ -320,7 +320,6 @@ public class BestFoodRegisterInputFragment extends Fragment implements View.OnCl
             mMultiImageSelector.multi();
             mMultiImageSelector.origin(mSelectedImagesList);
             mMultiImageSelector.start(context, REQUEST_IMAGE); //BestFoodRegisterInputFragment.this로 하니까 안되더라
-            MyLog.d(TAG, "들어오냐?1");
         }
     }
 

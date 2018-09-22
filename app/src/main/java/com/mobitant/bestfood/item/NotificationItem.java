@@ -1,14 +1,27 @@
 package com.mobitant.bestfood.item;
 
+import com.google.gson.annotations.SerializedName;
+import com.mobitant.bestfood.model.User;
+
 import java.util.ArrayList;
 
 public class NotificationItem {
+    public int seq;
     private String title;
     private String contents;
-    private String writer;
+
     private String create_at;
     private String updated_at;
     private ArrayList<NotificationCommentItem> commentItems;
+    public String name;
+    public String tel;
+    public String description;
+    public String post_nickname;
+    public String postMemberIconFilename;
+    @SerializedName("writer") public User writer;
+
+
+
     public String getTitle() {
         return title;
     }
@@ -25,13 +38,7 @@ public class NotificationItem {
         this.contents = contents;
     }
 
-    public String getWriter() {
-        return writer;
-    }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
 
     public String getCreate_at() {
         return create_at;

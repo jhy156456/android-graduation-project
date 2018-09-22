@@ -15,10 +15,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.mobitant.bestfood.fragments.BestFoodKeepFragment;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
+import com.mobitant.bestfood.lib.DialogLib;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.StringLib;
@@ -249,6 +251,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             GoLib.getInstance().goLoginActivity(this);
         } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
+        }else if (id==R.id.nav_question){
+            if (((MyApp)getApplication()).getMemberNickname() == null || ((MyApp)getApplication()).equals("")) {
+                DialogLib.getInstance().inputPostDialog(this);
+            }else{
+                GoLib.getInstance().goNotificationActivity(this);
+            }
         }
 
         drawer.closeDrawer(GravityCompat.START);

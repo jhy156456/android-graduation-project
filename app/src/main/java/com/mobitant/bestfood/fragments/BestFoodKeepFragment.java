@@ -66,7 +66,6 @@ public class BestFoodKeepFragment extends Fragment {
         context = this.getActivity();
 
         memberSeq = ((MyApp)getActivity().getApplication()).getMemberSeq();
-        Toast.makeText(context, "memberSeq : " + memberSeq, Toast.LENGTH_SHORT).show();
         View layout = inflater.inflate(R.layout.fragment_bestfood_keep, container, false);
 
         return layout;

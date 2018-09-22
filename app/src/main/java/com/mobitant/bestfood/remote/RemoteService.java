@@ -2,6 +2,7 @@ package com.mobitant.bestfood.remote;
 
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
+import com.mobitant.bestfood.item.NotificationItem;
 import com.mobitant.bestfood.model.Response;
 import com.mobitant.bestfood.model.User;
 
@@ -26,11 +27,12 @@ import rx.Observable;
 
 /**
  * 서버에 호출할 메소드를 선언하는 인터페이스
+ * 게시글등록할때
  */
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://192.168.216.228:3000/";
+    String BASE_URL = "http://192.168.1.155:3000/";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 
@@ -52,6 +54,17 @@ public interface RemoteService {
     @POST("/member/icon_upload")
     Call<ResponseBody> uploadMemberIcon(@Part("member_seq") RequestBody memberSeq,
                                         @Part MultipartBody.Part file);
+
+    //문의사항삽입
+    // Doit으로 만든 Node.js에 요청하기
+    @POST("/process/addpost")
+    Call<String> insertNotificationInfo(@Body NotificationItem notificationItem);
+    @GET("/process/listpost")
+    Call<ArrayList<NotificationItem>> listNotificationQuestionList(
+                                               @Query("current_page") int currentPage);
+
+    // Doit으로 만든 Node.js에 요청하기 끝
+
 
     //맛집 정보
     @GET("/food/info/{info_seq}")

@@ -36,9 +36,10 @@ import android.widget.TextView;
 import com.haresh.multipleimagepickerlibrary.MultiImageSelector;
 import com.mobitant.bestfood.BestFoodRegisterActivity;
 import com.mobitant.bestfood.MyApp;
+import com.mobitant.bestfood.NotificationActivity;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.adapter.ImagesAdapter;
-import com.mobitant.bestfood.item.FoodInfoItem;
+import com.mobitant.bestfood.item.NotificationItem;
 import com.mobitant.bestfood.item.ImageItem;
 import com.mobitant.bestfood.lib.BitmapLib;
 import com.mobitant.bestfood.lib.EtcLib;
@@ -84,7 +85,7 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
     private ImagesAdapter mImagesAdapter;
 
     Activity context;
-    FoodInfoItem infoItem;
+    NotificationItem notificationItem;
     EditText nameEdit;
     EditText telEdit;
     EditText osEdit;
@@ -111,17 +112,15 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
     EditText imageMemoEdit;
     ImageItem imageItem;
     boolean isSavingImage = false;
+    boolean isImageLoad = false;
     /**
-     * FoodInfoItem 객체를 인자로 저장하는
+     * NotificationItem 객체를 인자로 저장하는
      * BestFoodRegisterInputFragment 인스턴스를 생성해서 반환한다.
-     * @param infoItem 맛집 정보를 저장하는 객체
      * @return BestFoodRegisterInputFragment 인스턴스
      */
-    public static NotificationRegisterFragment newInstance(FoodInfoItem infoItem) {
-
-
+    public static NotificationRegisterFragment newInstance() {
+        
         NotificationRegisterFragment fragment = new NotificationRegisterFragment();
-
         return fragment;
     }
 
@@ -134,13 +133,9 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            infoItem = Parcels.unwrap(getArguments().getParcelable(INFO_ITEM));
-            if (infoItem.seq != 0) {
-                BestFoodRegisterActivity.currentItem = infoItem;
-            }
-            MyLog.d(TAG, "infoItem " + infoItem);
-        }
+        notificationItem = new NotificationItem();
+        MyLog.d(TAG, "notificationItem " + notificationItem);
+
     }
 
     /**
@@ -153,7 +148,7 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = this.getActivity();
-        return inflater.inflate(R.layout.fragment_bestfood_register_input, container, false);
+        return inflater.inflate(R.layout.notification_fragment_register_input, container, false);
     }
 
     /**
@@ -178,7 +173,6 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
         for(int j=0; j<20;j++){
             saveImageFileName[j] = new String();
             saveImageItem[j] = new ImageItem();
-
         }
 
         imageMemoEdit = (EditText) view.findViewById(R.id.register_image_memo);
@@ -188,7 +182,7 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
 
 
         currentLength = (TextView) view.findViewById(R.id.current_length);
-        nameEdit = (EditText) view.findViewById(R.id.bestfood_name);
+        nameEdit = (EditText) view.findViewById(R.id.inqure_name);
         telEdit = (EditText) view.findViewById(R.id.bestfood_tel);
         osEdit = (EditText) view.findViewById(R.id.bestfood_os);
         descriptionEdit = (EditText) view.findViewById(R.id.bestfood_description);
@@ -223,17 +217,17 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
      */
     @Override
     public void onClick(View v) {
-        infoItem.name = nameEdit.getText().toString();
-        infoItem.tel = telEdit.getText().toString();
-        infoItem.os = osEdit.getText().toString();
-        infoItem.description = descriptionEdit.getText().toString();
-        infoItem.postMemberIconFilename = ((MyApp)getActivity().getApplication()).getMemberIconFilename();
-        MyLog.d(TAG, "onClick imageItem " + infoItem);
+        notificationItem.name = nameEdit.getText().toString();
+        notificationItem.tel = telEdit.getText().toString();
+        notificationItem.description = descriptionEdit.getText().toString();
+        notificationItem.post_nickname = ((MyApp)getActivity().getApplication()).getMemberNickname();
+        notificationItem.postMemberIconFilename = ((MyApp)getActivity().getApplication()).getMemberIconFilename();
+        MyLog.d(TAG, "onClick imageItem " + notificationItem);
 
         if (v.getId() == R.id.prev) {
             GoLib.getInstance().goFragment(getFragmentManager(),
                     R.id.content_main, BestFoodListFragment.newInstance());
-            //원래 : R.id.content_main, BestFoodRegisterLocationFragment.newInstance(infoItem));
+            //원래 : R.id.content_main, BestFoodRegisterLocationFragment.newInstance(notificationItem));
         } else if (v.getId() == R.id.next) {
             save();
         }else if (v.getId() == R.id.bestfood_image_register) {
@@ -245,13 +239,13 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
      * 사용자가 입력한 정보를 확인하고 저장한다.
      */
     private void save() {
-        if (StringLib.getInstance().isBlank(infoItem.name)) {
+        if (StringLib.getInstance().isBlank(notificationItem.name)) {
             MyToast.s(context, context.getResources().getString(R.string.input_bestfood_name));
             return;
         }
 
-        if (StringLib.getInstance().isBlank(infoItem.tel)
-                || !EtcLib.getInstance().isValidPhoneNumber(infoItem.tel)) {
+        if (StringLib.getInstance().isBlank(notificationItem.tel)
+                || !EtcLib.getInstance().isValidPhoneNumber(notificationItem.tel)) {
             MyToast.s(context, context.getResources().getString(R.string.not_valid_tel_number));
             return;
         }
@@ -263,11 +257,11 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
      * 사용자가 입력한 정보를 서버에 저장한다.
      */
     private void insertFoodInfo() {
-        MyLog.d(TAG, infoItem.toString());
+        MyLog.d(TAG, notificationItem.toString());
 
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<String> call = remoteService.insertFoodInfo(infoItem);
+        Call<String> call = remoteService.insertNotificationInfo(notificationItem);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -282,8 +276,9 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
                     if (seq == 0) {
                         //등록 실패
                     } else {
-                        infoItem.seq = seq;
-                        saveImage(seq);
+                        notificationItem.seq = seq;
+                        if(isImageLoad == true) saveImage(seq);
+                        else context.finish();
                     }
                 } else { // 등록 실패
                     int statusCode = response.code();
@@ -317,7 +312,6 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
             mMultiImageSelector.multi();
             mMultiImageSelector.origin(mSelectedImagesList);
             mMultiImageSelector.start(context, REQUEST_IMAGE); //BestFoodRegisterInputFragment.this로 하니까 안되더라
-            MyLog.d(TAG, "들어오냐?1");
         }
     }
 
@@ -335,7 +329,7 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
                 mImagesAdapter = new ImagesAdapter(context,mSelectedImagesList); //context대신 this로 하니까 안되더라;;
                 recyclerViewImages.setAdapter(mImagesAdapter);
                 mSelectedImagesListCount = mSelectedImagesList.size();
-
+                if(mSelectedImagesListCount!=0) isImageLoad = true;
                 for(int l=0; l<mSelectedImagesListCount;l++){
                     //변수가 l인데 i로써서 같은 이미지가 여러개 올라갔었다 ㅡㅡ
                     saveUri[l] = getUriFromPath(mSelectedImagesList.get(l));
