@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NotificationListFragment extends Fragment implements View.OnClickListener {
+public class NotificationListFragment extends android.app.Fragment implements View.OnClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
     RecyclerView recyclerView;
@@ -65,7 +65,7 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
         if(myApp.getIsNewBestfood() == true){
             setRecyclerView();
             listInfo(0);
-            myApp.setIsNewBestfood(false);
+            myApp.setIsNewNotification(false);
         }
     }
 

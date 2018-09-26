@@ -47,7 +47,7 @@ public class BestFoodRegisterActivity extends AppCompatActivity {
         setToolbar();
 
 
-        GoLib.getInstance().goFragment(getSupportFragmentManager(),
+        GoLib.getInstance().goFragment(getFragmentManager(),
                 R.id.content_main, BestFoodRegisterInputFragment.newInstance(infoItem));
     }
 

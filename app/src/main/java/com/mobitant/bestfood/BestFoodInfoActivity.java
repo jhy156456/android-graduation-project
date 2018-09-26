@@ -56,7 +56,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
     RecyclerView viewdlistView;
     SingerAdapter adapter;
     ScrollView scrollView;
-    ImageView keepImage;
+    ImageView keepImage; // 핸들러처리때문에 전역변수로 있는게 맞는듯.
     InfoImageAdapter infoImageAdapter;
     ArrayList<ImageItem> images = new ArrayList<>();
     private RecyclerView.LayoutManager layoutManager,postLayoutManager;
@@ -73,8 +73,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
         context = this;
         memberSeq = ((MyApp) getApplication()).getMemberSeq();
         foodInfoSeq = getIntent().getIntExtra(INFO_SEQ, 0);
-        setComment();
-
+        selectFoodInfo(foodInfoSeq, memberSeq);
         setToolbar();
 
     }
@@ -104,10 +103,10 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
 
         layoutManager = new LinearLayoutManager(this);
         imageItemList.setLayoutManager(layoutManager);
-
-
         infoImageAdapter = new InfoImageAdapter(this,
                 R.layout.row_post_image_list, new ArrayList<ImageItem>());
+        images = item.totalImageFilename;
+        infoImageAdapter.addItemList(images);
         imageItemList.setAdapter(infoImageAdapter);
 
     }
@@ -175,12 +174,9 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
             public void onResponse(Call<FoodInfoItem> call, Response<FoodInfoItem> response) {
                 FoodInfoItem infoItem = response.body();
                 if (response.isSuccessful() && infoItem != null && infoItem.seq > 0) {
-
-                    images = infoItem.totalImageFilename;
-                    infoImageAdapter.addItemList(images);
                     item = infoItem;
+                    setComment();
                     //loadingText.setVisibility(View.GONE);
-                    setView();
                 } else {
                     //loadingText.setVisibility(View.VISIBLE);
                     //((TextView) findViewById(R.id.loading_text)).setText(R.string.loading_not);
@@ -198,7 +194,8 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
     /**
      * 서버에서 조회한 맛집 정보를 화면에 설정한다.
      */
-    private void setView() {
+    private void setView(RecyclerView.ViewHolder holder) {
+
         getSupportActionBar().setTitle(item.name);
         // scrollView = (ScrollView) findViewById(R.id.scroll_view);
 //프로필 이미지 추가
@@ -211,14 +208,14 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                     .into(profileIconImage);
         }
 */
-        TextView nameText = (TextView) findViewById(R.id.name);
+
         if (!StringLib.getInstance().isBlank(item.name)) {
-            nameText.setText(item.name);
+            ((SingerAdapter.AViewHolder) holder).nameText.setText(item.name);
         }
-        TextView nickNameText = (TextView) findViewById(R.id.nickname);
-        nickNameText.setText(item.post_nickname);
-        nickNameText.setTextColor(Color.parseColor("#000000"));
-        nickNameText.setOnClickListener(new View.OnClickListener() {
+
+        ((SingerAdapter.AViewHolder) holder).nickNameText.setText(item.post_nickname);
+        ((SingerAdapter.AViewHolder) holder).nickNameText.setTextColor(Color.parseColor("#000000"));
+        ((SingerAdapter.AViewHolder) holder).nickNameText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MemberProfile.class);
@@ -230,7 +227,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 startActivityForResult(intent, 101);
             }
         });
-        keepImage = (ImageView) findViewById(R.id.keep);
+         //핸들러때문에 전역변수로 사용하자?
         keepImage.setOnClickListener(this);
         if (item.isKeep) {
             keepImage.setImageResource(R.drawable.ic_keep_on);
@@ -238,19 +235,19 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
             keepImage.setImageResource(R.drawable.ic_keep_off);
         }
 
-        TextView tel = (TextView) findViewById(R.id.tel);
+
         if (!StringLib.getInstance().isBlank(item.tel)) {
-            tel.setText(EtcLib.getInstance().getPhoneNumberText(item.tel));
-            tel.setOnClickListener(this);
+            ((SingerAdapter.AViewHolder) holder).tel.setText(EtcLib.getInstance().getPhoneNumberText(item.tel));
+            ((SingerAdapter.AViewHolder) holder).tel.setOnClickListener(this);
         } else {
-            tel.setVisibility(View.GONE);
+            ((SingerAdapter.AViewHolder) holder).tel.setVisibility(View.GONE);
         }
 
-        TextView description = (TextView) findViewById(R.id.description);
+
         if (!StringLib.getInstance().isBlank(item.description)) {
-            description.setText(item.description);
+            ((SingerAdapter.AViewHolder) holder).description.setText(item.description);
         } else {
-            description.setText(R.string.no_text);
+            ((SingerAdapter.AViewHolder) holder).description.setText(R.string.no_text);
         }
     }
 
@@ -328,7 +325,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             if (position == 0) {
-                selectFoodInfo(foodInfoSeq, memberSeq);
+                setView(holder);
                 setRecyclerView();
             } else if (position < (allHeight - 1)) {
                 SingerItem item = items.get(position - 1);
@@ -381,10 +378,20 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
         }
 
         public class AViewHolder extends RecyclerView.ViewHolder {
+            TextView nameText;
+            TextView tel;
+            TextView description;
+            TextView nickNameText;
+
             public AViewHolder(View itemView) {
                 super(itemView);
 
                 imageItemList = (RecyclerView) itemView.findViewById(R.id.image_list);
+                nameText = (TextView) itemView.findViewById(R.id.name);
+                tel = (TextView) itemView.findViewById(R.id.tel);
+                description = (TextView) itemView.findViewById(R.id.description);
+                nickNameText = (TextView) itemView.findViewById(R.id.nickname);
+                keepImage = (ImageView)  itemView.findViewById(R.id.keep);
             }
         }
         public class BViewHolder extends RecyclerView.ViewHolder {

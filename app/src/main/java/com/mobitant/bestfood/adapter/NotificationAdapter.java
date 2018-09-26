@@ -1,6 +1,9 @@
 package com.mobitant.bestfood.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +12,11 @@ import android.widget.TextView;
 
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
+import com.mobitant.bestfood.fragments.NotificationDetailFragment;
+import com.mobitant.bestfood.fragments.NotificationRegisterFragment;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.NotificationItem;
+import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.model.User;
 
@@ -54,9 +60,18 @@ public class NotificationAdapter extends RecyclerView.Adapter <NotificationAdapt
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         final NotificationItem item = itemList.get(position);
-        MyLog.d("이런씨빠라라라랄 : "+item.name);
-        holder.textView.setText(item.getTitle());
 
+        holder.textView.setText(item.getTitle());
+        holder.created_at.setText(item.getCreate_at());
+        Bundle bundle = new Bundle();
+        bundle.putString("SEQ",item.id);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoLib.getInstance().goFragmentDetail(((FragmentActivity)context).getFragmentManager(),
+                        R.id.notification_change_fragment, NotificationDetailFragment.newInstance(),bundle);
+            }
+        });
 
     }
 
@@ -69,11 +84,13 @@ public class NotificationAdapter extends RecyclerView.Adapter <NotificationAdapt
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
+        TextView created_at;
         public ViewHolder(View itemView) {
 
             super(itemView);
 
             textView = (TextView) itemView.findViewById(R.id.notification_title);
+            created_at=(TextView)itemView.findViewById(R.id.notification_create_at);
         }
     }
 }

@@ -76,9 +76,10 @@ card_view:cardElevation="4dp">
                 android:layout_marginLeft="20dp"
                 android:text="Today : 3:20 am"
                 android:textColor="@color/colorLightGray"
+                android:id="@+id/notification_create_at"
                 android:textSize="12dp"
                 android:textStyle="bold" />
-
+<!--
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="14dp"
@@ -93,6 +94,7 @@ card_view:cardElevation="4dp">
                 android:textColor="@color/colorLightGray"
                 android:textSize="12dp"
                 android:textStyle="bold" />
+                !-->
         </LinearLayout>
 
         <LinearLayout

@@ -40,6 +40,7 @@ import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.adapter.ImagesAdapter;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.ImageItem;
+import com.mobitant.bestfood.lib.BaseFragment;
 import com.mobitant.bestfood.lib.BitmapLib;
 import com.mobitant.bestfood.lib.EtcLib;
 import com.mobitant.bestfood.lib.FileLib;
@@ -67,7 +68,7 @@ import retrofit2.Response;
 /**
  * 맛집 정보를 입력하는 액티비티
  */
-public class BestFoodRegisterInputFragment extends Fragment implements View.OnClickListener {
+public class BestFoodRegisterInputFragment extends BaseFragment implements View.OnClickListener {
     public static final String INFO_ITEM = "INFO_ITEM";
     private final String TAG = this.getClass().getSimpleName();
     final List<Target> targets = new ArrayList<Target>();
@@ -112,6 +113,7 @@ public class BestFoodRegisterInputFragment extends Fragment implements View.OnCl
     EditText imageMemoEdit;
     ImageItem imageItem;
     boolean isSavingImage = false;
+    boolean isImageLoad = false;
     /**
      * FoodInfoItem 객체를 인자로 저장하는
      * BestFoodRegisterInputFragment 인스턴스를 생성해서 반환한다.
@@ -258,7 +260,7 @@ public class BestFoodRegisterInputFragment extends Fragment implements View.OnCl
             MyToast.s(context, context.getResources().getString(R.string.not_valid_tel_number));
             return;
         }
-
+        progressON("저장중...");
         insertFoodInfo();
     }
 
@@ -286,7 +288,13 @@ public class BestFoodRegisterInputFragment extends Fragment implements View.OnCl
                         //등록 실패
                     } else {
                         infoItem.seq = seq;
-                        saveImage(seq);
+                        if(isImageLoad == true) {saveImage(seq);
+
+                        }
+                        else  {
+                            progressOFF();
+                            context.finish();
+                        }
                     }
                 } else { // 등록 실패
                     int statusCode = response.code();
@@ -337,7 +345,7 @@ public class BestFoodRegisterInputFragment extends Fragment implements View.OnCl
                 mImagesAdapter = new ImagesAdapter(context,mSelectedImagesList); //context대신 this로 하니까 안되더라;;
                 recyclerViewImages.setAdapter(mImagesAdapter);
                 mSelectedImagesListCount = mSelectedImagesList.size();
-
+                if(mSelectedImagesListCount!=0) isImageLoad = true;
                 for(int l=0; l<mSelectedImagesListCount;l++){
                     //변수가 l인데 i로써서 같은 이미지가 여러개 올라갔었다 ㅡㅡ
                     saveUri[l] = getUriFromPath(mSelectedImagesList.get(l));
@@ -493,6 +501,7 @@ public class BestFoodRegisterInputFragment extends Fragment implements View.OnCl
             super.handleMessage(msg);
             ((MyApp)getActivity().getApplication()).setIsNewBestfood(true);
             context.finish();
+            progressOFF();
         }
     };
 

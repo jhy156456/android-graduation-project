@@ -2,6 +2,7 @@ package com.mobitant.bestfood.remote;
 
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
+import com.mobitant.bestfood.item.NotificationCommentItem;
 import com.mobitant.bestfood.item.NotificationItem;
 import com.mobitant.bestfood.model.Response;
 import com.mobitant.bestfood.model.User;
@@ -56,13 +57,19 @@ public interface RemoteService {
                                         @Part MultipartBody.Part file);
 
     //문의사항삽입
-    // Doit으로 만든 Node.js에 요청하기
+    // Doit으로 만든 게시판 : Node.js에 요청하기
     @POST("/process/addpost")
     Call<String> insertNotificationInfo(@Body NotificationItem notificationItem);
     @GET("/process/listpost")
     Call<ArrayList<NotificationItem>> listNotificationQuestionList(
                                                @Query("current_page") int currentPage);
+    //문의정보
+    @GET("/process/showpost/{info_seq}")
+    Call<NotificationItem> selectNotificationInfo(@Path("info_seq") String infoItemId,
+                                      @Query("member_seq") int memberSeq);
 
+    @POST("/process/addcomment")
+    Call<String> insertComment(@Body NotificationCommentItem commentItem);
     // Doit으로 만든 Node.js에 요청하기 끝
 
 
@@ -70,6 +77,9 @@ public interface RemoteService {
     @GET("/food/info/{info_seq}")
     Call<FoodInfoItem> selectFoodInfo(@Path("info_seq") int foodInfoSeq,
                                       @Query("member_seq") int memberSeq);
+
+
+
 //조회하고자 하는 유저 프로필 정보를 반환한다.
     @GET("/users/{seq}")
     Call<User> selectUserInfo(@Path("seq") int wantMemberSeq);

@@ -2,8 +2,9 @@ package com.mobitant.bestfood.lib;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
+import android.app.Fragment;
+import android.app.FragmentManager;
 
 import com.mobitant.bestfood.BestFoodInfoActivity;
 import com.mobitant.bestfood.BestFoodRegisterActivity;
@@ -14,6 +15,7 @@ import com.mobitant.bestfood.MemberProfile;
 import com.mobitant.bestfood.NotificationActivity;
 import com.mobitant.bestfood.SoftwareBuyActivity;
 import com.mobitant.bestfood.adapter.NotificationAdapter;
+
 
 /**
  * 액티비티나 프래그먼트 실행 라이브러리
@@ -41,10 +43,26 @@ public class GoLib {
      */
     public void goFragment(FragmentManager fragmentManager, int containerViewId,
                            Fragment fragment) {
+        fragment.getArguments();
         fragmentManager.beginTransaction()
                 .replace(containerViewId, fragment)
                 .commit();
     }
+    /**
+     * 프래그먼트를 보여준다.
+     * @param fragmentManager 프래그먼트 매니저
+     * @param containerViewId 프래그먼트를 보여줄 컨테이너 뷰 아이디
+     * @param fragment 프래그먼트
+     */
+    public void goFragmentDetail(FragmentManager fragmentManager, int containerViewId,
+                           Fragment fragment,Bundle bundle) {
+        fragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(containerViewId, fragment)
+                .commit();
+    }
+
+
     /**
      * 공지사항 액티비티 실행
      * @param context 컨텍스트

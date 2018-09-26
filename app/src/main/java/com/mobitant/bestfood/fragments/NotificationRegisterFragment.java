@@ -41,6 +41,7 @@ import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.adapter.ImagesAdapter;
 import com.mobitant.bestfood.item.NotificationItem;
 import com.mobitant.bestfood.item.ImageItem;
+import com.mobitant.bestfood.lib.BaseFragment;
 import com.mobitant.bestfood.lib.BitmapLib;
 import com.mobitant.bestfood.lib.EtcLib;
 import com.mobitant.bestfood.lib.FileLib;
@@ -68,7 +69,7 @@ import retrofit2.Response;
 /**
  * 맛집 정보를 입력하는 액티비티
  */
-public class NotificationRegisterFragment extends Fragment implements View.OnClickListener {
+public class NotificationRegisterFragment extends BaseFragment implements View.OnClickListener {
     public static final String INFO_ITEM = "INFO_ITEM";
     private final String TAG = this.getClass().getSimpleName();
     final List<Target> targets = new ArrayList<Target>();
@@ -249,7 +250,7 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
             MyToast.s(context, context.getResources().getString(R.string.not_valid_tel_number));
             return;
         }
-
+        progressON("저장중...");
         insertFoodInfo();
     }
 
@@ -278,7 +279,10 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
                     } else {
                         notificationItem.seq = seq;
                         if(isImageLoad == true) saveImage(seq);
-                        else context.finish();
+                        else  {
+                            progressOFF();
+                            GoLib.getInstance().goBackFragment(getFragmentManager());
+                        }
                     }
                 } else { // 등록 실패
                     int statusCode = response.code();
@@ -483,9 +487,21 @@ public class NotificationRegisterFragment extends Fragment implements View.OnCli
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ((MyApp)getActivity().getApplication()).setIsNewBestfood(true);
+            ((MyApp)getActivity().getApplication()).setIsNewNotification(true);
             context.finish();
         }
     };
 
+    private void startProgress() {
+
+        progressON("Loading...");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressOFF();
+            }
+        }, 3500);
+
+    }
 }

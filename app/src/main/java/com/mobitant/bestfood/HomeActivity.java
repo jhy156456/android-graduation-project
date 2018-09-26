@@ -230,14 +230,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_list) {
-            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+            GoLib.getInstance().goFragment(getFragmentManager(),
                     R.id.home_linearlayout, BestFoodListFragment.newInstance());
             //GoLib.getInstance().goBestFoodMainActivity(this);
         } else if (id == R.id.nav_notice) {
             GoLib.getInstance().goNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
 
-            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+            GoLib.getInstance().goFragment(getFragmentManager(),
                     R.id.home_linearlayout, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {

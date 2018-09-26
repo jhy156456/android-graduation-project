@@ -3,14 +3,14 @@ package com.mobitant.bestfood.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 
 import com.mobitant.bestfood.MainActivity;
@@ -32,7 +32,7 @@ import retrofit2.Response;
 /**
  * 맛집 즐겨찾기 리스트를 보여주는 프래그먼트
  */
-public class BestFoodKeepFragment extends Fragment {
+public class BestFoodKeepFragment extends android.app.Fragment {
     private final String TAG = this.getClass().getSimpleName();
 
     Context context;

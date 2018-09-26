@@ -64,7 +64,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
 
         setNavLogin();
         GoLib.getInstance()
-                .goFragment(getSupportFragmentManager(), R.id.notification_change_fragment,
+                .goFragment(getFragmentManager(), R.id.notification_change_fragment,
                         NotificationListFragment.newInstance());
 
     }
@@ -90,7 +90,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
             case R.id.go_home:
                 GoLib.getInstance().goHomeActivity(this);
             case R.id.go_notification_write:
-                GoLib.getInstance().goFragment(getSupportFragmentManager(),
+                GoLib.getInstance().goFragmentBack(getFragmentManager(),
                         R.id.notification_change_fragment, NotificationRegisterFragment.newInstance());
         }
         return super.onOptionsItemSelected(item);
@@ -163,11 +163,11 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
         int id = item.getItemId();
 
         if (id == R.id.nav_list) {
-            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+            GoLib.getInstance().goFragment(getFragmentManager(),
                     R.id.content_main, BestFoodListFragment.newInstance());
 
         } else if (id == R.id.nav_keep) {
-            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+            GoLib.getInstance().goFragment(getFragmentManager(),
                     R.id.content_main, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {

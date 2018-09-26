@@ -9,10 +9,6 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar_layout"
-        layout="@layout/toolbar" />
-
     <RelativeLayout
         android:id="@+id/viewedPage"
         android:layout_width="match_parent"

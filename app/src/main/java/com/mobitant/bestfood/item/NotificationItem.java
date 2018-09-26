@@ -12,14 +12,16 @@ public class NotificationItem {
 
     private String create_at;
     private String updated_at;
-    private ArrayList<NotificationCommentItem> commentItems;
+    @SerializedName("comments") private ArrayList<NotificationCommentItem> commentItems;
     public String name;
     public String tel;
     public String description;
     public String post_nickname;
     public String postMemberIconFilename;
+    @SerializedName("_id") public String id;
     @SerializedName("writer") public User writer;
-
+    @SerializedName("image_filename") public String imageFilename;
+    @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
 
 
     public String getTitle() {
