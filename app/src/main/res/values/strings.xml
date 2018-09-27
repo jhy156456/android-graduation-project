@@ -114,5 +114,7 @@
 
     <!-- 즐겨찾기 -->
     <string name="no_keep">즐겨찾기에 등록된 소프트웨어가 없습니다.</string>
+        // 카카오 앱 키
+        <string name="kakao_app_key">65e84d107c900fd753f714fa37fa01dd</string>
 
 </resources>

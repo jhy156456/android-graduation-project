@@ -278,7 +278,9 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
                         //등록 실패
                     } else {
                         notificationItem.seq = seq;
-                        if(isImageLoad == true) saveImage(seq);
+                        if(isImageLoad == true) {saveImage(seq);
+
+                        }
                         else  {
                             progressOFF();
                             GoLib.getInstance().goBackFragment(getFragmentManager());
@@ -488,7 +490,7 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             ((MyApp)getActivity().getApplication()).setIsNewNotification(true);
-            context.finish();
+            GoLib.getInstance().goBackFragment(getFragmentManager());
         }
     };
 

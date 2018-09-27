@@ -288,10 +288,11 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
                         //등록 실패
                     } else {
                         infoItem.seq = seq;
-                        if(isImageLoad == true) {saveImage(seq);
-
+                        if(isImageLoad == true) { //이미지 업로드 할경우
+                            saveImage(seq);
                         }
-                        else  {
+                        else  { // 이미지업로드 안할경우
+                            ((MyApp)getActivity().getApplication()).setIsNewBestfood(true);
                             progressOFF();
                             context.finish();
                         }
@@ -345,7 +346,9 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
                 mImagesAdapter = new ImagesAdapter(context,mSelectedImagesList); //context대신 this로 하니까 안되더라;;
                 recyclerViewImages.setAdapter(mImagesAdapter);
                 mSelectedImagesListCount = mSelectedImagesList.size();
+
                 if(mSelectedImagesListCount!=0) isImageLoad = true;
+
                 for(int l=0; l<mSelectedImagesListCount;l++){
                     //변수가 l인데 i로써서 같은 이미지가 여러개 올라갔었다 ㅡㅡ
                     saveUri[l] = getUriFromPath(mSelectedImagesList.get(l));

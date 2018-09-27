@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NotificationListFragment extends android.app.Fragment implements View.OnClickListener {
+public class NotificationListFragment extends Fragment implements View.OnClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
     RecyclerView recyclerView;

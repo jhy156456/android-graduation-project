@@ -44,7 +44,7 @@ import retrofit2.Response;
 /**
  * 맛집 정보를 보는 액티비티이다.
  */
-public class NotificationDetailFragment extends Fragment implements  View.OnClickListener {
+public class NotificationDetailFragment extends android.support.v4.app.Fragment implements  View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
     public static final String SEQ = "SEQ";
     public static  NotificationDetailFragment newInstance() {

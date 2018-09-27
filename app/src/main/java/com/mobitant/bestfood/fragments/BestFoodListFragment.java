@@ -36,7 +36,7 @@ import retrofit2.Response;
 /**
  * 맛집 정보 리스트를 보여주는 프래그먼트
  */
-public class BestFoodListFragment extends android.app.Fragment implements View.OnClickListener {
+public class BestFoodListFragment extends Fragment implements View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
 
     Context context;

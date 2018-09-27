@@ -40,7 +40,7 @@ import java.io.File;
 /**
  * 맛집 이미지를 등록하는 액티비티
  */
-public class BestFoodRegisterImageFragment extends android.app.Fragment implements View.OnClickListener {
+public class BestFoodRegisterImageFragment extends Fragment implements View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
     public static final String INFO_SEQ = "INFO_SEQ";
 

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.StrictMode;
 import android.widget.Toast;
 
+import com.kakao.auth.KakaoSDK;
+import com.mobitant.bestfood.adapter.KakaoSDKAdapter;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.MemberInfoItem;
 import com.mobitant.bestfood.model.User;
@@ -16,7 +18,14 @@ public class MyApp extends Application {
     private boolean isNewBestFood;
     private boolean isLogin;
     private boolean isNewNotification;
+    private static MyApp instance;
 
+    public static MyApp getGlobalApplicationContext() {
+        if (instance == null) {
+            throw new IllegalStateException("This Application does not inherit com.kakao.GlobalApplication");
+        }
+        return instance;
+    }
     public MyApp() {
         isNewBestFood = false;
         isNewNotification =false;
@@ -25,7 +34,9 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        instance = this;
+        // Kakao Sdk 초기화
+        KakaoSDK.init(new KakaoSDKAdapter());
         // FileUriExposedException 문제를 해결하기 위한 코드
         // 관련 설명은 책의 [참고] 페이지 참고
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

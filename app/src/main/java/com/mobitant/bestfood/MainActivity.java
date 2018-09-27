@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
 
         setNavLogin();
         GoLib.getInstance()
-                .goFragment(getFragmentManager(), R.id.content_main,
+                .goFragment(getSupportFragmentManager(), R.id.content_main,
                         BestFoodListFragment.newInstance());
 
 
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_list) {
-            GoLib.getInstance().goFragment(getFragmentManager(),
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.content_main, BestFoodListFragment.newInstance());
 
         }else if (id == R.id.nav_notice){
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         else if (id == R.id.nav_keep) {
-            GoLib.getInstance().goFragment(getFragmentManager(),
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.content_main, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 /**
  * 맛집 즐겨찾기 리스트를 보여주는 프래그먼트
  */
-public class BestFoodKeepFragment extends android.app.Fragment {
+public class BestFoodKeepFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
 
     Context context;
@@ -121,7 +122,6 @@ public class BestFoodKeepFragment extends android.app.Fragment {
     /**
      * 서버에서 즐겨찾기한 맛집 정보를 조회한다.
      * @param memberSeq 사용자 시퀀스
-     * @param userLatLng 사용자 위도 경도 객체
      */
     private void listKeep(int memberSeq) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);

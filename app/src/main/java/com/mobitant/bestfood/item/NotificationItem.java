@@ -10,7 +10,7 @@ public class NotificationItem {
     private String title;
     private String contents;
 
-    private String create_at;
+    private String created_at;
     private String updated_at;
     @SerializedName("comments") private ArrayList<NotificationCommentItem> commentItems;
     public String name;
@@ -43,11 +43,11 @@ public class NotificationItem {
 
 
     public String getCreate_at() {
-        return create_at;
+        return created_at;
     }
 
     public void setCreate_at(String create_at) {
-        this.create_at = create_at;
+        this.created_at = create_at;
     }
 
     public String getUpdated_at() {

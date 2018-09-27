@@ -18,6 +18,11 @@
         android:name=".MyApp"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:label">
+        <!--카카오 로그인을위한 코드 시작!-->
+            <meta-data
+                android:name="com.kakao.sdk.AppKey"
+                android:value="@string/kakao_app_key" />
+        <!--카카오 로그인을위한 코드 끝!-->
         <activity
             android:name=".PermissionActivity"
             android:label="SoMeeting"

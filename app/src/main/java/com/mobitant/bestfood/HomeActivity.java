@@ -1,13 +1,20 @@
 package com.mobitant.bestfood;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,6 +35,8 @@ import com.mobitant.bestfood.model.User;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -108,18 +117,65 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                linearLayout.requestFocus();
                 Intent intent = new Intent(HomeActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
-
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-                linearLayout.setSelected(arg1.getAction() == MotionEvent.ACTION_DOWN);
-                return true;
-            }
         });
+
+        getHashKey(getApplicationContext());
     }
+    // 프로젝트의 해시키를 반환
+
+    @Nullable
+
+    public static String getHashKey(Context context) {
+
+        final String TAG = "KeyHash";
+
+        String keyHash = null;
+
+        try {
+
+            PackageInfo info =
+
+                    context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+
+
+            for (Signature signature : info.signatures) {
+
+                MessageDigest md;
+
+                md = MessageDigest.getInstance("SHA");
+
+                md.update(signature.toByteArray());
+
+                keyHash = new String(Base64.encode(md.digest(), 0));
+
+                Log.d(TAG,"키해시"+ keyHash);
+
+            }
+
+        } catch (Exception e) {
+
+            Log.e("name not found", e.toString());
+
+        }
+
+
+        if (keyHash != null) {
+
+            return keyHash;
+
+        } else {
+
+            return null;
+
+        }
+
+    }
+
+
 
     public void setNavLogin() {
         menuItem = menu.getItem(4);
@@ -230,14 +286,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_list) {
-            GoLib.getInstance().goFragment(getFragmentManager(),
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.home_linearlayout, BestFoodListFragment.newInstance());
             //GoLib.getInstance().goBestFoodMainActivity(this);
         } else if (id == R.id.nav_notice) {
             GoLib.getInstance().goNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
 
-            GoLib.getInstance().goFragment(getFragmentManager(),
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.home_linearlayout, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {

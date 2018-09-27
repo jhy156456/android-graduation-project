@@ -41,6 +41,8 @@ dependencies {
     //메인화면 슬라이드를 위해 추가함
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
     implementation 'com.daimajia.slider:library:1.1.5@aar'
+//카카오톡 로그인을위해 추가함
+    implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
 
     implementation project(':multipleimagepickerlibrary')
     implementation 'com.android.support:appcompat-v7:27.1.1'

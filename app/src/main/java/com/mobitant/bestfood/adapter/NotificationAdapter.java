@@ -2,8 +2,8 @@ package com.mobitant.bestfood.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,12 +63,13 @@ public class NotificationAdapter extends RecyclerView.Adapter <NotificationAdapt
 
         holder.textView.setText(item.getTitle());
         holder.created_at.setText(item.getCreate_at());
+        MyLog.d("날짜" + item.getCreate_at());
         Bundle bundle = new Bundle();
         bundle.putString("SEQ",item.id);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoLib.getInstance().goFragmentDetail(((FragmentActivity)context).getFragmentManager(),
+                GoLib.getInstance().goFragmentDetail(((FragmentActivity)context).getSupportFragmentManager(),
                         R.id.notification_change_fragment, NotificationDetailFragment.newInstance(),bundle);
             }
         });

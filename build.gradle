@@ -22,6 +22,12 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        //카카오톡 로그인을위해 추가함
+        mavenCentral()
+        maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+
+
     }
 }
 
