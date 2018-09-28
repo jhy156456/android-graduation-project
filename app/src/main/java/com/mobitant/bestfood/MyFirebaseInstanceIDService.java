@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = "MyIID";
-    private String myIp = "192.168.216.142";
+    private String myIp = "192.168.25.6";
     @Override
     //토큰 : 등록아이디, 등록아이디 갱신되었을때(단말환경 바뀌었을때 갱신됨)
 
@@ -30,6 +30,15 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed Token : " + refreshedToken);
         gogoFcm();
+
+        //(0928작성)
+        //음 여기서 권한이란건 뭔지 모르겠는데  내생각엔.. gogoDevice함수를 호출하기위해선 권한이 필요할것같다.
+        //그래서 이 클래스에 작성하면 먼저 설치시에  onTokenRefresh()를 호출하지만 권하닝 없어서 gogoDevice를 실행하지 못하기때문에
+        //등록아이디를 데이터베이스에 저장못하는것같음!
+        //나중에 시간날때 한번 확인해보장~
+
+
+        //(언제작성했는지기억안남)
         // 이게 좃같은게 권한때문에 처음에 실행은 안되는데 최초에 1번만 실행시키고싶은데
         //그래서 여기다놨더니 데이터베이스에 regid에 ""가들어간다
         //라고 추측했는데 이게 아니라 gogoFcm이 .. 어쨋든 실행순서가 안맞아서그럼

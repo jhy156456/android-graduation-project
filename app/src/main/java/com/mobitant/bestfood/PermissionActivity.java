@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class PermissionActivity extends AppCompatActivity {
     private static final int PERMISSION_MULTI_CODE = 100;
-    private String myIp = "192.168.216.142";
+    private String myIp = "192.168.25.6";
     /**
      * 화면을 구성하고 SDK 버전과 권한에 따른 처리를 한다.
      * @param savedInstanceState 액티비티가 새로 생성되었을 경우, 이전 상태 값을 가지는 객체
