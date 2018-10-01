@@ -10,80 +10,38 @@
 
     <include layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/spacing_large"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/profile_relative"
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_icon"
             android:layout_width="128dp"
             android:layout_height="128dp"
+            android:layout_gravity="top"
+            android:src="@drawable/ic_person"
+            app:civ_border_color="#AAAAAA"
+            app:civ_border_width="2dp" />
 
-            android:layout_margin="@dimen/spacing_large"
+        <ImageView
+            android:id="@+id/profile_icon_change"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/button_circle"
+            android:elevation="4dp"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_camera" />
 
-            android:orientation="vertical">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_icon"
-                android:layout_width="128dp"
-                android:layout_height="match_parent"
-
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="top"
-                android:src="@drawable/ic_person"
-                app:civ_border_color="#AAAAAA"
-                app:civ_border_width="2dp" />
-
-            <ImageView
-                android:id="@+id/profile_icon_change"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/button_circle"
-                android:elevation="4dp"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_camera" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/introduce_relative"
-            android:layout_width="213dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/white"
-            android:padding="@dimen/spacing_medium">
-
-            <TextView
-                android:id="@+id/introduce_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/profile_introduce"
-                android:gravity="start"
-                android:text="자기소개"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/profile_introduce"
-                android:layout_width="match_parent"
-                android:layout_height="118dp"
-                android:layout_below="@+id/introduce_textview"
-                android:layout_centerHorizontal="true"
-                android:gravity="start"
-                android:maxLength="7"
-                android:maxLines="1"
-                android:textSize="@dimen/text_size_medium" />
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,6 +64,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:gravity="start"
+            android:maxLines="1"
+            android:maxLength="7"
             android:textSize="@dimen/text_size_medium" />
     </LinearLayout>
 
@@ -219,20 +179,5 @@
         android:layout_height="1dp"
         android:layout_marginStart="60dp"
         android:background="#55AAAAAA" />
-    <Button
-        android:id="@+id/btn_change_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_lock"
-        android:paddingLeft="@dimen/button_padding"
-        android:text="Change Password" />
-
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_exit"
-        android:paddingLeft="@dimen/button_padding"
-        android:text="Logout" />
 
 </LinearLayout>

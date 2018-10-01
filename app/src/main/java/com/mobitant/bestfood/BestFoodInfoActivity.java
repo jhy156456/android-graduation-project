@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.haresh.multipleimagepickerlibrary.models.Image;
 import com.mobitant.bestfood.adapter.InfoImageAdapter;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.ImageItem;
@@ -34,6 +35,7 @@ import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -213,6 +215,18 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
             ((SingerAdapter.AViewHolder) holder).nameText.setText(item.name);
         }
 
+        //멤버 프로필 이미지 설정
+        if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
+            Picasso.with(this).load(R.drawable.ic_person).into( ((SingerAdapter.AViewHolder) holder).profileIconImage);
+        } else {
+            Picasso.with(this)
+                    .load(RemoteService.MEMBER_ICON_URL + item.postMemberIconFilename)
+                    .into(((SingerAdapter.AViewHolder) holder).profileIconImage);
+        }
+
+        //멤버 프로필 이미지 설정 끝
+
+
         ((SingerAdapter.AViewHolder) holder).nickNameText.setText(item.post_nickname);
         ((SingerAdapter.AViewHolder) holder).nickNameText.setTextColor(Color.parseColor("#000000"));
         ((SingerAdapter.AViewHolder) holder).nickNameText.setOnClickListener(new View.OnClickListener() {
@@ -382,6 +396,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
             TextView tel;
             TextView description;
             TextView nickNameText;
+            ImageView profileIconImage;
 
             public AViewHolder(View itemView) {
                 super(itemView);
@@ -392,6 +407,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 description = (TextView) itemView.findViewById(R.id.description);
                 nickNameText = (TextView) itemView.findViewById(R.id.nickname);
                 keepImage = (ImageView)  itemView.findViewById(R.id.keep);
+                profileIconImage = (ImageView) itemView.findViewById(R.id.post_profile_icon);
             }
         }
         public class BViewHolder extends RecyclerView.ViewHolder {

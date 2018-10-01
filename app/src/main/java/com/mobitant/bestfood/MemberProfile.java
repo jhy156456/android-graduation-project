@@ -1,6 +1,7 @@
 package com.mobitant.bestfood;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,9 @@ import android.widget.Toast;
 import com.mobitant.bestfood.adapter.InfoListAdapter;
 import com.mobitant.bestfood.custom.EndlessRecyclerViewScrollListener;
 import com.mobitant.bestfood.item.FoodInfoItem;
+import com.mobitant.bestfood.item.MemberInfoItem;
+import com.mobitant.bestfood.lib.EtcLib;
+import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.MyToast;
 import com.mobitant.bestfood.lib.StringLib;
@@ -33,6 +37,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -53,8 +58,16 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     private final String TAG = this.getClass().getSimpleName();
     String[] items = {"","메세지 보내기","안녕","나야"};
     User currentUser;
+    Context context;
+
+    //bestfood
     ImageView profileIconImage;
-    ImageView profileIconChangeImage;
+    ImageView profileChange;
+    File profileIconFile;
+    String profileIconFilename;
+    //bestfood
+
+    TextView userNickName;
     EndlessRecyclerViewScrollListener scrollListener;
     InfoListAdapter infoListAdapter;
     int listTypeValue = 1;
@@ -65,17 +78,19 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_member_profile);
+        currentUser = ((MyApp)getApplication()).getUserItem();
         bestFoodList = (RecyclerView) findViewById(R.id.list);
         noDataText = (TextView) findViewById(R.id.no_data);
-        profileIconImage = (ImageView) findViewById(R.id.profile_icon);
-        profileIconImage.setOnClickListener(this);
 
-        profileIconChangeImage = (ImageView) findViewById(R.id.profile_icon_change);
-        profileIconChangeImage.setOnClickListener(this);
+
         setSpinnerMenu();
         setToolbar();
+        setView();
+        setProfileImage();
 
+        /*//드로워에서 프로필설정을 눌렀는지? 게시글에서 프로필설정을 눌렀는지에따라 달라진다..
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         int wantMemberSeq =  (int) bundle.getInt("data");
@@ -86,11 +101,23 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
         }
 
         selectUserInfo(wantMemberSeq);
-
+*/
         //MyLog.d(TAG, "success " + currentUser.toString());
 
     }
+    /*
+    뷰화면 구현
+     */
+public void setView(){
+    profileIconImage = (ImageView) findViewById(R.id.profile_icon);
+    profileIconImage.setOnClickListener(this);
+profileChange = (ImageView)findViewById(R.id.profile_change);
+profileChange.setOnClickListener(this);
+userNickName = (TextView)findViewById(R.id.user_profile_nickname);
+userNickName.setText(currentUser.nickname);
 
+
+}
     /*
     점3개버튼 구현
      */
@@ -269,18 +296,12 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.profile_icon || v.getId() == R.id.profile_icon_change) {
-            startProfileIconChange();
+
+        if (v.getId() == R.id.profile_change) {
+            GoLib.getInstance().goProfileChangeActivity(this);
         }
-    }
 
-    /**
-     * ProfileIconActivity를 실행해서 프로필 아이콘을 변경할 수 있게 한다.
-     */
-    private void startProfileIconChange() {
-        Intent intent = new Intent(this, ProfileIconActivity.class);
-        startActivity(intent);
-    }
 
+    }
 }
 

@@ -169,6 +169,7 @@ public class LoginFragment extends Fragment {
                 if (response.isSuccessful() && !StringLib.getInstance().isBlank(item.name)) { //널검사 , 응답성공검사
                     MyLog.d(TAG, "success " + response.body().toString());
                     ((MyApp) getActivity().getApplicationContext()).setUserItem(item);
+                    MyLog.d("id값 : " + item.id);
                     //setMemberInfoItem(item); //조회 했다면 메인액티비티2(로그인화면)으로
                 } else {
                     MyLog.d(TAG, "not success");

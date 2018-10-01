@@ -11,6 +11,8 @@ public class User {
     private String created_at;
     private String newPassword;
     private String token;
+
+    @SerializedName("_id") public String id;
     @SerializedName("nickname") public String nickname;
     public int seq;
     public String phone;

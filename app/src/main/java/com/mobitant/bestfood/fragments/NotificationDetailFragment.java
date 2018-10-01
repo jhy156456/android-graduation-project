@@ -258,7 +258,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                         commentItem.setWriter(name);
                         String contents =  ((SingerAdapter.CViewHolder)holder).viewedEditText.getText().toString();
                         commentItem.setContents(contents);
-                        commentItem.setPostId(item.id);
+                        commentItem.setPostId(item.id);//mongoDB의 _id필드를 말하는듯하다.
                         int comment_like = 0;
                         insertCommentItem(commentItem);
                         adapter.addItem(new SingerItem(name, contents, comment_like, R.drawable.singer3));

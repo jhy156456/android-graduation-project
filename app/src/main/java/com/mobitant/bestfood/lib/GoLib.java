@@ -14,6 +14,7 @@ import com.mobitant.bestfood.MainActivity;
 import com.mobitant.bestfood.MainActivity2;
 import com.mobitant.bestfood.MemberProfile;
 import com.mobitant.bestfood.NotificationActivity;
+import com.mobitant.bestfood.ProfileActivity;
 import com.mobitant.bestfood.SoftwareBuyActivity;
 import com.mobitant.bestfood.adapter.NotificationAdapter;
 
@@ -110,6 +111,15 @@ public class GoLib {
      */
     public void goProfileActivity(Context context) {
         Intent intent = new Intent(context, MemberProfile.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+    /**
+     * 프로파일 액티비티를 실행한다.
+     * @param context 컨텍스트
+     */
+    public void goProfileChangeActivity(Context context) {
+        Intent intent = new Intent(context, ProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

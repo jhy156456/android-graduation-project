@@ -33,7 +33,7 @@ import rx.Observable;
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://192.168.25.6:3000/";
+    String BASE_URL = "http://192.168.216.183:3000/";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 
@@ -53,7 +53,7 @@ public interface RemoteService {
 
     @Multipart
     @POST("/member/icon_upload")
-    Call<ResponseBody> uploadMemberIcon(@Part("member_seq") RequestBody memberSeq,
+    Call<ResponseBody> uploadMemberIcon(@Part("id") RequestBody memberSeq,
                                         @Part MultipartBody.Part file);
 
     //문의사항삽입

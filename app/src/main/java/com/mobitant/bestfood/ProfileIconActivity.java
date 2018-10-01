@@ -258,7 +258,7 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
      * 프로필 아이콘을 서버에 업로드한다.
      */
     private void uploadProfileIcon() {
-        RemoteLib.getInstance().uploadMemberIcon(memberInfoItem.seq, profileIconFile);
+        RemoteLib.getInstance().uploadMemberIcon(memberInfoItem.id, profileIconFile);
 
         memberInfoItem.memberIconFilename = profileIconFilename + ".png";
     }

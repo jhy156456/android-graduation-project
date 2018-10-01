@@ -63,7 +63,7 @@ public class RemoteLib {
      * @param memberSeq 사용자 일련번호
      * @param file 파일 객체
      */
-    public void uploadMemberIcon(int memberSeq, File file) {
+    public void uploadMemberIcon(String memberSeq, File file) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
         RequestBody requestFile =

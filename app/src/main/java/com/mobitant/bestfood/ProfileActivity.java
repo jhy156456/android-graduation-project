@@ -17,9 +17,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobitant.bestfood.item.MemberInfoItem;
+import com.mobitant.bestfood.lib.EtcLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.MyToast;
 import com.mobitant.bestfood.lib.StringLib;
@@ -59,8 +59,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         context = this;
+
         currentItem = ((MyApp) getApplication()).getMemberInfoItem();
+
         setToolbar();
         setView();
     }
@@ -93,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("프로필");
+            actionBar.setTitle(R.string.profile_setting);
         }
     }
 
@@ -128,7 +131,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        String phoneNumber = "에라이";
+        String phoneNumber = "폰넘버필요?";
+                //EtcLib.getInstance().getPhoneNumber(context);
 
         phoneEdit = (EditText) findViewById(R.id.profile_phone);
         phoneEdit.setText(phoneNumber);
@@ -139,7 +143,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             phoneStateEdit.setText("(" + getResources().getString(R.string.phone_number) + ")");
         }
-
     }
 
     /**
@@ -234,7 +237,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      */
     private User getMemberInfoItem() {
         User item = new User();
-        //item.phone = EtcLib.getInstance().getPhoneNumber(context);
+        item.phone = "폰넘버필요?";
+
+                //EtcLib.getInstance().getPhoneNumber(context);
+
         item.name = nameEdit.getText().toString();
         item.sextype = sextypeEdit.getText().toString();
         item.birthday = birthEdit.getText().toString().replace(" ", "");

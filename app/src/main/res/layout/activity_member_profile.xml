@@ -23,21 +23,27 @@
             android:scaleType="centerCrop"
             android:src="@drawable/navigation_header_image" />
 
-
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_icon"
+        <RelativeLayout
             android:layout_width="128dp"
-            android:layout_height="112dp"
-            android:layout_below="@+id/header_cover_image"
+            android:layout_height="128dp"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
             android:elevation="5dp"
+            android:orientation="vertical">
 
-            android:src="@drawable/ic_person"
-            app:civ_border_color="#AAAAAA"
-            app:civ_border_width="2dp" />
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_icon"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="top"
+                android:src="@drawable/ic_person"
+                app:civ_border_color="#AAAAAA"
+                app:civ_border_width="2dp" />
 
-        />
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/profile_layout"
@@ -80,6 +86,16 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:id="@+id/profile_change"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/user_profile_nickname"
+                android:layout_marginEnd="101dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_user_icon" />
+
             <TextView
                 android:id="@+id/user_profile_short_bio"
                 android:layout_width="wrap_content"
@@ -91,18 +107,6 @@
                 android:textColor="#fff"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/profile_icon_change"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignTop="@+id/add_friend"
-                android:layout_toEndOf="@+id/user_profile_short_bio"
-                android:background="@drawable/button_circle"
-                android:visibility="invisible"
-                android:elevation="4dp"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_camera" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
