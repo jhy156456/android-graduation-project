@@ -1,6 +1,7 @@
 package com.mobitant.bestfood;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import com.mobitant.bestfood.model.User;
 public class MyApp extends Application {
     private User userItem;
     private FoodInfoItem foodInfoItem;
+    public SharedPreferences setting;
+    public SharedPreferences.Editor editor;
     private boolean isNewBestFood;
     private boolean isLogin;
     private boolean isNewNotification;

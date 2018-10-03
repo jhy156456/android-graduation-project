@@ -19,7 +19,11 @@
 </style>
 
 
+    <style name="MyMenuTextAppearance1" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">10dp</item>
 
+    </style>
     <style name="AppTheme.LoginRegister" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -233,6 +233,7 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
         infoItem.os = osEdit.getText().toString();
         infoItem.description = descriptionEdit.getText().toString();
         infoItem.postMemberIconFilename = ((MyApp)getActivity().getApplication()).getMemberIconFilename();
+        infoItem.memberSeq = ((MyApp)getActivity().getApplication()).getMemberSeq();
 
         MyLog.d(TAG, "onClick imageItem " + infoItem);
 

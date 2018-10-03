@@ -67,12 +67,24 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ti_password"
+                >
+                <CheckBox
+                    android:text="자동로그인"
+                    android:textColor="@color/bg_white"
+                    android:id="@+id/select_autologin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ti_password"
-                android:layout_marginTop="@dimen/button_margin"
+                android:layout_marginTop="30dp"
                 android:drawableRight="@drawable/ic_arrow_forward"
                 android:paddingLeft="@dimen/button_padding"
                 android:text="로그인" />

@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -71,6 +73,7 @@ public class LoginFragment extends Fragment {
 
     private CompositeSubscription mSubscriptions;
     private SharedPreferences mSharedPreferences;
+    CheckBox autoLogin;
     private LoginButton kakaoButton;
 
     @Nullable
@@ -108,6 +111,15 @@ public class LoginFragment extends Fragment {
             }
 
         });
+
+        //자동로그인 구현시작
+        //fragment라 this.getActivity()추가
+        autoLogin = (CheckBox)v.findViewById(R.id.select_autologin);
+        ((MyApp)getActivity().getApplicationContext()).setting = this.getActivity().getSharedPreferences("setting",0);
+        ((MyApp)getActivity().getApplicationContext()).editor = ((MyApp)getActivity().getApplicationContext()).setting.edit();
+
+
+        //자동로그인 구현 끝
         mBtLogin.setOnClickListener(view -> login());
         mTvRegister.setOnClickListener(view -> goToRegister());
         mTvForgotPassword.setOnClickListener(view -> showDialog());
@@ -124,6 +136,16 @@ public class LoginFragment extends Fragment {
 
         String email = mEtEmail.getText().toString();
         String password = mEtPassword.getText().toString();
+
+                if(autoLogin.isChecked()==true) {
+                    MyLog.d("셋옷첵");
+                    ((MyApp) getActivity().getApplicationContext()).editor.putString("ID", email);
+                    ((MyApp) getActivity().getApplicationContext()).editor.putString("PW", password);
+                    ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled", true);
+                    ((MyApp) getActivity().getApplicationContext()).editor.commit();
+                }
+
+
 
         int err = 0;
 

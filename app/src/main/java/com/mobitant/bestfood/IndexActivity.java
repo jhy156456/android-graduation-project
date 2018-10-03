@@ -62,7 +62,7 @@ public class IndexActivity extends AppCompatActivity {
                 finish();
                 //startTask();
             }
-        }, 1200);
+        }, 1000);
     }
 
     /**

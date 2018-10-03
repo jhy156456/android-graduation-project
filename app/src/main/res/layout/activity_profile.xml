@@ -50,16 +50,16 @@
         android:padding="@dimen/spacing_medium">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:gravity="start"
-            android:text="@string/profile_name"
+            android:text="이메일"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/profile_name"
+            android:id="@+id/profile_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -74,7 +74,6 @@
         android:layout_height="1dp"
         android:layout_marginStart="60dp"
         android:background="#55AAAAAA" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,7 +81,37 @@
         android:padding="@dimen/spacing_medium">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:gravity="start"
+            android:text="닉네임"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/profile_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:focusable="false"
+            android:gravity="start"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="60dp"
+        android:background="#55AAAAAA" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="@dimen/spacing_medium">
+
+        <TextView
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:gravity="start"
@@ -113,7 +142,7 @@
         android:padding="@dimen/spacing_medium">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:gravity="start"
@@ -145,7 +174,7 @@
         android:padding="@dimen/spacing_medium">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:gravity="start"

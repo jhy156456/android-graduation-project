@@ -2,6 +2,7 @@ package com.mobitant.bestfood;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -21,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -33,6 +35,7 @@ import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.model.User;
 import com.mobitant.bestfood.remote.RemoteService;
+import com.mobitant.bestfood.remote.ServiceGenerator;
 import com.squareup.picasso.Picasso;
 
 import java.security.MessageDigest;
@@ -40,10 +43,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener {
     private final String TAG = this.getClass().getSimpleName();
-    LinearLayout linearLayout;
+    LinearLayout linearLayout,contentLayout;
     DrawerLayout drawer;
     View headerLayout;
     User currentUser;
@@ -55,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     TextView nameText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,54 +68,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         currentUser = ((MyApp) getApplication()).getMemberInfoItem();
 
-
         //슬라이더시작
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        mainSlider();
 
-        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("1", R.drawable.s1);
-        file_maps.put("2", R.drawable.s2);
-        file_maps.put("3", R.drawable.s3);
-
-
-        for (String name : file_maps.keySet()) {
-            TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    //  .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-                    .setOnSliderClickListener(this);
-
-
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle().putString("extra", name);
-
-            mDemoSlider.addSlider(textSliderView);
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new ChildAnimationExample());
-        mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
 //슬라이더끝
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
-
         headerLayout = navigationView.getHeaderView(0);
+
+
+        ((MyApp) getApplication()).setting = getSharedPreferences("setting", 0);
+        ((MyApp) getApplication()).editor = ((MyApp) getApplication()).setting.edit();
+
 
         setNavLogin();
 
@@ -122,70 +103,64 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 finish();
             }
         });
-
-        getHashKey(getApplicationContext());
-    }
-    // 프로젝트의 해시키를 반환
-
-    @Nullable
-
-    public static String getHashKey(Context context) {
-
-        final String TAG = "KeyHash";
-
-        String keyHash = null;
-
-        try {
-
-            PackageInfo info =
-
-                    context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
-
-
-            for (Signature signature : info.signatures) {
-
-                MessageDigest md;
-
-                md = MessageDigest.getInstance("SHA");
-
-                md.update(signature.toByteArray());
-
-                keyHash = new String(Base64.encode(md.digest(), 0));
-
-                Log.d(TAG,"키해시"+ keyHash);
-
+        contentLayout = (LinearLayout) findViewById(R.id.content_layout);
+        contentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ContestActivity.class);
+                startActivity(intent);
+                finish();
             }
-
-        } catch (Exception e) {
-
-            Log.e("name not found", e.toString());
-
-        }
+        });
 
 
-        if (keyHash != null) {
-
-            return keyHash;
-
-        } else {
-
-            return null;
-
-        }
 
     }
 
+public void mainSlider(){
+    HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+    file_maps.put("1", R.drawable.s1);
+    file_maps.put("2", R.drawable.s2);
+    file_maps.put("3", R.drawable.s3);
 
 
+    for (String name : file_maps.keySet()) {
+        TextSliderView textSliderView = new TextSliderView(this);
+        // initialize a SliderLayout
+        textSliderView
+                //  .description(name)
+                .image(file_maps.get(name))
+                .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                .setOnSliderClickListener(this);
+
+
+        textSliderView.bundle(new Bundle());
+        textSliderView.getBundle().putString("extra", name);
+
+        mDemoSlider.addSlider(textSliderView);
+    }
+    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+    mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+    mDemoSlider.setCustomAnimation(new ChildAnimationExample());
+    mDemoSlider.setDuration(4000);
+    mDemoSlider.addOnPageChangeListener(this);
+}
     public void setNavLogin() {
         menuItem = menu.getItem(4);
         profileMenuItem = menu.getItem(6);
         logoutMenuItem = menu.getItem(5);
-        if (currentUser.nickname == null || currentUser.nickname.equals("")) {
+
+        if (((MyApp) getApplication()).setting.getBoolean("Auto_Login_enabled", false)) {
+            loginProcess(((MyApp) getApplication()).setting.getString("ID", ""));
+            profileMenuItem.setVisible(true);
+            menuItem.setVisible(false);
+            logoutMenuItem.setVisible(true);
+        } else if (currentUser.nickname == null || currentUser.nickname.equals("")) { // 비회원
+            menuItem.setVisible(true);
             menuItem.setTitle("로그인");
             profileMenuItem.setVisible(false);
             logoutMenuItem.setVisible(false);
-        } else {
+        } else{ //자동로그인 클릭 안했을경우
             profileMenuItem.setVisible(true);
             menuItem.setVisible(false);
             logoutMenuItem.setVisible(true);
@@ -194,6 +169,41 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
+
+
+
+    private void loginProcess(String email) {
+
+        //정보 받아와서 setUseritem하기 위함임 밑에 m.subscription으로 로그인해서 set하는건 어떻게하는건가..알아야하는데..
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+        Call<User> call = remoteService.selectMemberInfo(email);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
+                User item = response.body();
+
+                if (response.isSuccessful() && !StringLib.getInstance().isBlank(item.name)) { //널검사 , 응답성공검사
+                    MyLog.d(TAG, "success " + response.body().toString());
+                    ((MyApp)getApplication()).setUserItem(item);
+                    currentUser = item;
+                    setProfileView();
+
+                } else {
+                    Toast.makeText(HomeActivity.this, "아이디 혹은 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    MyLog.d(TAG, "not success");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                MyLog.d(TAG, "no internet connectivity");
+                MyLog.d(TAG, t.toString());
+            }
+
+        });
+
+    }
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
@@ -237,9 +247,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-
         currentUser = ((MyApp) getApplication()).getMemberInfoItem();
-        MyLog.d(TAG, "온리쥼의시ㅜ이이이이이벌 : " + currentUser.nickname);
         setNavLogin();
         setProfileView();
     }
@@ -305,7 +313,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_login) {
             GoLib.getInstance().goLoginActivity(this);
-        } else if (id == R.id.nav_profile) {
+        }else if(id==R.id.nav_logout) {
+            ((MyApp)getApplication()).editor.remove("ID");
+            ((MyApp)getApplication()).editor.remove("PW");
+            ((MyApp)getApplication()).editor.remove("Auto_Login_enabled");
+            ((MyApp)getApplication()).editor.clear();
+            ((MyApp)getApplication()).editor.commit();
+
+            currentUser = new User();
+            Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+            ((MyApp)getApplication()).setUserItem(currentUser);
+            setNavLogin();
+            setProfileView();
+        }
+
+        else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
         }else if (id==R.id.nav_question){
             if (((MyApp)getApplication()).getMemberNickname() == null || ((MyApp)getApplication()).equals("")) {

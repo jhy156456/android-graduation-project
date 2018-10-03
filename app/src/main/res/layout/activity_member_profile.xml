@@ -94,7 +94,7 @@
                 android:layout_alignTop="@+id/user_profile_nickname"
                 android:layout_marginEnd="101dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_user_icon" />
+                android:src="@drawable/ic_setting" />
 
             <TextView
                 android:id="@+id/user_profile_short_bio"

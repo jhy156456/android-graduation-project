@@ -47,6 +47,7 @@
         <activity android:name=".ProfileIconActivity" />
         <activity android:name=".SoftwareBuyActivity" />
         <activity android:name=".NotificationActivity" />
+        <activity android:name=".ContestActivity" />
         <activity
             android:name=".ProfileActivity2"
             android:theme="@style/AppTheme.Profile"/>

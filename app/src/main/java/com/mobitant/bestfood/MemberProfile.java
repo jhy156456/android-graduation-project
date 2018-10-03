@@ -58,19 +58,17 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     private final String TAG = this.getClass().getSimpleName();
     String[] items = {"","메세지 보내기","안녕","나야"};
     User currentUser;
+    User memberProfle;
     Context context;
 
     //bestfood
     ImageView profileIconImage;
     ImageView profileChange;
-    File profileIconFile;
-    String profileIconFilename;
     //bestfood
 
     TextView userNickName;
     EndlessRecyclerViewScrollListener scrollListener;
     InfoListAdapter infoListAdapter;
-    int listTypeValue = 1;
     TextView noDataText;
     RecyclerView bestFoodList;
     LinearLayoutManager layoutManager;
@@ -80,41 +78,56 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.activity_member_profile);
-        currentUser = ((MyApp)getApplication()).getUserItem();
+        currentUser = ((MyApp) getApplication()).getUserItem();//로그인한 사용자..
         bestFoodList = (RecyclerView) findViewById(R.id.list);
         noDataText = (TextView) findViewById(R.id.no_data);
-
-
         setSpinnerMenu();
         setToolbar();
-        setView();
-        setProfileImage();
 
-        /*//드로워에서 프로필설정을 눌렀는지? 게시글에서 프로필설정을 눌렀는지에따라 달라진다..
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        int wantMemberSeq =  (int) bundle.getInt("data");
-        int MySeq = (int) bundle.getInt("MySeq");
-//로그인한 상태이고 게시글에서 프로필액티비티로 넘어온 상태..
-        if(((MyApp) getApplication()).isLogin() == true && MySeq != ((MyApp)getApplication()).getMemberSeq()){
 
+        if (bundle.getString("callActivity").equals("BestFoodInfoActivity")) { // info에서 상대방 프로필보기 누른경우
+            int wantMemberSeq = (int) bundle.getInt("data");
+            int mySeq = (int) bundle.getInt("MySeq");
+
+            //로그인한 상태이고 내가쓴 게시글에있는 프로필을 누른경우
+            if (((MyApp) getApplication()).isLogin() == true && mySeq == ((MyApp) getApplication()).getMemberSeq()) {
+                setViewMyProfile();
+                setMyProfileImage();
+                setRecyclerView(((MyApp) getApplication()).getMemberSeq());
+                listInfo(((MyApp) getApplication()).getMemberSeq(), 0);
+            } else {
+                setMemberProfileView();
+                selectUserInfo(wantMemberSeq);
+            }
+
+
+        } else { // 내 프로필설정 누른경우
+            setViewMyProfile();
+            setMyProfileImage();
+            setRecyclerView(((MyApp) getApplication()).getMemberSeq());
+            listInfo(((MyApp) getApplication()).getMemberSeq(), 0);
         }
 
-        selectUserInfo(wantMemberSeq);
-*/
-        //MyLog.d(TAG, "success " + currentUser.toString());
+    }
 
+
+    public void setMemberProfileView(){
+        profileIconImage = (ImageView) findViewById(R.id.profile_icon);
+        profileChange = (ImageView) findViewById(R.id.profile_change);
+        profileChange.setVisibility(View.INVISIBLE);
+        userNickName = (TextView) findViewById(R.id.user_profile_nickname);
     }
     /*
     뷰화면 구현
      */
-public void setView(){
+public void setViewMyProfile() {
     profileIconImage = (ImageView) findViewById(R.id.profile_icon);
-    profileIconImage.setOnClickListener(this);
-profileChange = (ImageView)findViewById(R.id.profile_change);
-profileChange.setOnClickListener(this);
-userNickName = (TextView)findViewById(R.id.user_profile_nickname);
-userNickName.setText(currentUser.nickname);
+    profileChange = (ImageView) findViewById(R.id.profile_change);
+    profileChange.setOnClickListener(this);
+    userNickName = (TextView) findViewById(R.id.user_profile_nickname);
+    userNickName.setText(currentUser.nickname);
 
 
 }
@@ -193,10 +206,21 @@ userNickName.setText(currentUser.nickname);
     }
 
 
+    private void setMemberProfileImage(){
+        if (StringLib.getInstance().isBlank(memberProfle.memberIconFilename)) {
+            Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
+        } else {
+            Picasso.with(this)
+                    .load(RemoteService.MEMBER_ICON_URL + memberProfle.memberIconFilename)
+                    .into(profileIconImage);
+        }
+    }
+
+
     /**
      * 사용자 정보를 기반으로 프로필 아이콘을 설정한다.
      */
-    private void setProfileImage(){
+    private void setMyProfileImage(){
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
         } else {
@@ -230,10 +254,9 @@ userNickName.setText(currentUser.nickname);
             @Override
             public void onResponse(Call<User> call, retrofit2.Response<User> response) {
 
-                currentUser=response.body();
-                TextView textView = (TextView) findViewById(R.id.user_profile_nickname);
-                textView.setText(currentUser.nickname);
-                setProfileImage();
+                memberProfle=response.body();
+                userNickName.setText(memberProfle.nickname);
+                setMemberProfileImage();
                 setRecyclerView(wantMemberSeq);
                 listInfo(wantMemberSeq, 0);
             }

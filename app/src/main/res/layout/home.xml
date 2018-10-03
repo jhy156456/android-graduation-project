@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3"
+                android:weightSum="2"
                     android:layout_marginTop="50dp"
                 >
                 <LinearLayout
@@ -120,6 +120,10 @@
 
                 </LinearLayout>
 
+
+
+
+                    <!--
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -147,10 +151,9 @@
                         android:textAlignment="center"
                         android:textColor="@color/colorWhite"
                         />
-
                 </LinearLayout>
 
-
+-->
             </LinearLayout>
 
         <!-- Second Row-->
@@ -158,9 +161,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="3"
+                    android:weightSum="2"
                     >
                     <LinearLayout
+                        android:id="@+id/content_layout"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
                         android:layout_weight="1"
@@ -220,6 +224,9 @@
 
                     </LinearLayout>
 
+
+
+                    <!--
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="120dp"
@@ -249,7 +256,7 @@
                             />
 
                     </LinearLayout>
-
+-->
 
                 </LinearLayout>
                 <!-- End Second Row-->

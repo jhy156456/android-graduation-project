@@ -11,6 +11,7 @@
     <color name="text_color_white">#FFF</color>
     <color name="text_color_gray">#888888</color>
     <color name="white">#fff</color>
+    <color name="black">#0f0d0d</color>
     <color name="bg_default">#88EEEEEE</color>
     <color name="bg_white">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
@@ -37,4 +38,7 @@
     <color name="colorLightGray">#a6abae</color>
     <color name="colorBackroundWhite">#f0f2ea</color>
     <color name="colorGray">#495C67</color>
+    <color name="view_line">#9f9e9e</color>
+    <color name="View_line">#EAEBED</color>
+    <color name="sort_by_bg">#74f6f6f6</color>
 </resources>

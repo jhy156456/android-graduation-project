@@ -44,11 +44,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     ImageView profileIconImage;
     ImageView profileIconChangeImage;
-    EditText nameEdit;
+    EditText emailEdit;
     EditText sextypeEdit;
     EditText birthEdit;
     EditText phoneEdit;
-
+    EditText nickName;
     User currentItem;
 
     /**
@@ -110,11 +110,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profileIconChangeImage = (ImageView) findViewById(R.id.profile_icon_change);
         profileIconChangeImage.setOnClickListener(this);
 
-        nameEdit = (EditText) findViewById(R.id.profile_name);
-        nameEdit.setText(currentItem.name);
+        emailEdit = (EditText) findViewById(R.id.profile_email);
+        emailEdit.setText(currentItem.getEmail());
+
+        nickName =(EditText)findViewById(R.id.profile_nickname);
+        nickName.setText(currentItem.nickname);
+
 
         sextypeEdit = (EditText) findViewById(R.id.profile_sextype);
-        sextypeEdit.setText(currentItem.sextype);
+        sextypeEdit.setText(currentItem.birthday);
+
+
         sextypeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,8 +246,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         item.phone = "폰넘버필요?";
 
                 //EtcLib.getInstance().getPhoneNumber(context);
-
-        item.name = nameEdit.getText().toString();
+        item.nickname = nickName.getText().toString();
         item.sextype = sextypeEdit.getText().toString();
         item.birthday = birthEdit.getText().toString().replace(" ", "");
 
@@ -254,7 +259,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * @return 변경되었다면 true, 변경되지 않았다면 false
      */
     private boolean isChanged(User newItem) {
-        if (newItem.name.trim().equals(currentItem.name)
+        if (newItem.nickname.trim().equals(currentItem.nickname)
                 && newItem.sextype.trim().equals(currentItem.sextype)
                 && newItem.birthday.trim().equals(currentItem.birthday)) {
             Log.d(TAG, "return " + false);
@@ -270,7 +275,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * @return 입력하지 않았다면 true, 입력했다면 false
      */
     private boolean isNoName(User newItem) {
-        if (StringLib.getInstance().isBlank(newItem.name)) {
+        if (StringLib.getInstance().isBlank(newItem.nickname)) {
             return true;
         } else {
             return false;
@@ -282,7 +287,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * 변경사항이 있다면 저장하고 없다면 화면을 닫는다.
      */
     private void close() {
-        User newItem = getMemberInfoItem();
+        User newItem = getMemberInfoItem(); // 바뀐값들로 셋팅해서 멤버객체생성
 
         if (!isChanged(newItem) && !isNoName(newItem)) {
             finish();

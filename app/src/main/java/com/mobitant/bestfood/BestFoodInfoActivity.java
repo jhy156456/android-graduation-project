@@ -49,6 +49,7 @@ import retrofit2.Response;
 public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
     public static final String INFO_SEQ = "INFO_SEQ";
+
     Context context;
     int memberSeq;
     int foodInfoSeq;
@@ -200,16 +201,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
 
         getSupportActionBar().setTitle(item.name);
         // scrollView = (ScrollView) findViewById(R.id.scroll_view);
-//프로필 이미지 추가
-        /*
-        if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
-            Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
-            Picasso.with(this)
-                    .load(RemoteService.MEMBER_ICON_URL + item.postMemberIconFilename)
-                    .into(profileIconImage);
-        }
-*/
+
 
         if (!StringLib.getInstance().isBlank(item.name)) {
             ((SingerAdapter.AViewHolder) holder).nameText.setText(item.name);
@@ -235,10 +227,11 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 Intent intent = new Intent(getApplicationContext(), MemberProfile.class);
                 intent.putExtra("data", item.memberSeq); //흠 이렇게해도 되는건가.. 아닌것같다
                 intent.putExtra("MySeq", ((MyApp) getApplication()).getMemberSeq());
+                intent.putExtra("callActivity","BestFoodInfoActivity");
                 //멤버의 프로필을 보려면 그사람의 seq를 조회하고 프로필화면으로 들어갔을때
                 //그사람의 전체게시글,닉네임,설명 등을 확인해야할듯!!
                 //추가하자!
-                startActivityForResult(intent, 101);
+                startActivity(intent);
             }
         });
          //핸들러때문에 전역변수로 사용하자?

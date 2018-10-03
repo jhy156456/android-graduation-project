@@ -111,6 +111,7 @@ public class GoLib {
      */
     public void goProfileActivity(Context context) {
         Intent intent = new Intent(context, MemberProfile.class);
+        intent.putExtra("callActivity","NavigationClick");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
