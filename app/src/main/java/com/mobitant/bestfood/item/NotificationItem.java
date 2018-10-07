@@ -19,7 +19,6 @@ public class NotificationItem {
     public String post_nickname;
     public String postMemberIconFilename;
     @SerializedName("_id") public String id;
-    @SerializedName("writer") public User writer;
     @SerializedName("image_filename") public String imageFilename;
     @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
 

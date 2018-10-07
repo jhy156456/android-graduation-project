@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.mobitant.bestfood.fragments.PopularFragment;
+import com.mobitant.bestfood.fragments.ContestHitsFragment;
+import com.mobitant.bestfood.fragments.ContestPopularFragment;
+import com.mobitant.bestfood.fragments.ContestRecentFragment;
 
 
 /**
@@ -27,17 +29,16 @@ public class CategoryPagerAdapterProductGrid extends FragmentPagerAdapter {
                 switch (position) {
 
                         case 0:
-                                PopularFragment tab1 = new PopularFragment();
+                                ContestPopularFragment tab1 = new ContestPopularFragment();
                                 return tab1;
                         case 1:
-                                PopularFragment tab2 = new PopularFragment();
+                                ContestHitsFragment tab2 = new ContestHitsFragment();
                                 return tab2;
                         case 2:
-                                PopularFragment tab3 = new PopularFragment();
+                                ContestRecentFragment tab3 = new ContestRecentFragment();
                                 return tab3;
                         default:
                                 return null;
-
                 }
         }
 

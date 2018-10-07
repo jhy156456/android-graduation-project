@@ -4,6 +4,7 @@ import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
 import com.mobitant.bestfood.item.NotificationCommentItem;
 import com.mobitant.bestfood.item.NotificationItem;
+import com.mobitant.bestfood.item.ProductGridModellClass;
 import com.mobitant.bestfood.model.Response;
 import com.mobitant.bestfood.model.User;
 
@@ -33,7 +34,7 @@ import rx.Observable;
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://192.168.1.155:3000/";
+    String BASE_URL = "http://172.30.1.13:3000/";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 
@@ -60,6 +61,8 @@ public interface RemoteService {
     // Doit으로 만든 게시판 : Node.js에 요청하기
     @POST("/process/addpost")
     Call<String> insertNotificationInfo(@Body NotificationItem notificationItem);
+
+
     @GET("/process/listpost")
     Call<ArrayList<NotificationItem>> listNotificationQuestionList(
                                                @Query("current_page") int currentPage);
@@ -97,6 +100,14 @@ public interface RemoteService {
     Call<ArrayList<FoodInfoItem>> listFoodInfo(@Query("member_seq") int memberSeq,
                                                @Query("order_type") String orderType,
                                                @Query("current_page") int currentPage);
+
+    @GET("/food/list")
+    Call<ArrayList<ProductGridModellClass>> listContestInfo(@Query("member_seq") int memberSeq,
+                                                            @Query("board_type") int boardType,
+                                                            @Query("sort_type") String sortType,
+                                                            @Query("current_page") int currentPage);
+
+
     @GET("/food/postedlist")
     Call<ArrayList<FoodInfoItem>> postedProfileListSoftwareInfo(@Query("member_seq") int wantMemberSeq,
                                                                 @Query("current_page") int currentPage);

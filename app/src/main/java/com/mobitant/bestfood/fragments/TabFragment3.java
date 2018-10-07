@@ -36,7 +36,7 @@ public class TabFragment3 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragmenttab3, container, false);
+        view = inflater.inflate(R.layout.buy_fragmenttab3, container, false);
 
 
         listview = (ListView)view.findViewById(R.id.listview);

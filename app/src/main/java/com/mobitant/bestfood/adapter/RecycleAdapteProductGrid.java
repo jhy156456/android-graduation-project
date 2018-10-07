@@ -1,7 +1,6 @@
 package com.mobitant.bestfood.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -36,17 +35,16 @@ public class RecycleAdapteProductGrid extends RecyclerView.Adapter<RecycleAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView title,offer,text;
+        TextView title;
         ImageView image;
         LinearLayout linear;
 
 
         public MyViewHolder(View view) {
             super(view);
-
+            title = (TextView) view.findViewById(R.id.contest_item_title) ;
             image = (ImageView) view.findViewById(R.id.image);
-            offer = (TextView) view.findViewById(R.id.offer);
-            text = (TextView) view.findViewById(R.id.text);
+            //text = (TextView) view.findViewById(R.id.text);
             linear = (LinearLayout) view.findViewById(R.id.linear);
 
         }
@@ -62,7 +60,7 @@ public class RecycleAdapteProductGrid extends RecyclerView.Adapter<RecycleAdapte
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_popular_list, parent, false);
+                .inflate(R.layout.contest_item_popular_list, parent, false);
 
 
         return new MyViewHolder(itemView);
@@ -77,16 +75,15 @@ public class RecycleAdapteProductGrid extends RecyclerView.Adapter<RecycleAdapte
         ProductGridModellClass movie = moviesList.get(position);
         holder.image.setImageResource(movie.getImage());
 
-        holder.offer.setText("\u20B9 63,999");
-        holder.offer.setPaintFlags(holder.offer.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
+/*첫두줄만 그림옆에 작게 표시가 되어있었다..
         if(position==0 | position==1){
             holder.text.setVisibility(View.VISIBLE);
 
         }else {
             holder.text.setVisibility(View.GONE);
         }
-
+*/
 
 
     }

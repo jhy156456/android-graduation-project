@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingTop="8dp"
-                    android:text="PAYMENT METHOD"
+                    android:text="결제방법"
                     android:textColor="#333333"
                     android:textSize="12dp" />
 
@@ -57,13 +57,13 @@
                     android:layout_height="100dp"
                     android:orientation="horizontal">
 
-                    <include layout="@layout/payment1"></include>
+                    <include layout="@layout/buy_payment1"></include>
 
-                    <include layout="@layout/payment2"></include>
+                    <include layout="@layout/buy_payment2"></include>
 
-                    <include layout="@layout/payment4"></include>
+                    <include layout="@layout/buy_payment4"></include>
 
-                    <include layout="@layout/payment3"></include>
+                    <include layout="@layout/buy_payment3"></include>
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -104,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="CARD NUMBER"
+                    android:text="카드 번호"
                     android:textColor="@color/color"
                     android:textSize="12dp" />
 
@@ -156,7 +156,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="EXP DATE"
+                        android:text="만료 기간"
                         android:textColor="@color/color"
                         android:textSize="12dp" />
 
@@ -265,7 +265,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="CARDHOLDER NAME"
+                    android:text="카드 소유주"
                     android:textColor="@color/color"
                     android:textSize="12dp" />
 
@@ -311,7 +311,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TOTAL AMOUNT"
+                    android:text="전체 금액"
                     android:textColor="#333333"
                     android:textSize="12dp" />
 

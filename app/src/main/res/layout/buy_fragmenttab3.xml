@@ -28,35 +28,6 @@
                 >
 
 
-
-                    <customfonts.MyTextView
-                        android:layout_weight="1"
-                        android:id="@+id/shipping"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="SHIPPING TO:"
-                        android:textSize="12dp"
-                        android:textColor="@color/color"
-                        />
-
-
-
-
-                    <customfonts.MyTextView
-
-                        android:id="@+id/edit"
-                        android:layout_weight="0.6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#00000000"
-                        android:textSize="12dp"
-                        android:textColor="#51a3df"
-                        android:text="EDIT"
-                        android:gravity="right"
-
-                        />
-
-
             </LinearLayout>
 
 
@@ -64,6 +35,7 @@
 
 
             <customfonts.MyTextView
+                android:id="@+id/buy_title"
                 android:paddingTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,6 +45,7 @@
                 />
 
             <customfonts.MyTextView
+                android:id="@+id/buy_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="309, Baker Street, 390022 NY"
@@ -131,7 +104,7 @@
                 android:id="@+id/total1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TOTAL AMOUNT"
+                android:text="결제 금액"
                 android:textSize="12dp"
                 android:textColor="#333333"
 

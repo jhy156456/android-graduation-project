@@ -21,16 +21,7 @@ public class JayBaseAdapter extends BaseAdapter {
 
     ArrayList<Bean> bean;
 
-
-
-
-
-
     Typeface fonts1,fonts2;
-
-
-
-
 
     public JayBaseAdapter(Context context, ArrayList<Bean> bean) {
 
@@ -182,18 +173,6 @@ public class JayBaseAdapter extends BaseAdapter {
         ImageView min;
         TextView text;
         ImageView plus;
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

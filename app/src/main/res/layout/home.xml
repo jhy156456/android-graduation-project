@@ -216,7 +216,7 @@
                             android:padding="8dp"
                             android:layout_marginTop="30dp"
                             android:background="@color/colorBlueJeansDark"
-                            android:text="칭찬합니다"
+                            android:text="칭찬/커뮤니티"
                             android:textSize="18sp"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhite"

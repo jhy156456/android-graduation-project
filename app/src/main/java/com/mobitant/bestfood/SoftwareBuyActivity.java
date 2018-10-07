@@ -9,14 +9,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mobitant.bestfood.item.OrderItem;
+
 public class SoftwareBuyActivity extends AppCompatActivity  {
+    private OrderItem mOrderItem;
     public static ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.buy_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mOrderItem = new OrderItem();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("주문서"));
@@ -29,7 +35,7 @@ public class SoftwareBuyActivity extends AppCompatActivity  {
         PagerAdapter1 adapter = new PagerAdapter1(getSupportFragmentManager(), tabLayout.getTabCount());
 
         viewPager.setAdapter(adapter);
-
+        viewPager.setOffscreenPageLimit(1);//이게뭐냐
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -40,6 +46,7 @@ public class SoftwareBuyActivity extends AppCompatActivity  {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
 
             }
 
@@ -75,5 +82,13 @@ public class SoftwareBuyActivity extends AppCompatActivity  {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setInfo(String name){
+        mOrderItem.setSeller_nickname(name);
+    }
+
+    public OrderItem getmOrderItem(){
+        return mOrderItem;
     }
 }

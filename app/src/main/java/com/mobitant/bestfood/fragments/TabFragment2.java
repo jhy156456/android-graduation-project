@@ -6,18 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.SoftwareBuyActivity;
+import com.mobitant.bestfood.item.OrderItem;
+import com.mobitant.bestfood.lib.MyLog;
 
 /**
  * Created by apple on 18/03/16.
  */
 public class TabFragment2 extends Fragment implements View.OnClickListener {
 TextView textView;
+OrderItem orderItem;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragmenttab2, container, false);
+
+        //orderItem = (OrderItem) getArguments().getSerializable("orderItem");
+        View layout = inflater.inflate(R.layout.buy_fragmenttab2, container, false);
         return layout;
     }
 /*
@@ -32,6 +38,9 @@ TextView textView;
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         textView = view.findViewById(R.id.order_stage2);
+
+//        MyLog.d("가져온것 : " + orderItem.getBuyer_nickname());
+  //      Toast.makeText(getActivity(), "가져온것 : " + orderItem.getBuyer_nickname(), Toast.LENGTH_SHORT).show();
         textView.setOnClickListener(this);
     }
 

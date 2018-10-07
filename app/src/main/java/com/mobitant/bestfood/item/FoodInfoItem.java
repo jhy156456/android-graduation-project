@@ -25,10 +25,12 @@ public class FoodInfoItem {
     @SerializedName("post_member_icon_filename") public String postMemberIconFilename;
     @SerializedName("reg_date") public String regDate;
     @SerializedName("post_updated_datetime") public String updatedDate;
-    @SerializedName("user_distance_meter") public double userDistanceMeter;
+
     @SerializedName("is_keep") public boolean isKeep;
     @SerializedName("image_filename") public String imageFilename;
     @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
+
+    @SerializedName("user_distance_meter") public double userDistanceMeter;
 
 
 

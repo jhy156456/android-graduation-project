@@ -68,25 +68,29 @@ public class ContestActivity extends AppCompatActivity {
 
 
         final ViewPager viewPager1 = (ViewPager) findViewById(R.id.pager);
-        CategoryPagerAdapterProductGrid adapter = new CategoryPagerAdapterProductGrid(getSupportFragmentManager(), 4);
+        CategoryPagerAdapterProductGrid adapter = new CategoryPagerAdapterProductGrid(getSupportFragmentManager(), 3);
         viewPager1.setAdapter(adapter);
         viewPager1.setOffscreenPageLimit(1);
         viewPager1.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager1.setCurrentItem(tab.getPosition());
-
                 setCustomFontAndStyle(tabLayout, tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
             }
+
+
         });
 
     }

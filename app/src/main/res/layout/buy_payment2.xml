@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:layout_width="60dp"
             android:layout_height="50dp"
-            android:src="@drawable/netbanking"
+            android:src="@drawable/visa"
             android:paddingBottom="09dp"
             />
 
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
-                android:text="계좌이체"
+                android:text="신용카드"
                 android:textColor="#868688"
                 android:gravity="center"
                 android:layout_marginTop="61dp"
@@ -55,7 +55,10 @@
 
 
 
-
+        <CheckBox
+            android:id="@+id/card_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
 

@@ -33,7 +33,7 @@
 
                     <ImageView
                         android:id="@+id/image"
-                        android:layout_width="66dp"
+                        android:layout_width="153dp"
                         android:layout_height="133dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
@@ -47,23 +47,38 @@
                         android:layout_marginTop="27dp"
                         android:orientation="vertical">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-                        <customfonts.TextViewSFProDisplayRegular
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="아이폰"
-                            android:textColor="@color/black"
-                            android:textSize="11.7sp" />
+    <customfonts.TextViewSFProDisplayRegular
+        android:id="@+id/contest_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="아이폰"
+        android:textColor="@color/black"
+        android:textSize="11.7sp"
+        android:layout_weight="5"
+        />
 
+    <ImageView
+        android:id="@+id/keep"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:src="@drawable/ic_keep_off" />
+
+
+</LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="180dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
                             android:orientation="horizontal">
 
 
                             <customfonts.MyTextView_Roboto_Bold
+                                android:id="@+id/contest_content"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="ㅁㄴㅇㄹ"
@@ -71,45 +86,12 @@
                                 android:textSize="13.3sp"
                                 android:textStyle="bold" />
 
-                            <customfonts.MyTextView_Roboto_Bold
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="ㅁㄴㅇㄹ"
-                                android:layout_marginLeft="5dp"
-                                android:textColor="@color/black"
-                                android:textSize="13.3sp"
-                                android:textStyle="bold" />
-
-                            <customfonts.TextViewSFProDisplayMedium
-                                android:id="@+id/offer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="9dp"
-                                android:text="ㅁㄴㅇㄹ"
-                                android:textColor="#868791"
-                                android:textSize="12.3sp" />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <customfonts.TextViewSFProDisplayMedium
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginTop="35dp"
-                    android:background="@drawable/offer_rect"
-                    android:paddingBottom="3dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="3dp"
-                    android:text="ㅁㄴㅇㄹ"
-                    android:textColor="#1c1d1d"
-                    android:textSize="8.7sp" />
 
 
             </FrameLayout>

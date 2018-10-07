@@ -16,12 +16,7 @@ import com.mobitant.bestfood.item.ProductGridModellClass;
 
 import java.util.ArrayList;
 
-
-
-
-
-public class PopularFragment extends Fragment {
-
+public class ContestHitsFragment extends Fragment {
     private ArrayList<ProductGridModellClass> productGridModellClasses;
     private RecyclerView recyclerview;
     private RecycleAdapteProductGrid mAdapter2;
@@ -32,7 +27,7 @@ public class PopularFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_popular, container, false);
+        View view = inflater.inflate(R.layout.contest_fragment_popular, container, false);
 
 
         //      New Arrival Kitchen  Recyclerview Code is here
