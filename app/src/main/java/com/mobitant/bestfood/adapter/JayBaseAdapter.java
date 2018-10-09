@@ -20,12 +20,13 @@ public class JayBaseAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Bean> bean;
-    Typeface fonts1,fonts2;
+    Typeface fonts1, fonts2;
 
     public JayBaseAdapter(Context context, ArrayList<Bean> bean) {
         this.context = context;
         this.bean = bean;
     }
+
     @Override
     public int getCount() {
         return bean.size();
@@ -44,7 +45,7 @@ public class JayBaseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        fonts1 =  Typeface.createFromAsset(context.getAssets(),
+        fonts1 = Typeface.createFromAsset(context.getAssets(),
                 "fonts/MavenPro-Regular.ttf");
 
 //        fonts2 = Typeface.createFromAsset(context.getAssets(),
@@ -52,49 +53,48 @@ public class JayBaseAdapter extends BaseAdapter {
 
         ViewHolder viewHolder = null;
 
-        if (convertView == null){
-            LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list,null);
+        if (convertView == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.list, null);
 
             viewHolder = new ViewHolder();
 
-            viewHolder.image = (ImageView)convertView.findViewById(R.id.image);
-            viewHolder.title = (TextView)convertView.findViewById(R.id.title);
-            viewHolder.discription = (TextView)convertView.findViewById(R.id.description);
-            viewHolder.date = (TextView)convertView.findViewById(R.id.date);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.discription = (TextView) convertView.findViewById(R.id.description);
+            viewHolder.postOS = (TextView) convertView.findViewById(R.id.post_os);
 
-            viewHolder.text = (TextView)convertView.findViewById(R.id.text);
+            //viewHolder.text = (TextView)convertView.findViewById(R.id.text);
 
 
-
+            //폰트입히기
             viewHolder.title.setTypeface(fonts1);
             viewHolder.discription.setTypeface(fonts1);
-            viewHolder.text.setTypeface(fonts1);
-            viewHolder.date.setTypeface(fonts1);
-
+            // viewHolder.text.setTypeface(fonts1);
+            viewHolder.postOS.setTypeface(fonts1);
             convertView.setTag(viewHolder);
+//폰트입히기끝
 
+        } else {
 
-        }else {
-
-            viewHolder = (ViewHolder)convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Bean bean = (Bean)getItem(position);
+        Bean bean = (Bean) getItem(position);
 
         viewHolder.image.setImageResource(bean.getImage());
         viewHolder.title.setText(bean.getTitle());
         viewHolder.discription.setText(bean.getDiscription());
-        viewHolder.date.setText(bean.getDate());
+        viewHolder.postOS.setText(bean.getDate());
 
         return convertView;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         ImageView image;
         TextView title;
         TextView discription;
-        TextView date;
+        TextView postOS;
         ImageView min;
         TextView text;
         ImageView plus;

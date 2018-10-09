@@ -3,6 +3,7 @@ package com.mobitant.bestfood.lib;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -17,6 +18,7 @@ import com.mobitant.bestfood.NotificationActivity;
 import com.mobitant.bestfood.ProfileActivity;
 import com.mobitant.bestfood.SoftwareBuyActivity;
 import com.mobitant.bestfood.adapter.NotificationAdapter;
+import com.mobitant.bestfood.item.OrderCheckItem;
 
 
 /**
@@ -78,10 +80,9 @@ public class GoLib {
      * 구매 액티비티 실행
      * @param context 컨텍스트
      */
-    public void goBuyActivity(Context context, String postNickName,String postMemberIconFilename) {
+    public void goBuyActivity(Context context, OrderCheckItem orderCheckItem) {
         Intent intent = new Intent(context, SoftwareBuyActivity.class);
-        intent.putExtra("postNickName",postNickName);
-        intent.putExtra("postMemberIconFilename",postMemberIconFilename);
+        intent.putExtra("orderCheckItem", orderCheckItem);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

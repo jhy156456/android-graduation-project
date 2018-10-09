@@ -34,7 +34,7 @@ import rx.Observable;
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://172.30.1.14:3000/";
+    String BASE_URL = "http://172.30.1.2:3000/";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 

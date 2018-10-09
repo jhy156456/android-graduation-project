@@ -48,7 +48,7 @@
                   android:text="M"/>
 
               <TextView
-                  android:id="@+id/date"
+                  android:id="@+id/post_os"
                   android:textSize="14dp"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"

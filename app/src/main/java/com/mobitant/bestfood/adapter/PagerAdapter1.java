@@ -10,17 +10,18 @@ import android.view.ViewGroup;
 import com.mobitant.bestfood.fragments.TabFragment1;
 import com.mobitant.bestfood.fragments.TabFragment2;
 import com.mobitant.bestfood.fragments.TabFragment3;
+import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.OrderItem;
 
 public class PagerAdapter1 extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     SparseArray<Fragment> registeredFragments = new SparseArray<>();
-    String sellerNickName,sellerPostMemberIconFilename;
-    public PagerAdapter1(FragmentManager fm, int NumOfTabs,String sellerNickName,String sellerPostMemberIconFilename) {
+    OrderCheckItem orderCheckItem;
+    public PagerAdapter1(FragmentManager fm, int NumOfTabs,
+                         OrderCheckItem orderCheckItem) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
-        this.sellerNickName = sellerNickName;
-        this.sellerPostMemberIconFilename = sellerPostMemberIconFilename;
+        this.orderCheckItem = new OrderCheckItem();
     }
 
     @Override
@@ -37,8 +38,7 @@ public class PagerAdapter1 extends FragmentStatePagerAdapter {
             case 2:
                 TabFragment3 tab3 = new TabFragment3();
                 Bundle bundle = new Bundle();
-                bundle.putString("postNickName",sellerNickName);
-                bundle.putString("postMemberIconFilename",sellerPostMemberIconFilename);
+                bundle.putSerializable("orderCheckItem",orderCheckItem);
                 tab3.setArguments(bundle);
                 return tab3;
             default:

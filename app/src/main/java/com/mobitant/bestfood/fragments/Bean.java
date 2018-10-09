@@ -5,6 +5,7 @@ package com.mobitant.bestfood.fragments;
  */
 public class Bean {
 
+    public String imageFileName;
     private int image;
     private String title;
     public String nickName;
@@ -18,8 +19,8 @@ public class Bean {
     private String discription;
     private String date;
 
-    public Bean(int image, String title, String discription, String date) {
-        this.image = image;
+    public Bean(String imageFileName, String title, String discription, String date) {
+        this.imageFileName = imageFileName;
         this.title = title;
         this.discription = discription;
         this.date = date;

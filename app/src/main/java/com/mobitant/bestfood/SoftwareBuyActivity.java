@@ -15,7 +15,9 @@ import com.mobitant.bestfood.adapter.PagerAdapter1;
 import com.mobitant.bestfood.fragments.TabFragment1;
 import com.mobitant.bestfood.fragments.TabFragment2;
 import com.mobitant.bestfood.fragments.TabFragment3;
+import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.OrderItem;
+import com.mobitant.bestfood.lib.MyLog;
 
 public class SoftwareBuyActivity extends AppCompatActivity implements TabFragment1.sendValue {
     private OrderItem mOrderItem;
@@ -25,7 +27,7 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
     public TabFragment1 tabFragment1;
     public TabFragment3 tabFragment3;
     PagerAdapter1 adapter;
-    String postNickName, postMemberIconFilename;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,11 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
 
         getSellerInfo();
 //판매자 정보 가져오기 위함
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        postNickName = bundle.getString("postNickName");
-        postMemberIconFilename = bundle.getString("postMemberIconFilename");
+        OrderCheckItem orderCheckItem = new OrderCheckItem();
+
+        orderCheckItem = (OrderCheckItem) getIntent().getSerializableExtra("orderCheckItem");
+
+
 //판매자 정보 가져오기 위함
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -54,7 +57,8 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
         viewPager = (ViewPager) findViewById(R.id.pager);
 
         //어댑터 생성하면서 프래그먼트3에 띄울 화면을 번들로 전달한다.
-        adapter = new PagerAdapter1(getSupportFragmentManager(), tabLayout.getTabCount(),postNickName,postMemberIconFilename);
+        adapter = new PagerAdapter1(getSupportFragmentManager(), tabLayout.getTabCount()
+                ,orderCheckItem);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);//이게뭐냐

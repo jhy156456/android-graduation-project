@@ -10,24 +10,29 @@ import android.widget.ListView;
 
 import com.mobitant.bestfood.adapter.JayBaseAdapter;
 import com.mobitant.bestfood.R;
+import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.OrderItem;
+import com.mobitant.bestfood.lib.MyLog;
 
 import java.util.ArrayList;
 
 public class TabFragment3 extends Fragment {
 
-    String sellerNickName,sellerPostMemberIconFilename;
+    String sellerNickName,sellerPostMemberIconFilename,infoFirstImageFilename;
     private View view;
     public OrderItem orderItem;
     private ListView listview;
-
+    OrderCheckItem orderCheckItem; //어댑터에서 전달받은 객체
     Typeface fonts1,fonts2;
 
+
+    /*
     private int[] IMAGE = {R.drawable.box, R.drawable.ball, R.drawable.bag,
             R.drawable.box, R.drawable.ball};
     private String[] TITLE = {"Teak & Steel Petanque Set", "Lemon Peel Baseball", "Seil Marschall Hiking Pack", "Teak & Steel Petanque Set", "Lemon Peel Baseball"};
     private String[] DESCRIPTION = {"One Size", "One Size", "Size L", "One Size", "One Size"};
     private String[] DATE = {"$ 220.00","$ 49.00","$ 320.00","$ 220.00","$ 49.00"};
+*/
 
     private ArrayList<Bean> Bean;
     private JayBaseAdapter baseAdapter;
@@ -38,13 +43,12 @@ public class TabFragment3 extends Fragment {
         orderItem = new OrderItem();
         listview = (ListView)view.findViewById(R.id.listview);
 
-        sellerNickName = getArguments().getString("sellerPostNickName");
-        sellerPostMemberIconFilename = getArguments().getString("sellerPostMemberIconFilename");
 
+        orderCheckItem = (OrderCheckItem)getArguments().getSerializable("orderCheckItem");
 
         Bean = new ArrayList<Bean>();
 
-        for (int i= 0; i< TITLE.length; i++){
+        for (int i= 0; i< 4; i++){
             Bean bean = new Bean(IMAGE[i], TITLE[i], DESCRIPTION[i], DATE[i]);
             Bean.add(bean);
         }

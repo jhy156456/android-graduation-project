@@ -23,10 +23,10 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.haresh.multipleimagepickerlibrary.models.Image;
 import com.mobitant.bestfood.adapter.InfoImageAdapter;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.ImageItem;
+import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.SingerItem;
 import com.mobitant.bestfood.lib.DialogLib;
 import com.mobitant.bestfood.lib.EtcLib;
@@ -53,6 +53,8 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
     Context context;
     int memberSeq;
     int foodInfoSeq;
+    OrderCheckItem orderCheckItem;
+
     FoodInfoItem item;
     String postNickName, postMemberIconFilename;
     ImageView profileIconImage;
@@ -158,7 +160,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 GoLib.getInstance().goHomeActivity(this);
             case R.id.action_buy:
 
-                GoLib.getInstance().goBuyActivity(this, postNickName,postMemberIconFilename);
+                GoLib.getInstance().goBuyActivity(this, orderCheckItem);
         }
 
         return super.onOptionsItemSelected(item);
@@ -180,8 +182,13 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 FoodInfoItem infoItem = response.body();
                 if (response.isSuccessful() && infoItem != null && infoItem.seq > 0) {
                     item = infoItem;
-                    postNickName = item.post_nickname; // 구매화면 전환해서 정보를 보여주기위함
-                    postMemberIconFilename = item.postMemberIconFilename;// 구매화면 전환해서 정보를 보여주기위함
+                    orderCheckItem = new OrderCheckItem();
+
+                    orderCheckItem.setInfoTitle(item.name);
+                    orderCheckItem.setPostNickName(item.post_nickname);// 구매화면 전환해서 정보를 보여주기위함
+                    orderCheckItem.setPostMemberIconFilename(item.postMemberIconFilename);// 구매화면 전환해서 정보를 보여주기위함
+                    orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
+                    orderCheckItem.setInfoContent(item.description);
                     setComment();
                     //loadingText.setVisibility(View.GONE);
                 } else {
@@ -232,6 +239,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 intent.putExtra("data", item.memberSeq); //흠 이렇게해도 되는건가.. 아닌것같다
                 intent.putExtra("MySeq", ((MyApp) getApplication()).getMemberSeq());
                 intent.putExtra("callActivity", "BestFoodInfoActivity");
+
                 //멤버의 프로필을 보려면 그사람의 seq를 조회하고 프로필화면으로 들어갔을때
                 //그사람의 전체게시글,닉네임,설명 등을 확인해야할듯!!
                 //추가하자!

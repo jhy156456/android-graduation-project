@@ -49,7 +49,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         textView = view.findViewById(R.id.order_stage2);
         mOrderItem = new OrderItem();
-        //cardHolder = view.findViewById(R.id.name2);
+        cardHolder = view.findViewById(R.id.name2);
 
         textView.setOnClickListener(this);
 
