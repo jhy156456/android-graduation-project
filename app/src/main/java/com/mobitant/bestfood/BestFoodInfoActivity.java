@@ -46,7 +46,7 @@ import retrofit2.Response;
 /**
  * 맛집 정보를 보는 액티비티이다.
  */
-public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnClickListener {
+public class BestFoodInfoActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
     public static final String INFO_SEQ = "INFO_SEQ";
 
@@ -54,6 +54,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
     int memberSeq;
     int foodInfoSeq;
     FoodInfoItem item;
+    String postNickName, postMemberIconFilename;
     ImageView profileIconImage;
     RecyclerView imageItemList;
     RecyclerView viewdlistView;
@@ -62,7 +63,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
     ImageView keepImage; // 핸들러처리때문에 전역변수로 있는게 맞는듯.
     InfoImageAdapter infoImageAdapter;
     ArrayList<ImageItem> images = new ArrayList<>();
-    private RecyclerView.LayoutManager layoutManager,postLayoutManager;
+    private RecyclerView.LayoutManager layoutManager, postLayoutManager;
 
 
     /**
@@ -156,7 +157,8 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
             case R.id.go_home:
                 GoLib.getInstance().goHomeActivity(this);
             case R.id.action_buy:
-                GoLib.getInstance().goBuyActivity(this);
+
+                GoLib.getInstance().goBuyActivity(this, postNickName,postMemberIconFilename);
         }
 
         return super.onOptionsItemSelected(item);
@@ -178,6 +180,8 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 FoodInfoItem infoItem = response.body();
                 if (response.isSuccessful() && infoItem != null && infoItem.seq > 0) {
                     item = infoItem;
+                    postNickName = item.post_nickname; // 구매화면 전환해서 정보를 보여주기위함
+                    postMemberIconFilename = item.postMemberIconFilename;// 구매화면 전환해서 정보를 보여주기위함
                     setComment();
                     //loadingText.setVisibility(View.GONE);
                 } else {
@@ -209,7 +213,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
 
         //멤버 프로필 이미지 설정
         if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
-            Picasso.with(this).load(R.drawable.ic_person).into( ((SingerAdapter.AViewHolder) holder).profileIconImage);
+            Picasso.with(this).load(R.drawable.ic_person).into(((SingerAdapter.AViewHolder) holder).profileIconImage);
         } else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + item.postMemberIconFilename)
@@ -227,14 +231,14 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 Intent intent = new Intent(getApplicationContext(), MemberProfile.class);
                 intent.putExtra("data", item.memberSeq); //흠 이렇게해도 되는건가.. 아닌것같다
                 intent.putExtra("MySeq", ((MyApp) getApplication()).getMemberSeq());
-                intent.putExtra("callActivity","BestFoodInfoActivity");
+                intent.putExtra("callActivity", "BestFoodInfoActivity");
                 //멤버의 프로필을 보려면 그사람의 seq를 조회하고 프로필화면으로 들어갔을때
                 //그사람의 전체게시글,닉네임,설명 등을 확인해야할듯!!
                 //추가하자!
                 startActivity(intent);
             }
         });
-         //핸들러때문에 전역변수로 사용하자?
+        //핸들러때문에 전역변수로 사용하자?
         keepImage.setOnClickListener(this);
         if (item.isKeep) {
             keepImage.setImageResource(R.drawable.ic_keep_on);
@@ -318,14 +322,14 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
             if (viewType == VIEW_TYPE_A) {
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.header, viewGroup, false);
                 return new AViewHolder(v);
-            } else if (viewType ==VIEW_TYPE_B) { //댓글위치의 position
+            } else if (viewType == VIEW_TYPE_B) { //댓글위치의 position
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.singer_item, viewGroup, false);
                 return new BViewHolder(v);
-            } else if (viewType==VIEW_TYPE_C) { //등록버튼 position
+            } else if (viewType == VIEW_TYPE_C) { //등록버튼 position
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.footer, viewGroup, false);
                 return new CViewHolder(v);
             }
-           return null;
+            return null;
         }
 
 
@@ -343,11 +347,11 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 ((BViewHolder) holder).imageView.setImageResource(item.getResId());
             } else {
 
-                ((CViewHolder)holder).viwedButton.setOnClickListener(new View.OnClickListener() {
+                ((CViewHolder) holder).viwedButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String name = "닉네임";
-                        String mobile =  ((CViewHolder)holder).viewedEditText.getText().toString();
+                        String mobile = ((CViewHolder) holder).viewedEditText.getText().toString();
                         int age = 20;
                         adapter.addItem(new SingerItem(name, mobile, age, R.drawable.singer3));
                         adapter.notifyDataSetChanged();
@@ -366,15 +370,17 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
             allHeight = items.size() + 2;
             return allHeight;
         }
+
         public int getItemViewType(int position) {
             if (position == 0) {
                 return VIEW_TYPE_A;
             } else if (position < (allHeight - 1)) {
-               return VIEW_TYPE_B;
+                return VIEW_TYPE_B;
             } else {
                 return VIEW_TYPE_C;
             }
         }
+
         public Object getItem(int position) {
             Object gogoItem = null;
             if (position == 0) {
@@ -399,15 +405,17 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 tel = (TextView) itemView.findViewById(R.id.tel);
                 description = (TextView) itemView.findViewById(R.id.description);
                 nickNameText = (TextView) itemView.findViewById(R.id.nickname);
-                keepImage = (ImageView)  itemView.findViewById(R.id.keep);
+                keepImage = (ImageView) itemView.findViewById(R.id.keep);
                 profileIconImage = (ImageView) itemView.findViewById(R.id.post_profile_icon);
             }
         }
+
         public class BViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
             TextView textView2;
             TextView textView3;
             ImageView imageView;
+
             public BViewHolder(View itemView) {
                 super(itemView);
                 textView = (TextView) itemView.findViewById(R.id.textView);
@@ -416,12 +424,14 @@ public class BestFoodInfoActivity extends AppCompatActivity implements  View.OnC
                 imageView = (ImageView) itemView.findViewById(R.id.imageView);
             }
         }
+
         public class CViewHolder extends RecyclerView.ViewHolder {
             Button viwedButton;
             EditText viewedEditText;
+
             public CViewHolder(View itemView) {
                 super(itemView);
-                viwedButton =(Button)itemView.findViewById(R.id.viwedbutton);
+                viwedButton = (Button) itemView.findViewById(R.id.viwedbutton);
                 viewedEditText = (EditText) itemView.findViewById(R.id.viwededitText);
             }
         }

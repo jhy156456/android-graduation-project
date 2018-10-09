@@ -8,11 +8,19 @@ public class OrderItem implements Serializable {
     private String buyer_nickname;
     private String created_at;
     private String updated_at;
-
+    private String realName;
     private String account_number;
     private String exp_date;
     private String card_holder;
-private String buyer_phone;
+    private String buyer_phone;
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
     public String getBuyer_phone() {
         return buyer_phone;

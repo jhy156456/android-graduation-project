@@ -1,7 +1,7 @@
 package com.mobitant.bestfood.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,8 +15,6 @@ import com.mobitant.bestfood.SoftwareBuyActivity;
 import com.mobitant.bestfood.item.OrderItem;
 import com.mobitant.bestfood.model.User;
 
-import java.io.Serializable;
-
 import customfonts.MyEditText;
 
 /**
@@ -27,16 +25,16 @@ TextView textView;
 MyEditText nickName,name,phoneNumber,email;
 
 
-public static OrderItem orderItem;
+public static OrderItem fragment1OrderItem;
 User currentUser;
 
 
 /*
-   public static TabFragment1 newInstance(OrderItem orderItem) {
+   public static TabFragment1 newInstance(OrderItem fragment1OrderItem) {
        TabFragment1 fragment = new TabFragment1();
        Bundle cBundle = new Bundle();
 
-       cBundle.putSerializable("orderItem", orderItem);
+       cBundle.putSerializable("fragment1OrderItem", fragment1OrderItem);
        fragment.setArguments(cBundle);
        return fragment;
    }
@@ -46,7 +44,7 @@ User currentUser;
        currentUser =  ((MyApp)getActivity().getApplication()).getUserItem();
 
 
-       orderItem = new OrderItem();//안하면 여기에쓸때 널값에러났음
+       fragment1OrderItem = new OrderItem();//안하면 여기에쓸때 널값에러났음
 
 
         View layout = inflater.inflate(R.layout.buy_fragmenttab1, container, false);
@@ -64,7 +62,7 @@ User currentUser;
 
         setView();
 
-        getBuyerInfo();
+        setBuyerInfo();
         textView.setOnClickListener(this);
     }
     public void setView(){
@@ -74,23 +72,37 @@ User currentUser;
        email.setText(currentUser.getEmail());
     }
 
-    public void getBuyerInfo(){
-       orderItem.setBuyer_nickname(nickName.getText().toString());
-       orderItem.setBuyer_phone(phoneNumber.getText().toString());
+    public void setBuyerInfo(){
+       fragment1OrderItem.setBuyer_nickname(nickName.getText().toString());
+       fragment1OrderItem.setBuyer_phone(phoneNumber.getText().toString());
+       fragment1OrderItem.setRealName(name.getText().toString());
     }
+
+
     @Override //버튼으로 프래그먼트 전환
     public void onClick(View v) {
+        setBuyerInfo();
+
+        callback.setValue(fragment1OrderItem);
         if(v.getId()==R.id.order_stage1){
             SoftwareBuyActivity.viewPager.setCurrentItem(1);
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("orderItem",orderItem);
-    }
 
+
+    public static interface sendValue {
+        public void setValue(OrderItem fragment1OrderItem);
+    }
+    public sendValue callback;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof sendValue) {
+            callback = (sendValue) context;
+        }
+    }
 
 
 

@@ -1,4 +1,4 @@
-package com.mobitant.bestfood;
+package com.mobitant.bestfood.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.fragments.Bean;
 
 import java.util.ArrayList;
@@ -18,28 +19,13 @@ import java.util.ArrayList;
 public class JayBaseAdapter extends BaseAdapter {
 
     Context context;
-
     ArrayList<Bean> bean;
-
     Typeface fonts1,fonts2;
 
     public JayBaseAdapter(Context context, ArrayList<Bean> bean) {
-
-
         this.context = context;
         this.bean = bean;
     }
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public int getCount() {
         return bean.size();
@@ -76,9 +62,9 @@ public class JayBaseAdapter extends BaseAdapter {
             viewHolder.title = (TextView)convertView.findViewById(R.id.title);
             viewHolder.discription = (TextView)convertView.findViewById(R.id.description);
             viewHolder.date = (TextView)convertView.findViewById(R.id.date);
-//            viewHolder.min = (ImageView)convertView.findViewById(R.id.min);
+
             viewHolder.text = (TextView)convertView.findViewById(R.id.text);
-//            viewHolder.plus = (ImageView)convertView.findViewById(R.id.plus);
+
 
 
             viewHolder.title.setTypeface(fonts1);
@@ -94,12 +80,6 @@ public class JayBaseAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-
-
-
-
-
-
         Bean bean = (Bean)getItem(position);
 
         viewHolder.image.setImageResource(bean.getImage());
@@ -107,63 +87,8 @@ public class JayBaseAdapter extends BaseAdapter {
         viewHolder.discription.setText(bean.getDiscription());
         viewHolder.date.setText(bean.getDate());
 
-
-//        number = 01;
-//        viewHolder.text.setText(""+number);
-//
-//        final ViewHolder finalViewHolder = viewHolder;
-//        viewHolder.min.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (number == 1){
-//                    finalViewHolder.text.setText("" + number);
-//            }
-//
-//                if (number > 1){
-//
-//                    number = number -1;
-//                    finalViewHolder.text.setText(""+number);
-//                }
-//
-//            }
-//        });
-//
-//        final ViewHolder finalViewHolder1 = viewHolder;
-//        viewHolder.plus.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (number == 10) {
-//                    finalViewHolder1.text.setText("" + number);
-//                }
-//
-//                if (number < 10) {
-//
-//                    number = number + 1;
-//                    finalViewHolder1.text.setText("" + number);
-//
-//                }
-//
-//
-//
-//
-//            }
-//        });
-
-
-
-
         return convertView;
     }
-
-
-
-
-
-
-
-
 
     private class ViewHolder{
         ImageView image;

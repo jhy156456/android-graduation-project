@@ -7,6 +7,14 @@ public class Bean {
 
     private int image;
     private String title;
+    public String nickName;
+    public String realName;
+    public String memberIconFileName;
+    public String phoneNumber;
+    public String cardNumber;
+    public String cardHolder;
+
+
     private String discription;
     private String date;
 

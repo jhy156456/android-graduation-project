@@ -1,6 +1,8 @@
 package com.mobitant.bestfood;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -9,20 +11,39 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mobitant.bestfood.adapter.PagerAdapter1;
+import com.mobitant.bestfood.fragments.TabFragment1;
+import com.mobitant.bestfood.fragments.TabFragment2;
+import com.mobitant.bestfood.fragments.TabFragment3;
 import com.mobitant.bestfood.item.OrderItem;
 
-public class SoftwareBuyActivity extends AppCompatActivity  {
+public class SoftwareBuyActivity extends AppCompatActivity implements TabFragment1.sendValue {
     private OrderItem mOrderItem;
+    public static Context mContext;
     public static ViewPager viewPager;
+    public TabFragment2 tabFragment2;
+    public TabFragment1 tabFragment1;
+    public TabFragment3 tabFragment3;
+    PagerAdapter1 adapter;
+    String postNickName, postMemberIconFilename;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = this;
         setContentView(R.layout.buy_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mOrderItem = new OrderItem();
+
+        getSellerInfo();
+//판매자 정보 가져오기 위함
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        postNickName = bundle.getString("postNickName");
+        postMemberIconFilename = bundle.getString("postMemberIconFilename");
+//판매자 정보 가져오기 위함
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("주문서"));
@@ -32,7 +53,8 @@ public class SoftwareBuyActivity extends AppCompatActivity  {
 
         viewPager = (ViewPager) findViewById(R.id.pager);
 
-        PagerAdapter1 adapter = new PagerAdapter1(getSupportFragmentManager(), tabLayout.getTabCount());
+        //어댑터 생성하면서 프래그먼트3에 띄울 화면을 번들로 전달한다.
+        adapter = new PagerAdapter1(getSupportFragmentManager(), tabLayout.getTabCount(),postNickName,postMemberIconFilename);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);//이게뭐냐
@@ -42,12 +64,28 @@ public class SoftwareBuyActivity extends AppCompatActivity  {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
+                if (tab.getPosition() == 1) {
+                    tabFragment2 = (TabFragment2) adapter.getRegisteredFragment(1);
+                    tabFragment2.setset(mOrderItem);
+                }else if(tab.getPosition() ==2){
+                    tabFragment3 = (TabFragment3) adapter.getRegisteredFragment(2);
+                    tabFragment3.setset(mOrderItem);
+                }
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
-
+                if (tab.getPosition() == 0) {
+                    tabFragment1 = (TabFragment1) adapter.getRegisteredFragment(0);
+                    tabFragment1.setBuyerInfo();
+                    tabFragment1.callback.setValue(tabFragment1.fragment1OrderItem);
+                } else if (tab.getPosition() ==1){
+                    tabFragment2 = (TabFragment2)adapter.getRegisteredFragment(1);
+                    tabFragment2.setBuyerInfo();
+                    tabFragment2.callback.setValue(tabFragment2.fragment2OrderItem);
+                }
             }
 
             @Override
@@ -58,6 +96,12 @@ public class SoftwareBuyActivity extends AppCompatActivity  {
 
         });
     }
+
+
+    public void getSellerInfo() {
+
+    }
+
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
@@ -84,11 +128,16 @@ public class SoftwareBuyActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setInfo(String name){
-        mOrderItem.setSeller_nickname(name);
+    public void setInfo(OrderItem orderItem) {
+        mOrderItem = orderItem;
     }
 
-    public OrderItem getmOrderItem(){
+    public OrderItem getmOrderItem() {
         return mOrderItem;
+    }
+
+    @Override
+    public void setValue(OrderItem orderItem) {
+        mOrderItem = orderItem;
     }
 }

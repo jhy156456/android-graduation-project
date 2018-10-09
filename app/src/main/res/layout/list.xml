@@ -59,50 +59,6 @@
 
 
              </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:gravity="center"
-                >
-
-
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/plus"-->
-                    <!--android:layout_width="21dp"-->
-                    <!--android:layout_height="21dp"-->
-                    <!--android:src="@drawable/plus"-->
-
-                    <!--/>-->
-
-                <TextView
-                    android:id="@+id/text"
-
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="01"
-                    android:textSize="16dp"
-
-                    android:gravity="center"
-                    />
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/min"-->
-                    <!--android:layout_width="21dp"-->
-                    <!--android:layout_height="21dp"-->
-                    <!--android:src="@drawable/minus"-->
-
-                    <!--/>-->
-
-
-      </LinearLayout>
-
-
-
 
 
       </LinearLayout>

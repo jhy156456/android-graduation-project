@@ -78,8 +78,10 @@ public class GoLib {
      * 구매 액티비티 실행
      * @param context 컨텍스트
      */
-    public void goBuyActivity(Context context) {
+    public void goBuyActivity(Context context, String postNickName,String postMemberIconFilename) {
         Intent intent = new Intent(context, SoftwareBuyActivity.class);
+        intent.putExtra("postNickName",postNickName);
+        intent.putExtra("postMemberIconFilename",postMemberIconFilename);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
