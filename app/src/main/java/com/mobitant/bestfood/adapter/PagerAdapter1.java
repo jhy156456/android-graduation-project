@@ -22,6 +22,7 @@ public class PagerAdapter1 extends FragmentStatePagerAdapter {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.orderCheckItem = new OrderCheckItem();
+        this.orderCheckItem = orderCheckItem;
     }
 
     @Override

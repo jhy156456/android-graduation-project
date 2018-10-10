@@ -1,15 +1,12 @@
 package com.mobitant.bestfood;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,20 +21,14 @@ import android.widget.Toast;
 import com.mobitant.bestfood.adapter.InfoListAdapter;
 import com.mobitant.bestfood.custom.EndlessRecyclerViewScrollListener;
 import com.mobitant.bestfood.item.FoodInfoItem;
-import com.mobitant.bestfood.item.MemberInfoItem;
-import com.mobitant.bestfood.lib.EtcLib;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
-import com.mobitant.bestfood.lib.MyToast;
 import com.mobitant.bestfood.lib.StringLib;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.io.File;
 import java.util.ArrayList;
 
 import retrofit2.Call;

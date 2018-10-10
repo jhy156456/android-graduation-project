@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.mobitant.bestfood.MainActivity2;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.model.Response;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.ServiceGenerator;
 
 import java.io.IOException;

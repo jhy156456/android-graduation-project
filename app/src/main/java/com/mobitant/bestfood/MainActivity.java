@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +14,11 @@ import android.widget.TextView;
 
 import com.mobitant.bestfood.fragments.BestFoodKeepFragment;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
-import com.mobitant.bestfood.item.MemberInfoItem;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

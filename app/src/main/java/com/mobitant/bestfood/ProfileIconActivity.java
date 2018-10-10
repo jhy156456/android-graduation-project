@@ -15,12 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.mobitant.bestfood.item.MemberInfoItem;
 import com.mobitant.bestfood.lib.FileLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.RemoteLib;
 import com.mobitant.bestfood.lib.StringLib;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
 

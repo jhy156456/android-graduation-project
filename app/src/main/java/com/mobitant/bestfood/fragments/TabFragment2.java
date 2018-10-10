@@ -23,7 +23,7 @@ import customfonts.MyEditText;
 public class TabFragment2 extends Fragment implements View.OnClickListener {
     TextView textView;
     OrderItem mOrderItem;
-    MyEditText cardHolder;
+    MyEditText cardHolder,cardNumber,cardDate;
     public static OrderItem fragment2OrderItem;
 
     @Override
@@ -47,37 +47,41 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragment2OrderItem = new OrderItem();
         textView = view.findViewById(R.id.order_stage2);
         mOrderItem = new OrderItem();
-        cardHolder = view.findViewById(R.id.name2);
-
+        cardHolder = view.findViewById(R.id.card_holder);
+        cardDate = view.findViewById(R.id.date2);
+cardNumber = view.findViewById(R.id.cardno2);
         textView.setOnClickListener(this);
 
     }
 
 public void setBuyerInfo(){
-
+fragment2OrderItem.setCard_holder(cardHolder.getText().toString());
+fragment2OrderItem.setCard_number(cardNumber.getText().toString());
+fragment2OrderItem.setExp_date(cardDate.getText().toString());
 }
 
     @Override
     public void onClick(View v) {
         setBuyerInfo();
 
-        callback.setValue(fragment2OrderItem);
+        callback.setFragment2Value(fragment2OrderItem);
         if (v.getId() == R.id.order_stage2) {
             SoftwareBuyActivity.viewPager.setCurrentItem(2);
         }
     }
 
 
-    public void setset(OrderItem orderItem) {
+    public void setset(OrderItem orderItem) { //SofatwareBuyActivity에서 호출(화면에 띄워진 값 바꿔주기위함)
 
         this.mOrderItem = orderItem;
         cardHolder.setText(mOrderItem.getBuyer_nickname());
     }
 
     public static interface sendValue {
-        public void setValue(OrderItem orderItem);
+        public void setFragment2Value(OrderItem fragment1OrderItem);
     }
     public sendValue callback;
     @Override

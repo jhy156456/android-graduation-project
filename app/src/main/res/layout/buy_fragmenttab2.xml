@@ -279,7 +279,7 @@
 
                     <customfonts.MyEditText
 
-                        android:id="@+id/name2"
+                        android:id="@+id/card_holder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#00000000"

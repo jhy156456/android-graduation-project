@@ -19,7 +19,7 @@ import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.OrderItem;
 import com.mobitant.bestfood.lib.MyLog;
 
-public class SoftwareBuyActivity extends AppCompatActivity implements TabFragment1.sendValue {
+public class SoftwareBuyActivity extends AppCompatActivity implements TabFragment1.sendValue,TabFragment2.sendValue {
     private OrderItem mOrderItem;
     public static Context mContext;
     public static ViewPager viewPager;
@@ -40,11 +40,9 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
         mOrderItem = new OrderItem();
 
         getSellerInfo();
-//판매자 정보 가져오기 위함
+//BestfoodInfoActivity 에서 판매자 정보 가져오기 위함
         OrderCheckItem orderCheckItem = new OrderCheckItem();
-
         orderCheckItem = (OrderCheckItem) getIntent().getSerializableExtra("orderCheckItem");
-
 
 //판매자 정보 가져오기 위함
 
@@ -68,11 +66,13 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
+/*
                 if (tab.getPosition() == 1) {
                     tabFragment2 = (TabFragment2) adapter.getRegisteredFragment(1);
                     tabFragment2.setset(mOrderItem);
-                }else if(tab.getPosition() ==2){
+                }else
+*/
+                if(tab.getPosition() ==2){
                     tabFragment3 = (TabFragment3) adapter.getRegisteredFragment(2);
                     tabFragment3.setset(mOrderItem);
                 }
@@ -81,14 +81,20 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                //각 프래그먼트 아래버튼을 누르면 값을 넘기기쉬운데
+                //슬라이드로 넘겼을때도 값이 넘어가야하므로 탭이 언셀렉티드되면 값을넘기는것도 추가시킨다.
+
+                /*
                 if (tab.getPosition() == 0) {
                     tabFragment1 = (TabFragment1) adapter.getRegisteredFragment(0);
                     tabFragment1.setBuyerInfo();
                     tabFragment1.callback.setValue(tabFragment1.fragment1OrderItem);
-                } else if (tab.getPosition() ==1){
+                } else
+                */
+                if (tab.getPosition() ==1){
                     tabFragment2 = (TabFragment2)adapter.getRegisteredFragment(1);
                     tabFragment2.setBuyerInfo();
-                    tabFragment2.callback.setValue(tabFragment2.fragment2OrderItem);
+                    tabFragment2.callback.setFragment2Value(tabFragment2.fragment2OrderItem);
                 }
             }
 
@@ -140,8 +146,14 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
         return mOrderItem;
     }
 
+
     @Override
-    public void setValue(OrderItem orderItem) {
-        mOrderItem = orderItem;
+    public void setFragment1Value(OrderItem fragment1OrderItem) {
+        mOrderItem = fragment1OrderItem;
+    }
+
+    @Override
+    public void setFragment2Value(OrderItem fragment1OrderItem) {
+mOrderItem = fragment1OrderItem;
     }
 }

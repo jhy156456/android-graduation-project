@@ -12,7 +12,16 @@ public class OrderItem implements Serializable {
     private String account_number;
     private String exp_date;
     private String card_holder;
+    private String card_number;
     private String buyer_phone;
+
+    public String getCard_number() {
+        return card_number;
+    }
+
+    public void setCard_number(String card_number) {
+        this.card_number = card_number;
+    }
 
     public String getRealName() {
         return realName;

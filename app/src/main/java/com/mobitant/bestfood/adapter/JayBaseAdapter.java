@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.fragments.Bean;
+import com.mobitant.bestfood.lib.MyLog;
+import com.mobitant.bestfood.lib.StringLib;
+import com.mobitant.bestfood.remote.RemoteService;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -26,7 +30,9 @@ public class JayBaseAdapter extends BaseAdapter {
         this.context = context;
         this.bean = bean;
     }
-
+public void DataChange(Bean bean,int index){
+        this.bean.set(index,bean);
+}
     @Override
     public int getCount() {
         return bean.size();
@@ -59,9 +65,9 @@ public class JayBaseAdapter extends BaseAdapter {
 
             viewHolder = new ViewHolder();
 
-            viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.discription = (TextView) convertView.findViewById(R.id.description);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.list_title);
+            viewHolder.discription = (TextView) convertView.findViewById(R.id.list_description);
             viewHolder.postOS = (TextView) convertView.findViewById(R.id.post_os);
 
             //viewHolder.text = (TextView)convertView.findViewById(R.id.text);
@@ -82,7 +88,22 @@ public class JayBaseAdapter extends BaseAdapter {
 
         Bean bean = (Bean) getItem(position);
 
-        viewHolder.image.setImageResource(bean.getImage());
+
+
+        if(position ==0) { //게시글 이미지 띄워주기 위함 IMAGE_URL ,MEMBER_ICON_URL 이 다름
+            if (StringLib.getInstance().isBlank(bean.getImageFileName())) {
+                Picasso.with(context).load(R.drawable.bg_bestfood_drawer).into(viewHolder.imageView);
+            } else {
+                Picasso.with(context).load(RemoteService.IMAGE_URL + bean.getImageFileName()).into(viewHolder.imageView);
+            }
+        }
+        else { // 멤버 프로필 띄워주기 위함
+            if (StringLib.getInstance().isBlank(bean.getImageFileName())) {
+                Picasso.with(context).load(R.drawable.bg_bestfood_drawer).into(viewHolder.imageView);
+            } else {
+                Picasso.with(context).load(RemoteService.MEMBER_ICON_URL + bean.getImageFileName()).into(viewHolder.imageView);
+            }
+        }
         viewHolder.title.setText(bean.getTitle());
         viewHolder.discription.setText(bean.getDiscription());
         viewHolder.postOS.setText(bean.getDate());
@@ -91,13 +112,10 @@ public class JayBaseAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        ImageView image;
+        ImageView imageView;
         TextView title;
         TextView discription;
         TextView postOS;
-        ImageView min;
-        TextView text;
-        ImageView plus;
 
     }
 }

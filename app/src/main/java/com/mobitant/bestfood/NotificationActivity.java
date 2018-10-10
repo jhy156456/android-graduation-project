@@ -1,31 +1,25 @@
 package com.mobitant.bestfood;
 
-import android.app.NotificationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.TextView;
 
-import com.mobitant.bestfood.adapter.NotificationAdapter;
 import com.mobitant.bestfood.fragments.BestFoodKeepFragment;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
 import com.mobitant.bestfood.fragments.NotificationListFragment;
 import com.mobitant.bestfood.fragments.NotificationRegisterFragment;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.StringLib;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
 

@@ -3,13 +3,11 @@ package com.mobitant.bestfood;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
-import android.widget.Toast;
 
 import com.kakao.auth.KakaoSDK;
 import com.mobitant.bestfood.adapter.KakaoSDKAdapter;
 import com.mobitant.bestfood.item.FoodInfoItem;
-import com.mobitant.bestfood.item.MemberInfoItem;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 /**
  * 앱 전역에서 사용할 수 있는 클래스
  */

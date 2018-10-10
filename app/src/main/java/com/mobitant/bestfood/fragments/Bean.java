@@ -5,7 +5,15 @@ package com.mobitant.bestfood.fragments;
  */
 public class Bean {
 
-    public String imageFileName;
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
+    }
+
+    private String imageFileName;
     private int image;
     private String title;
     public String nickName;

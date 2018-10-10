@@ -1,7 +1,6 @@
 package com.mobitant.bestfood.item;
 
 import com.google.gson.annotations.SerializedName;
-import com.mobitant.bestfood.model.User;
 
 import java.util.ArrayList;
 

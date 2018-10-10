@@ -18,16 +18,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.support.v7.app.AppCompatActivity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.model.Response;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.ServiceGenerator;
 
 import java.io.IOException;

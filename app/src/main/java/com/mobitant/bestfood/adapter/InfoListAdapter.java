@@ -14,12 +14,11 @@ import com.mobitant.bestfood.Constant;
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.item.FoodInfoItem;
-import com.mobitant.bestfood.item.MemberInfoItem;
 import com.mobitant.bestfood.lib.DialogLib;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.StringLib;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
 

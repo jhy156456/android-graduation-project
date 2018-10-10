@@ -112,6 +112,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
         infoImageAdapter = new InfoImageAdapter(this,
                 R.layout.row_post_image_list, new ArrayList<ImageItem>());
         images = item.totalImageFilename;
+
         infoImageAdapter.addItemList(images);
         imageItemList.setAdapter(infoImageAdapter);
 
@@ -159,7 +160,6 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             case R.id.go_home:
                 GoLib.getInstance().goHomeActivity(this);
             case R.id.action_buy:
-
                 GoLib.getInstance().goBuyActivity(this, orderCheckItem);
         }
 
@@ -187,7 +187,9 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                     orderCheckItem.setInfoTitle(item.name);
                     orderCheckItem.setPostNickName(item.post_nickname);// 구매화면 전환해서 정보를 보여주기위함
                     orderCheckItem.setPostMemberIconFilename(item.postMemberIconFilename);// 구매화면 전환해서 정보를 보여주기위함
-                    orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
+                    if(item.totalImageFilename.size() == 0){
+                        orderCheckItem.setInfoFirstImageFilename("");
+                    }else orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
                     orderCheckItem.setInfoContent(item.description);
                     setComment();
                     //loadingText.setVisibility(View.GONE);

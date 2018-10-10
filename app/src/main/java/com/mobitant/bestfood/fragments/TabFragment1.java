@@ -2,7 +2,6 @@ package com.mobitant.bestfood.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.SoftwareBuyActivity;
 import com.mobitant.bestfood.item.OrderItem;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 
 import customfonts.MyEditText;
 
@@ -83,7 +82,7 @@ User currentUser;
     public void onClick(View v) {
         setBuyerInfo();
 
-        callback.setValue(fragment1OrderItem);
+        callback.setFragment1Value(fragment1OrderItem);
         if(v.getId()==R.id.order_stage1){
             SoftwareBuyActivity.viewPager.setCurrentItem(1);
         }
@@ -92,7 +91,7 @@ User currentUser;
 
 
     public static interface sendValue {
-        public void setValue(OrderItem fragment1OrderItem);
+        public void setFragment1Value(OrderItem fragment1OrderItem);
     }
     public sendValue callback;
     @Override

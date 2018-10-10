@@ -9,7 +9,47 @@ public class OrderCheckItem implements Serializable {
     private String postMemberIconFilename;
     private String infoTitle;
     private String infoContent;
+private String postRegisterDate;
+private String postPhoneNumber;
+private String postRealName;
 
+    @Override
+    public String toString() {
+        return "OrderCheckItem{" +
+                "infoFirstImageFilename='" + infoFirstImageFilename + '\'' +
+                ", postNickName='" + postNickName + '\'' +
+                ", postMemberIconFilename='" + postMemberIconFilename + '\'' +
+                ", infoTitle='" + infoTitle + '\'' +
+                ", infoContent='" + infoContent + '\'' +
+                ", postRegisterDate='" + postRegisterDate + '\'' +
+                ", postPhoneNumber='" + postPhoneNumber + '\'' +
+                ", postRealName='" + postRealName + '\'' +
+                '}';
+    }
+
+    public String getPostRealName() {
+        return postRealName;
+    }
+
+    public void setPostRealName(String postRealName) {
+        this.postRealName = postRealName;
+    }
+
+    public String getPostPhoneNumber() {
+        return postPhoneNumber;
+    }
+
+    public void setPostPhoneNumber(String postPhoneNumber) {
+        this.postPhoneNumber = postPhoneNumber;
+    }
+
+    public String getPostRegisterDate() {
+        return postRegisterDate;
+    }
+
+    public void setPostRegisterDate(String postRegisterDate) {
+        this.postRegisterDate = postRegisterDate;
+    }
 
     public String getInfoFirstImageFilename() {
         return infoFirstImageFilename;

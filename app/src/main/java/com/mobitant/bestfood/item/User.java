@@ -1,4 +1,4 @@
-package com.mobitant.bestfood.model;
+package com.mobitant.bestfood.item;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -21,16 +21,26 @@ public class User {
     @SerializedName("member_icon_filename") public String memberIconFilename;
     @SerializedName("reg_date") public String regDate;
 
+    @Override
     public String toString() {
         return "User{" +
-                "seq=" + seq +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", newPassword='" + newPassword + '\'' +
+                ", token='" + token + '\'' +
+                ", id='" + id + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", seq=" + seq +
                 ", phone='" + phone + '\'' +
-                ", name='" + name + '\'' +
                 ", sextype='" + sextype + '\'' +
                 ", birthday='" + birthday + '\'' +
-                ", nickname='" + nickname + '\'' +
+                ", memberIconFilename='" + memberIconFilename + '\'' +
+                ", regDate='" + regDate + '\'' +
                 '}';
     }
+
     public void setSextype(String sex){ this.sextype = sex;}
     public void setBirthday(String birth){ this.birthday = birth;}
     public void setName(String name) {

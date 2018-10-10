@@ -18,12 +18,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mobitant.bestfood.item.MemberInfoItem;
-import com.mobitant.bestfood.lib.EtcLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.MyToast;
 import com.mobitant.bestfood.lib.StringLib;
-import com.mobitant.bestfood.model.User;
+import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
 import com.squareup.picasso.Picasso;
