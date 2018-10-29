@@ -38,6 +38,10 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
             android:title="@string/nav_profile"/>
+        <item
+            android:id="@+id/nav_order"
+            android:icon="@drawable/ic_profile"
+            android:title="구매정보"/>
 
     </group>
     <group

@@ -23,7 +23,7 @@ import com.mobitant.bestfood.lib.MyLog;
 public class BestFoodRegisterActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
     public static FoodInfoItem currentItem = null;
-
+    int from;
     Context context;
 
     /**
@@ -36,13 +36,15 @@ public class BestFoodRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bestfood_register);
 
         context = this;
-
+        from = (int) getIntent().getExtras().getInt("from");
+        MyLog.d("프롬값!!!!!!!!!!!!!!!!!!!!!!!" + from);
         int memberSeq = 400; //((MyApp)getApplication()).getMemberSeq();
         //BestFoodRegisterLocationFragment로 넘길 기본적인 정보를 저장한다.
         FoodInfoItem infoItem = new FoodInfoItem();
+        infoItem.post_category = from;
         infoItem.memberSeq = memberSeq;
         infoItem.post_nickname = "hi"; //((MyApp)getApplication()).getMemberNickName();
-        MyLog.d(TAG, "infoItem " + infoItem.toString());
+
 
         setToolbar();
 

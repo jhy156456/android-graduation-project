@@ -37,6 +37,7 @@ import retrofit2.Callback;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener {
     private final String TAG = this.getClass().getSimpleName();
+    public static final int fromHomeActivity = 1006;
     LinearLayout linearLayout,contentLayout;
     DrawerLayout drawer;
     View headerLayout;
@@ -298,7 +299,7 @@ public void mainSlider(){
 
 
             }
-            GoLib.getInstance().goBestFoodRegisterActivity(this);
+            GoLib.getInstance().goBestFoodRegisterActivity(this,fromHomeActivity);
 
         } else if (id == R.id.nav_login) {
             GoLib.getInstance().goLoginActivity(this);

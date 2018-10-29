@@ -38,7 +38,7 @@ import retrofit2.Response;
  */
 public class BestFoodListFragment extends Fragment implements View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
-
+    public static final int fromBestFoodListFragment = 1002;
     Context context;
     int memberSeq;
     RecyclerView bestFoodList;
@@ -95,7 +95,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         }
         if(myApp.getIsNewBestfood() == true){
             setRecyclerView();
-            listInfo(memberSeq,orderType,0);
+            listInfo(memberSeq,orderType,0,fromBestFoodListFragment);
             myApp.setIsNewBestfood(false);
         }
     }
@@ -128,7 +128,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
       //listType.setOnClickListener(this);
 
         setRecyclerView();
-        listInfo(memberSeq, orderType, 0);
+        listInfo(memberSeq, orderType, 0,fromBestFoodListFragment);
     }
 
 
@@ -149,7 +149,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listInfo(memberSeq,orderType, page);
+                listInfo(memberSeq,orderType, page,fromBestFoodListFragment);
             }
         };
         bestFoodList.addOnScrollListener(scrollListener);
@@ -161,10 +161,10 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
      * @param orderType 맛집 정보 정렬 순서
      * @param currentPage 현재 페이지
      */
-    private void listInfo(int memberSeq,String orderType, final int currentPage) {
+    private void listInfo(int memberSeq,String orderType, final int currentPage,int fromBestFoodListFragment) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(memberSeq,orderType, currentPage);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(memberSeq,orderType, currentPage,fromBestFoodListFragment);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,
@@ -224,12 +224,12 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
             if (((MyApp) context.getApplicationContext()).getMemberNickname() == null || ((MyApp) context.getApplicationContext()).equals("")) {
                     DialogLib.getInstance().inputPostDialog(context);
             }else{
-                GoLib.getInstance().goBestFoodRegisterActivity(context);
+                GoLib.getInstance().goBestFoodRegisterActivity(context,fromBestFoodListFragment);
             }
         }
 
         setRecyclerView();
-        listInfo(memberSeq, orderType, 0);
+        listInfo(memberSeq, orderType, 0,fromBestFoodListFragment);
     }
 
 

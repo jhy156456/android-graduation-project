@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final int fromNotificationActivity = 1004;
     DrawerLayout drawer;
     View headerLayout;
     Menu menu;
@@ -165,7 +166,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
                     R.id.content_main, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {
-            GoLib.getInstance().goBestFoodRegisterActivity(this);
+            GoLib.getInstance().goBestFoodRegisterActivity(this,fromNotificationActivity);
 
         } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);

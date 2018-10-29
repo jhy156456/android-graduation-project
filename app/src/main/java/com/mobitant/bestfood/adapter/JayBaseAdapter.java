@@ -104,8 +104,14 @@ public void DataChange(Bean bean,int index){
                 Picasso.with(context).load(RemoteService.MEMBER_ICON_URL + bean.getImageFileName()).into(viewHolder.imageView);
             }
         }
-        viewHolder.title.setText(bean.getTitle());
-        viewHolder.discription.setText(bean.getDiscription());
+        if(position ==3){//카드번호 아이템일경우 텍스트설정
+            viewHolder.title.setText("카드번호 : "+bean.getTitle());
+            viewHolder.discription.setText("소유주 : "+bean.getDiscription());
+        }else{
+            viewHolder.title.setText(bean.getTitle());
+            viewHolder.discription.setText(bean.getDiscription());
+        }
+
         viewHolder.postOS.setText(bean.getDate());
 
         return convertView;

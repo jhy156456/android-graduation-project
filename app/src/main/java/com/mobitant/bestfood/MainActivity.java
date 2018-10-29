@@ -29,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = getClass().getSimpleName();
-
+    public static final int fromMainActivity = 1003;
     DrawerLayout drawer;
     View headerLayout;
     User userItem;
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity
                     R.id.content_main, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {
-            GoLib.getInstance().goBestFoodRegisterActivity(this);
+            GoLib.getInstance().goBestFoodRegisterActivity(this,fromMainActivity);
 
         } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);

@@ -21,7 +21,7 @@ public class FoodInfoItem {
     public int commentCount;
     public int hit;
     public int like,dislike,blame,del,imageNumber;
-
+public int post_category;
     @SerializedName("post_member_icon_filename") public String postMemberIconFilename;
     @SerializedName("reg_date") public String regDate;
     @SerializedName("post_updated_datetime") public String updatedDate;

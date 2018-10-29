@@ -144,7 +144,7 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
             if (infoItem.seq != 0) {
                 BestFoodRegisterActivity.currentItem = infoItem;
             }
-            MyLog.d(TAG, "infoItem " + infoItem);
+            MyLog.d(TAG, "infoItem의 포스트카테고리 " + infoItem.post_category);
         }
     }
 

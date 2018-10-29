@@ -4,6 +4,8 @@ import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
 import com.mobitant.bestfood.item.NotificationCommentItem;
 import com.mobitant.bestfood.item.NotificationItem;
+import com.mobitant.bestfood.item.OrderCheckItem;
+import com.mobitant.bestfood.item.OrderItem;
 import com.mobitant.bestfood.item.ProductGridModellClass;
 import com.mobitant.bestfood.model.Response;
 import com.mobitant.bestfood.item.User;
@@ -34,9 +36,14 @@ import rx.Observable;
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://192.168.216.246:3000/";
+    String BASE_URL = "http://192.168.216.193:3000/";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
+
+
+    //구매완료
+    @POST("/order/addorder")
+    Call<String> insertOrderCheckItem(@Body OrderCheckItem orderCheckItem);
 
     //사용자 정보
    // @GET("/member/{mail}")
@@ -99,7 +106,8 @@ public interface RemoteService {
     @GET("/food/list")
     Call<ArrayList<FoodInfoItem>> listFoodInfo(@Query("member_seq") int memberSeq,
                                                @Query("order_type") String orderType,
-                                               @Query("current_page") int currentPage);
+                                               @Query("current_page") int currentPage,
+                                                @Query("post_category") int post_category);
 
     @GET("/food/list")
     Call<ArrayList<ProductGridModellClass>> listContestInfo(@Query("member_seq") int memberSeq,

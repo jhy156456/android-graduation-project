@@ -76,6 +76,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bestfood_info);
+
         context = this;
         memberSeq = ((MyApp) getApplication()).getMemberSeq();
         foodInfoSeq = getIntent().getIntExtra(INFO_SEQ, 0);
@@ -149,8 +150,10 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
      * 여기서는 모든 버튼이 액티비티를 종료한다.
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem mItem) {
+        //원래 MenuItem item 이였는데 지금보고있는 게시물의 변수명인 item과 같아서 오류가났었다
+        //그래서 item을 메뉴아이템인 mItem으로 변경했다.
+        switch (mItem.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -160,10 +163,19 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             case R.id.go_home:
                 GoLib.getInstance().goHomeActivity(this);
             case R.id.action_buy:
+                orderCheckItem = new OrderCheckItem();
+                orderCheckItem.setPostSeq(item.seq);
+                orderCheckItem.setInfoTitle(item.name);
+                orderCheckItem.setPostNickName(item.post_nickname);// 구매화면 전환해서 정보를 보여주기위함
+                orderCheckItem.setPostMemberIconFilename(item.postMemberIconFilename);// 구매화면 전환해서 정보를 보여주기위함
+                if(item.totalImageFilename.size() == 0){
+                    orderCheckItem.setInfoFirstImageFilename("");
+                }else orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
+                orderCheckItem.setInfoContent(item.description);
                 GoLib.getInstance().goBuyActivity(this, orderCheckItem);
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(mItem);
     }
 
     /**
@@ -182,15 +194,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 FoodInfoItem infoItem = response.body();
                 if (response.isSuccessful() && infoItem != null && infoItem.seq > 0) {
                     item = infoItem;
-                    orderCheckItem = new OrderCheckItem();
 
-                    orderCheckItem.setInfoTitle(item.name);
-                    orderCheckItem.setPostNickName(item.post_nickname);// 구매화면 전환해서 정보를 보여주기위함
-                    orderCheckItem.setPostMemberIconFilename(item.postMemberIconFilename);// 구매화면 전환해서 정보를 보여주기위함
-                    if(item.totalImageFilename.size() == 0){
-                        orderCheckItem.setInfoFirstImageFilename("");
-                    }else orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
-                    orderCheckItem.setInfoContent(item.description);
                     setComment();
                     //loadingText.setVisibility(View.GONE);
                 } else {

@@ -23,12 +23,13 @@ public class ContestActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private Typeface mTypeface;
     private Typeface mTypefaceBold;
-
+    public static final int fromContest = 1001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_v_commerce_product_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("공모전 팀원을 만들어보세요");
         setSupportActionBar(toolbar);
 
         tabLayout =  findViewById(R.id.tab_layout);
@@ -113,6 +114,10 @@ public class ContestActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.go_home:
                 GoLib.getInstance().goHomeActivity(this);
+                break;
+            case R.id.go_notification_write:
+                GoLib.getInstance().goBestFoodRegisterActivity(this,fromContest);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

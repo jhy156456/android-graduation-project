@@ -137,9 +137,10 @@ public class GoLib {
      * 맛집 정보 등록 액티비티를 실행한다.
      * @param context 컨텍스트
      */
-    public void goBestFoodRegisterActivity(Context context) {
+    public void goBestFoodRegisterActivity(Context context,int from) {
         Intent intent = new Intent(context, BestFoodRegisterActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("from",from);
         context.startActivity(intent);
     }
 public void goBestFoodMainActivity(Context context){
