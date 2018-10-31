@@ -1,6 +1,8 @@
 package com.mobitant.bestfood;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,14 +26,19 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mobitant.bestfood.adapter.InfoImageAdapter;
+import com.mobitant.bestfood.fragments.NotificationDetailFragment;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.ImageItem;
+import com.mobitant.bestfood.item.NotificationCommentItem;
+import com.mobitant.bestfood.item.NotificationItem;
 import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.SingerItem;
 import com.mobitant.bestfood.lib.DialogLib;
 import com.mobitant.bestfood.lib.EtcLib;
 import com.mobitant.bestfood.lib.GoLib;
+import com.mobitant.bestfood.lib.KeepLib;
 import com.mobitant.bestfood.lib.MyLog;
+import com.mobitant.bestfood.lib.MyToast;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
@@ -39,6 +46,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,15 +99,12 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
     public void setComment() {
         viewdlistView = (RecyclerView) findViewById(R.id.viwedlistView);
         adapter = new SingerAdapter();
-        adapter.addItem(new SingerItem("소녀시대", "010-1000-1000", 20, R.drawable.singer));
-        adapter.addItem(new SingerItem("걸스데이", "010-2000-2000", 22, R.drawable.singer2));
-        adapter.addItem(new SingerItem("여자친구", "010-3000-3000", 21, R.drawable.singer3));
-        adapter.addItem(new SingerItem("티아라", "010-4000-4000", 24, R.drawable.singer4));
-        adapter.addItem(new SingerItem("AOA", "010-5000-5000", 25, R.drawable.singer5));
+        for(int i=0; i<item.getCommentItems().size();i++){
+            adapter.addItem(new SingerItem(item.getCommentItems().get(i).getWriter(),item.getCommentItems().get(i).getContents(),
+                    item.getCommentItems().get(i).getComment_like(),item.getCommentItems().get(i).getMemberIconFileName(),item.id));
+        }
         postLayoutManager = new LinearLayoutManager(this);
         viewdlistView.setLayoutManager(postLayoutManager);
-
-
         viewdlistView.setAdapter(adapter);
     }
 
@@ -194,7 +199,6 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 FoodInfoItem infoItem = response.body();
                 if (response.isSuccessful() && infoItem != null && infoItem.seq > 0) {
                     item = infoItem;
-
                     setComment();
                     //loadingText.setVisibility(View.GONE);
                 } else {
@@ -222,7 +226,9 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
 
         if (!StringLib.getInstance().isBlank(item.name)) {
             ((SingerAdapter.AViewHolder) holder).nameText.setText(item.name);
+
         }
+        ((SingerAdapter.AViewHolder) holder).hits.setText("조회수 : "+item.hits);
 
         //멤버 프로필 이미지 설정
         if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
@@ -353,32 +359,132 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 setView(holder);
                 setRecyclerView();
             } else if (position < (allHeight - 1)) {
-                SingerItem item = items.get(position - 1);
+                SingerItem singerItem = items.get(position - 1);
+                ((BViewHolder) holder).textView.setText(singerItem.getName());
+                ((BViewHolder) holder).textView2.setText(singerItem.getMobile());
+                ((BViewHolder) holder).textView3.setText(String.valueOf(singerItem.getAge()));
 
-                ((BViewHolder) holder).textView.setText(item.getName());
-                ((BViewHolder) holder).textView2.setText(item.getMobile());
-                ((BViewHolder) holder).textView3.setText(String.valueOf(item.getAge()));
-                ((BViewHolder) holder).imageView.setImageResource(item.getResId());
-            } else {
+                if (StringLib.getInstance().isBlank(singerItem.memberIconFileName)) {
+                    Picasso.with(context).load(R.drawable.ic_person).into(((BViewHolder) holder).imageView);
+                } else {
+                    Picasso.with(context)
+                            .load(RemoteService.MEMBER_ICON_URL + singerItem.memberIconFileName)
+                            .into(((BViewHolder) holder).imageView);
+                }
+
+                //로그인되어있는 사용자와 댓글입력한 사용자의 닉네임이 같을때
+                if(((MyApp)getApplication()).getMemberNickName()==singerItem.getName()){
+                    ((SingerAdapter.BViewHolder) holder).removeComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyLog.d("아이템 아이디 : " + item.id);
+                            new AlertDialog.Builder(context)
+                                    .setTitle("댓글삭제")
+                                    .setMessage("삭제하시겠습니까?")
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            KeepLib.getInstance().deleteComment(item.id, singerItem.getId());
+                                            deleteItem(singerItem.getId()); // _아이디로 어레이리스트삭제
+                                            adapter.notifyDataSetChanged();
+                                            MyToast.s(context, "댓글이 삭제되었습니다.");
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    })
+                                    .show();
+                        }
+                    });
+                }else{
+                    ((BViewHolder) holder).removeComment.setVisibility(View.GONE);
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            } else { //등록버튼 포지션
 
                 ((CViewHolder) holder).viwedButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String name = "닉네임";
-                        String mobile = ((CViewHolder) holder).viewedEditText.getText().toString();
-                        int age = 20;
-                        adapter.addItem(new SingerItem(name, mobile, age, R.drawable.singer3));
-                        adapter.notifyDataSetChanged();
+                        NotificationCommentItem commentItem = new NotificationCommentItem();
+                        String name = ((MyApp) getApplication()).getMemberNickName();
+                        commentItem.setWriter(name);
+                        String contents =  ((SingerAdapter.CViewHolder)holder).viewedEditText.getText().toString();
+                        commentItem.setMemberIconFileName(((MyApp) getApplication()).getMemberIconFilename());
+                        commentItem.setContents(contents);
+                        commentItem.setPostId(item.id);//mongoDB의 _id필드를 말하는듯하다.
+                        int comment_like = 0;
+                        insertCommentItem(commentItem,name,contents,comment_like);
+                        //서버에 요청한후 그다음 화면갱신
+                        //댓글 삭제,수정을위해 mongoDB의 ID값을 저장해놓고 있어야하기때문에 서버에 저장한 후에
+                        //아이디값을 리턴받아서 안드로이드에 띄워줌
                     }
                 });
             }
 
         }
 
+
+        /**
+         * 사용자가 입력한 정보를 서버에 저장한다.
+         */
+        private void insertCommentItem(NotificationCommentItem commentItem, String name, String contents,int comment_like) {
+            MyLog.d(TAG, commentItem.toString());
+
+            RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+            Call<String> call = remoteService.insertSoftWareComment(commentItem);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful()) {
+                        String commentId = response.body();
+                        MyToast.s(context, "댓글이 등록되었습니다.");
+
+                        adapter.addItem(new SingerItem(name, contents, comment_like,
+                                ((MyApp) getApplication()).getMemberIconFilename(),commentId));
+                        adapter.notifyDataSetChanged();
+
+                    } else { // 등록 실패
+                        int statusCode = response.code();
+                        ResponseBody errorBody = response.errorBody();
+                        MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    MyLog.d(TAG, "no internet connectivity");
+                }
+            });
+        }
         public void addItem(SingerItem item) {
             items.add(item);
         }
 
+        public void deleteItem(String id) {
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).getId().equals(id)) {
+                    items.remove(i);
+                }
+            }
+        }
         @Override
         public int getItemCount() {
             allHeight = items.size() + 2;
@@ -409,6 +515,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             TextView tel;
             TextView description;
             TextView nickNameText;
+            TextView hits;
             ImageView profileIconImage;
 
             public AViewHolder(View itemView) {
@@ -416,6 +523,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
 
                 imageItemList = (RecyclerView) itemView.findViewById(R.id.image_list);
                 nameText = (TextView) itemView.findViewById(R.id.name);
+                hits = (TextView)itemView.findViewById(R.id.hits);
                 tel = (TextView) itemView.findViewById(R.id.tel);
                 description = (TextView) itemView.findViewById(R.id.description);
                 nickNameText = (TextView) itemView.findViewById(R.id.nickname);
@@ -428,14 +536,19 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             TextView textView;
             TextView textView2;
             TextView textView3;
-            ImageView imageView;
+            ImageView imageView,upLike,downLike;
+            TextView removeComment;
+
 
             public BViewHolder(View itemView) {
                 super(itemView);
                 textView = (TextView) itemView.findViewById(R.id.textView);
                 textView2 = (TextView) itemView.findViewById(R.id.textView2);
+                removeComment = (TextView) itemView.findViewById(R.id.remove_comment);
                 textView3 = (TextView) itemView.findViewById(R.id.textView3);
                 imageView = (ImageView) itemView.findViewById(R.id.imageView);
+                upLike = (ImageView)itemView.findViewById(R.id.up_like);
+                downLike = (ImageView)itemView.findViewById(R.id.down_like);
             }
         }
 

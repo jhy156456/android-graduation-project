@@ -10,14 +10,15 @@ public class NotificationCommentItem {
     private String created_at;
     private String postId;
     private int comment_like;
-    @SerializedName("comments") private ArrayList<NotificationCommentItem> commentItems;
+    @SerializedName("_id") public String id;
+    @SerializedName("writer_member_icon_filename") private String memberIconFileName;
 
-    public ArrayList<NotificationCommentItem> getCommentItems() {
-        return commentItems;
+    public String getMemberIconFileName() {
+        return memberIconFileName;
     }
 
-    public void setCommentItems(ArrayList<NotificationCommentItem> commentItems) {
-        this.commentItems = commentItems;
+    public void setMemberIconFileName(String memberIconFileName) {
+        this.memberIconFileName = memberIconFileName;
     }
 
     public String getContents() {
@@ -30,16 +31,6 @@ public class NotificationCommentItem {
 
     public String getWriter() {
         return writer;
-    }
-
-    @Override
-    public String toString() {
-        return "NotificationCommentItem{" +
-                "contents='" + contents + '\'' +
-                ", writer='" + writer + '\'' +
-                ", created_at='" + created_at + '\'' +
-                ", postId='" + postId + '\'' +
-                '}';
     }
 
     public String getPostId() {
@@ -68,5 +59,18 @@ public class NotificationCommentItem {
 
     public void setComment_like(int comment_like) {
         this.comment_like = comment_like;
+    }
+
+    @Override
+    public String toString() {
+        return "NotificationCommentItem{" +
+                "contents='" + contents + '\'' +
+                ", writer='" + writer + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", postId='" + postId + '\'' +
+                ", comment_like=" + comment_like +
+                ", id='" + id + '\'' +
+                ", memberIconFileName='" + memberIconFileName + '\'' +
+                '}';
     }
 }

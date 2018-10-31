@@ -44,9 +44,9 @@ public class ContestActivity extends AppCompatActivity {
 //            ((LinearLayout) root).setDividerDrawable(drawable);
 
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.addTab(tabLayout.newTab().setText("인기"));
-        tabLayout.addTab(tabLayout.newTab().setText("최신"));
+        tabLayout.addTab(tabLayout.newTab().setText("조회"));
         tabLayout.addTab(tabLayout.newTab().setText("즐겨찾기"));
+        tabLayout.addTab(tabLayout.newTab().setText("등록"));
         Typeface mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
         int tabsCount = vg.getChildCount();

@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="0dp"
+                android:layout_width="93dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start"
@@ -43,7 +43,16 @@
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
-
+            <TextView
+                android:id="@+id/hits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
             <ImageView
                 android:id="@+id/keep"
                 android:layout_width="30dp"

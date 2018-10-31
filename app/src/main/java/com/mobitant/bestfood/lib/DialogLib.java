@@ -6,6 +6,14 @@ import android.content.DialogInterface;
 import android.os.Handler;
 
 import com.mobitant.bestfood.R;
+import com.mobitant.bestfood.item.SingerItem;
+import com.mobitant.bestfood.remote.RemoteService;
+import com.mobitant.bestfood.remote.ServiceGenerator;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 다이얼로그와 관련된 메소드로 구성된 라이브러리
@@ -24,7 +32,15 @@ public class DialogLib {
         }
         return instance;
     }
-public void inputPostDialog(Context context){
+    public void showCommentDeleteDialog(Context context,String postId,String id){
+
+
+    }
+
+
+
+
+    public void inputPostDialog(Context context){
 
     new AlertDialog.Builder(context)
             .setTitle("로그인")

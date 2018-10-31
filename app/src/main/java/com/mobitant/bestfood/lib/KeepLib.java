@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,6 +76,28 @@ public class KeepLib extends AppCompatActivity {
                     handler.sendEmptyMessage(infoSeq);
                 } else { // 등록 실패
                     MyLog.d(TAG, "response error " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                MyLog.d(TAG, "no internet connectivity");
+            }
+        });
+    }
+    public void deleteComment(String postId,String id){
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        Call<String> call = remoteService.removeComment(postId,id);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    MyLog.d(TAG, "deleteComment " + id);
+                } else { // 등록 실패
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
                 }
             }
 

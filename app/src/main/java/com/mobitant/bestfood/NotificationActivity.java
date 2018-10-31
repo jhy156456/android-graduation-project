@@ -1,8 +1,10 @@
 package com.mobitant.bestfood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -174,5 +176,19 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * 다른 액티비티를 실행한 결과를 처리하는 메소드
+     * (실제로는 프래그먼트로 onActivityResult 호출을 전달하기 위한 목적으로 작성)
+     * @param requestCode 액티비티를 실행하면서 전달한 요청 코드
+     * @param resultCode 실행한 액티비티가 설정한 결과 코드
+     * @param data 결과 데이터
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

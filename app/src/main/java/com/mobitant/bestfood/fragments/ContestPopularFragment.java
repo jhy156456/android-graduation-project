@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.adapter.RecycleAdapteProductGrid;
+import com.mobitant.bestfood.custom.EndlessRecyclerViewScrollListener;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.ProductGridModellClass;
 import com.mobitant.bestfood.lib.MyLog;
@@ -33,7 +34,7 @@ public class ContestPopularFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     private RecyclerView recyclerview;
     private RecycleAdapteProductGrid mAdapter2;
-
+    EndlessRecyclerViewScrollListener scrollListener;
 
     int memberSeq;
 
@@ -45,7 +46,7 @@ public class ContestPopularFragment extends Fragment {
 
 
         memberSeq = ((MyApp)this.getActivity().getApplication()).getMemberSeq();
-        listInfo(memberSeq, "reg_date", 0,1001);
+
         //위의 reg_date는 조회순정렬을 만들고 바꿔주자
 
         recyclerview = (RecyclerView)view.findViewById(R.id.recyclerview);
@@ -65,7 +66,15 @@ public class ContestPopularFragment extends Fragment {
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         recyclerview.setAdapter(mAdapter2);
 
+        scrollListener = new EndlessRecyclerViewScrollListener((GridLayoutManager) mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                listInfo(memberSeq,"hits_cnt", page,1001);
+            }
+        };
+        recyclerview.addOnScrollListener(scrollListener);
 
+        listInfo(memberSeq, "reg_date", 0,1001);
         return view;
     }
 

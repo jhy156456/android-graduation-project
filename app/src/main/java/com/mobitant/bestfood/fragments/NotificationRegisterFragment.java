@@ -278,10 +278,10 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
                         //등록 실패
                     } else {
                         notificationItem.seq = seq;
-                        if(isImageLoad == true) {saveImage(seq);
-
+                        if(isImageLoad == true) { //이미지 업로드 할경우
+                            saveImage(seq);
                         }
-                        else  {
+                        else  { //이미지 업로드 안할경우
                             progressOFF();
                             GoLib.getInstance().goBackFragment(getFragmentManager());
                         }
@@ -370,7 +370,7 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
     private void saveImage(int infoSeq) {
 
         for (; i < mSelectedImagesListCount; i++) {
-            saveImageFileName[i] = infoSeq + "_" + i + "_" + String.valueOf(System.currentTimeMillis());
+            saveImageFileName[i] = infoSeq + "_" + i + "_" + "1004_"+String.valueOf(System.currentTimeMillis());
             saveImageFile[i] = FileLib.getInstance().getImageFile(context, saveImageFileName[i]);
             setImageItem();
         }
@@ -490,6 +490,7 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             ((MyApp)getActivity().getApplication()).setIsNewNotification(true);
+            progressOFF();
             GoLib.getInstance().goBackFragment(getFragmentManager());
         }
     };

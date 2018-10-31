@@ -36,7 +36,7 @@ import rx.Observable;
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://192.168.216.193:3000/";
+    String BASE_URL = "http://192.168.216.85:3000/";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 
@@ -45,9 +45,7 @@ public interface RemoteService {
     @POST("/order/addorder")
     Call<String> insertOrderCheckItem(@Body OrderCheckItem orderCheckItem);
 
-    //사용자 정보
-   // @GET("/member/{mail}")
-    //Call<MemberInfoItem> selectMemberInfo(@Path("phone") String phone);
+
     @GET("/member/{email}")
     Call<User> selectMemberInfo(@Path("email") String email);
 
@@ -64,8 +62,8 @@ public interface RemoteService {
     Call<ResponseBody> uploadMemberIcon(@Part("id") RequestBody memberSeq,
                                         @Part MultipartBody.Part file);
 
-    //문의사항삽입
-    // Doit으로 만든 게시판 : Node.js에 요청하기
+
+    // Doit으로 만든 게시판 시작: Node.js에 요청하기
     @POST("/process/addpost")
     Call<String> insertNotificationInfo(@Body NotificationItem notificationItem);
 
@@ -80,6 +78,16 @@ public interface RemoteService {
 
     @POST("/process/addcomment")
     Call<String> insertComment(@Body NotificationCommentItem commentItem);
+
+    @GET("/process/removecomment")
+    Call<String> removeComment(@Query("postId") String postId,
+                                 @Query("commentId") String id);
+
+    // Doit으로 만든 게시판 끝: Node.js에 요청하기
+
+    //buy_software_info_schema에 댓글추가
+    @POST("/food/addcomment")
+    Call<String> insertSoftWareComment(@Body NotificationCommentItem commentItem);
     // Doit으로 만든 Node.js에 요청하기 끝
 
 

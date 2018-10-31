@@ -43,9 +43,9 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
     int memberSeq;
     RecyclerView bestFoodList;
     TextView noDataText;
-    TextView orderMeter;
-    TextView orderFavorite;
     TextView orderRecent;
+    TextView orderFavorite;
+    TextView orderHits;
     TextView inputPost;
     ImageView listType;
     InfoListAdapter infoListAdapter;
@@ -110,20 +110,20 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.nav_list);
 
-        orderType = Constant.ORDER_TYPE_METER;
+        orderType = Constant.ORDER_TYPE_RECENT;
 
         bestFoodList = (RecyclerView) view.findViewById(R.id.list);
         noDataText = (TextView) view.findViewById(R.id.no_data);
      //   listType = (ImageView) view.findViewById(R.id.list_type);
 
-        orderMeter = (TextView) view.findViewById(R.id.order_meter);
-        orderFavorite = (TextView) view.findViewById(R.id.order_favorite);
         orderRecent = (TextView) view.findViewById(R.id.order_recent);
+        orderFavorite = (TextView) view.findViewById(R.id.order_favorite);
+        orderHits = (TextView) view.findViewById(R.id.order_hits);
         inputPost = (TextView)view.findViewById(R.id.input_post);
 
-        orderMeter.setOnClickListener(this);
-        orderFavorite.setOnClickListener(this);
         orderRecent.setOnClickListener(this);
+        orderFavorite.setOnClickListener(this);
+        orderHits.setOnClickListener(this);
         inputPost.setOnClickListener(this);
       //listType.setOnClickListener(this);
 
@@ -202,8 +202,8 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
 
         } else {
 */
-        if (v.getId() == R.id.order_meter) {
-            orderType = Constant.ORDER_TYPE_METER;
+        if (v.getId() == R.id.order_recent) {
+            orderType = Constant.ORDER_TYPE_RECENT;
 
             setOrderTextColor(R.color.text_color_green,
                     R.color.text_color_black, R.color.text_color_black);
@@ -214,8 +214,8 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
             setOrderTextColor(R.color.text_color_black,
                     R.color.text_color_green, R.color.text_color_black);
 
-        } else if (v.getId() == R.id.order_recent) {
-            orderType = Constant.ORDER_TYPE_RECENT;
+        } else if (v.getId() == R.id.order_hits) {
+            orderType = Constant.ORDER_TYPE_HITS;
 
             setOrderTextColor(R.color.text_color_black,
                     R.color.text_color_black, R.color.text_color_green);
@@ -240,9 +240,9 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
      * @param color3 최근순 색상
      */
     private void setOrderTextColor(int color1, int color2, int color3) {
-        orderMeter.setTextColor(ContextCompat.getColor(context, color1));
+        orderRecent.setTextColor(ContextCompat.getColor(context, color1));
         orderFavorite.setTextColor(ContextCompat.getColor(context, color2));
-        orderRecent.setTextColor(ContextCompat.getColor(context, color3));
+        orderHits.setTextColor(ContextCompat.getColor(context, color3));
     }
 
     /**

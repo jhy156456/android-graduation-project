@@ -385,7 +385,7 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
     private void saveImage(int infoSeq) {
 
         for (; i < mSelectedImagesListCount; i++) {
-            saveImageFileName[i] = infoSeq + "_" + i + "_" + String.valueOf(System.currentTimeMillis());
+            saveImageFileName[i] = infoSeq + "_" + i + "_" + infoItem.post_category+"_" +String.valueOf(System.currentTimeMillis());
             saveImageFile[i] = FileLib.getInstance().getImageFile(context, saveImageFileName[i]);
             setImageItem();
         }

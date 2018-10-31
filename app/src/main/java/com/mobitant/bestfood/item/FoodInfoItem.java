@@ -19,17 +19,26 @@ public class FoodInfoItem {
     public String os;
     public int reply;
     public int commentCount;
-    public int hit;
+    public int hits;
     public int like,dislike,blame,del,imageNumber;
-public int post_category;
+    public int post_category;
     @SerializedName("post_member_icon_filename") public String postMemberIconFilename;
     @SerializedName("reg_date") public String regDate;
     @SerializedName("post_updated_datetime") public String updatedDate;
+    @SerializedName("comments") private ArrayList<NotificationCommentItem> commentItems;
+
+    public ArrayList<NotificationCommentItem> getCommentItems() {
+        return commentItems;
+    }
+
+    public void setCommentItems(ArrayList<NotificationCommentItem> commentItems) {
+        this.commentItems = commentItems;
+    }
 
     @SerializedName("is_keep") public boolean isKeep;
     @SerializedName("image_filename") public String imageFilename;
     @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
-
+    @SerializedName("_id") public String id;
     @SerializedName("user_distance_meter") public double userDistanceMeter;
 
 
