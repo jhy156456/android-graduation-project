@@ -308,11 +308,11 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             if (item.isKeep) {
                 DialogLib.getInstance()
                         .showKeepDeleteDialog(context, keepHandler, memberSeq, item.seq);
-                keepImage.setImageResource(R.drawable.ic_keep_off);
+                //keepImage.setImageResource(R.drawable.ic_keep_off);
             } else {
                 DialogLib.getInstance()
                         .showKeepInsertDialog(context, keepHandler, memberSeq, item.seq);
-                keepImage.setImageResource(R.drawable.ic_keep_on);
+                //keepImage.setImageResource(R.drawable.ic_keep_on);
             }
         }
     }

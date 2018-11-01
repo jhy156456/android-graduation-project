@@ -36,7 +36,7 @@ import rx.Observable;
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://192.168.216.85:3000/";
+    String BASE_URL = "http://192.168.0.12:3000/";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 
@@ -70,18 +70,19 @@ public interface RemoteService {
 
     @GET("/process/listpost")
     Call<ArrayList<NotificationItem>> listNotificationQuestionList(
-                                               @Query("current_page") int currentPage);
+            @Query("current_page") int currentPage);
+
     //문의정보
     @GET("/process/showpost/{info_seq}")
     Call<NotificationItem> selectNotificationInfo(@Path("info_seq") String infoItemId,
-                                      @Query("member_seq") int memberSeq);
+                                                  @Query("member_seq") int memberSeq);
 
     @POST("/process/addcomment")
     Call<String> insertComment(@Body NotificationCommentItem commentItem);
 
     @GET("/process/removecomment")
     Call<String> removeComment(@Query("postId") String postId,
-                                 @Query("commentId") String id);
+                               @Query("commentId") String id);
 
     // Doit으로 만든 게시판 끝: Node.js에 요청하기
 
@@ -97,8 +98,7 @@ public interface RemoteService {
                                       @Query("member_seq") int memberSeq);
 
 
-
-//조회하고자 하는 유저 프로필 정보를 반환한다.
+    //조회하고자 하는 유저 프로필 정보를 반환한다.
     @GET("/users/{seq}")
     Call<User> selectUserInfo(@Path("seq") int wantMemberSeq);
 
@@ -112,10 +112,11 @@ public interface RemoteService {
                                        @Part MultipartBody.Part file);
 
     @GET("/food/list")
-    Call<ArrayList<FoodInfoItem>> listFoodInfo(@Query("member_seq") int memberSeq,
+    Call<ArrayList<FoodInfoItem>> listFoodInfo(@Query("key_word") String keyWord,
+                                               @Query("member_seq") int memberSeq,
                                                @Query("order_type") String orderType,
                                                @Query("current_page") int currentPage,
-                                                @Query("post_category") int post_category);
+                                               @Query("post_category") int post_category);
 
     @GET("/food/list")
     Call<ArrayList<ProductGridModellClass>> listContestInfo(@Query("member_seq") int memberSeq,
@@ -127,6 +128,7 @@ public interface RemoteService {
     @GET("/food/postedlist")
     Call<ArrayList<FoodInfoItem>> postedProfileListSoftwareInfo(@Query("member_seq") int wantMemberSeq,
                                                                 @Query("current_page") int currentPage);
+
     //즐겨찾기
     @POST("/keep/{member_seq}/{info_seq}")
     Call<String> insertKeep(@Path("member_seq") int memberSeq, @Path("info_seq") int infoSeq);
@@ -136,11 +138,13 @@ public interface RemoteService {
 
     @GET("/keep/list")
     Call<ArrayList<KeepItem>> listKeep(@Query("member_seq") int memberSeq);
-    //로그인
+
+    //로그인 관련 라우팅 시작
     @POST("users")
     Observable<Response> register(@Body User user);
 
-
+@GET("users/check/{nickname}")
+Observable<Response> duplicateCheck(@Path ("nickname") String nickName);
 
 
     @POST("authenticate")
@@ -157,4 +161,6 @@ public interface RemoteService {
 
     @POST("users/{email}/password")
     Observable<Response> resetPasswordFinish(@Path("email") String email, @Body User user);
+
+    //로그인 관련 라우팅 끝
 }

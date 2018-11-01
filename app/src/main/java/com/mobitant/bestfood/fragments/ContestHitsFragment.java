@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class ContestHitsFragment extends Fragment {
     private ArrayList<ProductGridModellClass> productGridModellClasses;
     private final String TAG = this.getClass().getSimpleName();
-
+String keyWord;
     private RecyclerView recyclerview;
     private RecycleAdapteProductGrid mAdapter2;
     int memberSeq;
@@ -41,7 +41,7 @@ public class ContestHitsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.contest_fragment_popular, container, false);
-
+keyWord = "";
 
         memberSeq = ((MyApp)this.getActivity().getApplication()).getMemberSeq();
 
@@ -67,11 +67,11 @@ public class ContestHitsFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener((GridLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listInfo(memberSeq,"hits_cnt", page,1001);
+                listInfo(keyWord,memberSeq,"hits_cnt", page,1001);
             }
         };
         recyclerview.addOnScrollListener(scrollListener);
-        listInfo(memberSeq, "hits_cnt", 0,1001);
+        listInfo(keyWord,memberSeq, "hits_cnt", 0,1001);
 
 
         return view;
@@ -83,10 +83,10 @@ public class ContestHitsFragment extends Fragment {
      * @param orderType 맛집 정보 정렬 순서
      * @param currentPage 현재 페이지
      */
-    private void listInfo(int memberSeq,String orderType, final int currentPage,int from) {
+    private void listInfo(String keyWord, int memberSeq,String orderType, final int currentPage,int from) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(memberSeq,orderType, currentPage,from);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(keyWord,memberSeq,orderType, currentPage,from);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,

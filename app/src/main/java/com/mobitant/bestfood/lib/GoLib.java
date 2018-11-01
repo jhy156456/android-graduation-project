@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import com.mobitant.bestfood.BestFoodInfoActivity;
 import com.mobitant.bestfood.BestFoodRegisterActivity;
 import com.mobitant.bestfood.HomeActivity;
+import com.mobitant.bestfood.KeepActivity;
 import com.mobitant.bestfood.MainActivity;
 import com.mobitant.bestfood.MainActivity2;
 import com.mobitant.bestfood.MemberProfile;
@@ -66,7 +67,15 @@ public class GoLib {
                 .commit();
     }
 
-
+    /**
+     * 즐겨찾기 액티비티 실행
+     * @param context 컨텍스트
+     */
+    public void goKeepActivity(Context context) {
+        Intent intent = new Intent(context, KeepActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
     /**
      * 공지사항 액티비티 실행
      * @param context 컨텍스트
@@ -165,4 +174,5 @@ public void goBestFoodMainActivity(Context context){
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
 }

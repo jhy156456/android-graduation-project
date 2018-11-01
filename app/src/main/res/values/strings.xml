@@ -23,7 +23,7 @@
     <string name="network_not_working">네크워크에 연결되어 있지 않습니다.\n확인후 다시 실행해주세요.</string>
 
     <!-- 왼쪽 메뉴 -->
-    <string name="nav_list">리스트</string>
+    <string name="nav_list">구매</string>
     <string name="nav_map">연관리스트</string>
     <string name="nav_keep">즐겨찾기</string>
     <string name="nav_register">등록</string>
@@ -85,9 +85,9 @@
     <string name="no_image_selected">이미지를 먼저 선택해주세요</string>
 
     <!-- 맛집 리스트 화면 -->
-    <string name="order_meter">등록순정렬</string>
-    <string name="order_favorite">즐겨찾기순정렬</string>
     <string name="order_recent">등록순정렬</string>
+    <string name="order_favorite">즐겨찾기순정렬</string>
+    <string name="order_hits">조회순정렬</string>
 
     <!-- 지도 리스트 화면 -->
     <string name="list_open">목록보기</string>
@@ -114,7 +114,7 @@
 
     <!-- 즐겨찾기 -->
     <string name="no_keep">즐겨찾기에 등록된 소프트웨어가 없습니다.</string>
-        // 카카오 앱 키
-        <string name="kakao_app_key">65e84d107c900fd753f714fa37fa01dd</string>
+    <string name="kakao_app_key">65e84d107c900fd753f714fa37fa01dd</string>
+
 
 </resources>

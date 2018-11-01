@@ -1,22 +1,17 @@
-package com.mobitant.bestfood.fragments;
+package com.mobitant.bestfood;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-
-import com.mobitant.bestfood.MainActivity;
-import com.mobitant.bestfood.MyApp;
-import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.adapter.KeepListAdapter;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
@@ -30,10 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * 맛집 즐겨찾기 리스트를 보여주는 프래그먼트
- */
-public class BestFoodKeepFragment extends Fragment {
+public class KeepActivity extends AppCompatActivity {
+
     private final String TAG = this.getClass().getSimpleName();
 
     Context context;
@@ -43,66 +36,17 @@ public class BestFoodKeepFragment extends Fragment {
     KeepListAdapter keepListAdapter;
     ArrayList<KeepItem> keepList = new ArrayList<>();
 
-    /**
-     * BestFoodKeepFragment 인스턴스를 생성한다.
-     * @return BestFoodListFragment 인스턴스
-     */
-    public static BestFoodKeepFragment newInstance() {
-        BestFoodKeepFragment f = new BestFoodKeepFragment();
-        return f;
-    }
-
-    /**
-     * fragment_bestfood_keep.xml 기반으로 뷰를 생성한다.
-     * @param inflater XML를 객체로 변환하는 LayoutInflater 객체
-     * @param container null이 아니라면 부모 뷰
-     * @param savedInstanceState null이 아니라면 이전에 저장된 상태를 가진 객체
-     * @return 생성한 뷰 객체
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        context = this.getActivity();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        memberSeq = ((MyApp)getActivity().getApplication()).getMemberSeq();
-        View layout = inflater.inflate(R.layout.fragment_bestfood_keep, container, false);
+        setContentView(R.layout.fragment_bestfood_keep);
+setToolbar();
 
-        return layout;
-    }
 
-    /**
-     * 프래그먼트가 일시 중지 상태가 되었다가 다시 보여질 때 호출된다.
-     * BestFoodInfoActivity가 실행된 후,
-     * 즐겨찾기 상태가 변경되었을 경우 이를 반영하는 용도로 사용한다.
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        MyApp myApp = ((MyApp) getActivity().getApplication());
-        FoodInfoItem currentInfoItem = myApp.getFoodInfoItem();
-
-        if (keepListAdapter != null && currentInfoItem != null) {
-            keepListAdapter.setItem(currentInfoItem);
-            myApp.setFoodInfoItem(null);
-
-            if (keepListAdapter.getItemCount() == 0) {
-                noDataText.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    /**
-     * onCreateView() 메소드 뒤에 호출되며 화면 뷰들을 설정한다.
-     * @param view onCreateView() 메소드에 의해 반환된 뷰
-     * @param savedInstanceState null이 아니라면 이전에 저장된 상태를 가진 객체
-     */
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.nav_keep);
-
-        keepRecyclerView = (RecyclerView) view.findViewById(R.id.keep_list);
-        noDataText = (TextView) view.findViewById(R.id.no_keep);
+        keepRecyclerView = (RecyclerView) findViewById(R.id.keep_list);
+        noDataText = (TextView) findViewById(R.id.no_keep);
 
         keepListAdapter = new KeepListAdapter(context,
                 R.layout.row_bestfood_keep, keepList, memberSeq);
@@ -114,6 +58,48 @@ public class BestFoodKeepFragment extends Fragment {
         keepRecyclerView.setAdapter(keepListAdapter);
 
         listKeep(memberSeq);
+    }
+    /**
+     * 툴바를 설정한다.
+     */
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.nav_keep);
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mItem) {
+        //원래 MenuItem item 이였는데 지금보고있는 게시물의 변수명인 item과 같아서 오류가났었다
+        //그래서 item을 메뉴아이템인 mItem으로 변경했다.
+        switch (mItem.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+        return super.onOptionsItemSelected(mItem);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MyApp myApp = ((MyApp)getApplication());
+        FoodInfoItem currentInfoItem = myApp.getFoodInfoItem();
+
+        if (keepListAdapter != null && currentInfoItem != null) {
+            keepListAdapter.setItem(currentInfoItem);
+            myApp.setFoodInfoItem(null);
+
+            if (keepListAdapter.getItemCount() == 0) {
+                noDataText.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     /**

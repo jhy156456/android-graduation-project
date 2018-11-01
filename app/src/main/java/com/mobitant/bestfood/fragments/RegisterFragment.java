@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobitant.bestfood.R;
+import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.model.Response;
 import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.ServiceGenerator;
@@ -56,7 +59,9 @@ public class RegisterFragment extends Fragment {
     private ProgressBar mProgressbar;
     EditText sextypeEdit;
     EditText birthEdit;
+    TextView isDuplicated;
     private EditText phoneEdit;
+    String nickName;
     private CompositeSubscription mSubscriptions;
     @Nullable
     @Override
@@ -79,75 +84,38 @@ public class RegisterFragment extends Fragment {
         mTiPassword = (TextInputLayout) v.findViewById(R.id.ti_password);
         mProgressbar = (ProgressBar) v.findViewById(R.id.progress);
         mEtNickName = (EditText) v.findViewById(R.id.et_nickname);
-        sextypeEdit = (EditText) v.findViewById(R.id.profile_sextype);
-        sextypeEdit.setText("성별"); sextypeEdit.setTextColor(Color.parseColor("#000000"));
-        sextypeEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSexTypeDialog();
-            }
-        });
+        isDuplicated = (TextView)v.findViewById(R.id.button2);
 
-        birthEdit = (EditText) v.findViewById(R.id.profile_birth);
-        birthEdit.setText("생일"); birthEdit.setTextColor(Color.parseColor("#000000"));
-        birthEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setBirthdayDialog();
-            }
-        });
 
+mEtNickName.addTextChangedListener(new TextWatcher() {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        nickName = mEtNickName.getText().toString();
+        if(!nickName.equals("") && nickName !=null){//이걸안해주면 닉네임을 쓰고 빈칸으로 지우면서 빈칸으로만들어놓으면
+            //아마도... user/check/빈칸이 되기때문에 라우팅을 다른곳으로 하는것같음
+            MyLog.d("nickName값 : " + nickName);
+            checkNicName(nickName);
+        }
+
+
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+});
         mBtRegister.setOnClickListener(view -> register());
         mTvLogin.setOnClickListener(view -> goToLogin());
     }
-    private void setSexTypeDialog() {
-        final String[] sexTypes = new String[2];
-        sexTypes[0] = getResources().getString(R.string.sex_man);
-        sexTypes[1] = getResources().getString(R.string.sex_woman);
 
-        new AlertDialog.Builder(getActivity())
-                .setItems(sexTypes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which >= 0) {
-                            sextypeEdit.setText(sexTypes[which]);
-                        }
-                        dialog.dismiss();
-                    }
-                }).show();
-    }
 
-    /**
-     * 생일을 선택할 수 있는 다이얼로그를 보여준다.
-     */
-    private void setBirthdayDialog() {
-        GregorianCalendar calendar = new GregorianCalendar();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        new DatePickerDialog(getActivity(),R.style.datepicker,new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                String myMonth;
-                if (monthOfYear + 1 < 10) {
-                    myMonth = "0" + (monthOfYear + 1);
-                } else {
-                    myMonth = "" + (monthOfYear + 1);
-                }
-
-                String myDay;
-                if (dayOfMonth < 10) {
-                    myDay = "0" + dayOfMonth;
-                } else {
-                    myDay = "" + dayOfMonth;
-                }
-
-                String date = year + " " + myMonth + " " + myDay;
-                birthEdit.setText(date);
-            }
-        }, year, month, day).show();
-    }
     private void register() {
 
         setError();
@@ -159,7 +127,6 @@ public class RegisterFragment extends Fragment {
         int err = 0;
 
         if (!validateFields(name)) {
-
             err++;
             mTiName.setError("Name should not be empty !");
         }
@@ -188,9 +155,9 @@ public class RegisterFragment extends Fragment {
             user.setName(name);
             user.setEmail(email);
             user.setPassword(password);
-            Toast.makeText(getActivity(),"설정하기 전 닉네임(nickName) : " + nickName,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(),"설정하기 전 닉네임(nickName) : " + nickName,Toast.LENGTH_LONG).show();
             user.setNickName(nickName);
-            Toast.makeText(getActivity(),"설정된 닉네임(user.nickname) : " + user.nickname,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(),"설정된 닉네임(user.nickname) : " + user.nickname,Toast.LENGTH_LONG).show();
             mProgressbar.setVisibility(View.VISIBLE);
             registerProcess(user);
 
@@ -206,6 +173,12 @@ public class RegisterFragment extends Fragment {
         mTiEmail.setError(null);
         mTiPassword.setError(null);
     }
+private void checkNicName(String nickName){
+    mSubscriptions.add(ServiceGenerator.getRetrofit().duplicateCheck(nickName)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleCheckResponse,this::handleCheckError));
+}
 
     private void registerProcess(User user) {
 
@@ -215,8 +188,30 @@ public class RegisterFragment extends Fragment {
                 .subscribe(this::handleResponse,this::handleError));
     }
 
-    private void handleResponse(Response response) {
+    private void handleCheckResponse(Response response){
+        isDuplicated.setText(response.getMessage());
+    }
+    private void handleCheckError(Throwable error) {
 
+       // mProgressbar.setVisibility(View.GONE);
+
+        if (error instanceof HttpException) {
+            Gson gson = new GsonBuilder().create();
+            try {
+                String errorBody = ((HttpException) error).response().errorBody().string();
+                Response response = gson.fromJson(errorBody,Response.class);
+                isDuplicated.setText(response.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showSnackBarMessage("Network Error !");
+        }
+    }
+
+
+
+    private void handleResponse(Response response) {
         mProgressbar.setVisibility(View.GONE);
         showSnackBarMessage(response.getMessage());
     }

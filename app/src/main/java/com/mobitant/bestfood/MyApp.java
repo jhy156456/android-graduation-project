@@ -1,5 +1,6 @@
 package com.mobitant.bestfood;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
@@ -21,12 +22,34 @@ public class MyApp extends Application {
     private boolean isNewNotification;
     private static MyApp instance;
 
+
+
+    private static volatile MyApp obj = null;
+    private static volatile Activity currentActivity = null;
+
+
     public static MyApp getGlobalApplicationContext() {
-        if (instance == null) {
-            throw new IllegalStateException("This Application does not inherit com.kakao.GlobalApplication");
-        }
-        return instance;
+        return obj;
     }
+
+    public static Activity getCurrentActivity() {
+        return currentActivity;
+    }
+
+    // Activity가 올라올때마다 Activity의 onCreate에서 호출해줘야한다.
+    public static void setCurrentActivity(Activity currentActivity) {
+        MyApp.currentActivity = currentActivity;
+    }
+
+
+
+
+
+
+
+
+
+
     public MyApp() {
         isNewBestFood = false;
         isNewNotification =false;
@@ -36,8 +59,11 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        // Kakao Sdk 초기화
+
+        //카카오로그인시작
+        obj = this;
         KakaoSDK.init(new KakaoSDKAdapter());
+        //카카오로그인끝
         // FileUriExposedException 문제를 해결하기 위한 코드
         // 관련 설명은 책의 [참고] 페이지 참고
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

@@ -4,10 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/keep_toolbar"/>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/keep_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/keep_toolbar"
         android:dividerHeight="@dimen/spacing_small" />
 
     <TextView

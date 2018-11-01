@@ -2,6 +2,7 @@ package com.mobitant.bestfood.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import com.mobitant.bestfood.remote.ServiceGenerator;
 
 import java.util.ArrayList;
 
+import customfonts.EditText_Roboto_Regular;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +49,9 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
     TextView orderFavorite;
     TextView orderHits;
     TextView inputPost;
-    ImageView listType;
+    ImageView searchKeyWord;
+    EditText_Roboto_Regular searchKey;
+    String keyWord;
     InfoListAdapter infoListAdapter;
     LinearLayoutManager layoutManager;
     EndlessRecyclerViewScrollListener scrollListener;
@@ -73,6 +77,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = this.getActivity();
         memberSeq = ((MyApp)this.getActivity().getApplication()).getMemberSeq();
+        keyWord = "";
         View layout = inflater.inflate(R.layout.fragment_bestfood_list, container, false);
         return layout;
     }
@@ -95,7 +100,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         }
         if(myApp.getIsNewBestfood() == true){
             setRecyclerView();
-            listInfo(memberSeq,orderType,0,fromBestFoodListFragment);
+            listInfo(keyWord,memberSeq,orderType,0,fromBestFoodListFragment);
             myApp.setIsNewBestfood(false);
         }
     }
@@ -114,8 +119,8 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
 
         bestFoodList = (RecyclerView) view.findViewById(R.id.list);
         noDataText = (TextView) view.findViewById(R.id.no_data);
-     //   listType = (ImageView) view.findViewById(R.id.list_type);
-
+        searchKeyWord = (ImageView)view.findViewById(R.id.search_key_word);
+searchKey = (EditText_Roboto_Regular)view.findViewById(R.id.search_key);
         orderRecent = (TextView) view.findViewById(R.id.order_recent);
         orderFavorite = (TextView) view.findViewById(R.id.order_favorite);
         orderHits = (TextView) view.findViewById(R.id.order_hits);
@@ -125,10 +130,11 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         orderFavorite.setOnClickListener(this);
         orderHits.setOnClickListener(this);
         inputPost.setOnClickListener(this);
+        searchKeyWord.setOnClickListener(this);
       //listType.setOnClickListener(this);
 
         setRecyclerView();
-        listInfo(memberSeq, orderType, 0,fromBestFoodListFragment);
+        listInfo(keyWord,memberSeq, orderType, 0,fromBestFoodListFragment);
     }
 
 
@@ -149,7 +155,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listInfo(memberSeq,orderType, page,fromBestFoodListFragment);
+                listInfo(keyWord,memberSeq,orderType, page,fromBestFoodListFragment);
             }
         };
         bestFoodList.addOnScrollListener(scrollListener);
@@ -161,10 +167,10 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
      * @param orderType 맛집 정보 정렬 순서
      * @param currentPage 현재 페이지
      */
-    private void listInfo(int memberSeq,String orderType, final int currentPage,int fromBestFoodListFragment) {
+    private void listInfo(String keyWord,int memberSeq,String orderType, final int currentPage,int fromBestFoodListFragment) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(memberSeq,orderType, currentPage,fromBestFoodListFragment);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(keyWord,memberSeq,orderType, currentPage,fromBestFoodListFragment);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,
@@ -197,39 +203,32 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
 
-       /* if (v.getId() == R.id.list_type) {
-            changeListType();
-
-        } else {
-*/
         if (v.getId() == R.id.order_recent) {
             orderType = Constant.ORDER_TYPE_RECENT;
-
             setOrderTextColor(R.color.text_color_green,
                     R.color.text_color_black, R.color.text_color_black);
 
         } else if (v.getId() == R.id.order_favorite) {
             orderType = Constant.ORDER_TYPE_FAVORITE;
-
             setOrderTextColor(R.color.text_color_black,
                     R.color.text_color_green, R.color.text_color_black);
-
         } else if (v.getId() == R.id.order_hits) {
             orderType = Constant.ORDER_TYPE_HITS;
-
             setOrderTextColor(R.color.text_color_black,
                     R.color.text_color_black, R.color.text_color_green);
         }
         else if(v.getId() == R.id.input_post){
-            if (((MyApp) context.getApplicationContext()).getMemberNickname() == null || ((MyApp) context.getApplicationContext()).equals("")) {
+            if (((MyApp) context.getApplicationContext()).getMemberNickname() == null
+                    || ((MyApp) context.getApplicationContext()).equals("")) {
                     DialogLib.getInstance().inputPostDialog(context);
             }else{
                 GoLib.getInstance().goBestFoodRegisterActivity(context,fromBestFoodListFragment);
             }
+        }else if(v.getId() == R.id.search_key_word){
+            keyWord =  searchKey.getText().toString();
         }
-
         setRecyclerView();
-        listInfo(memberSeq, orderType, 0,fromBestFoodListFragment);
+        listInfo(keyWord, memberSeq, orderType, 0,fromBestFoodListFragment);
     }
 
 

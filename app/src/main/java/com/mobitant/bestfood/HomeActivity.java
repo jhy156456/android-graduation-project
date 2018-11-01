@@ -291,8 +291,7 @@ public void mainSlider(){
             GoLib.getInstance().goNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
 
-            GoLib.getInstance().goFragment(getSupportFragmentManager(),
-                    R.id.home_linearlayout, BestFoodKeepFragment.newInstance());
+            GoLib.getInstance().goKeepActivity(this);
 
         } else if (id == R.id.nav_register) {
             if (currentUser.nickname == null || currentUser.nickname.equals("")) {

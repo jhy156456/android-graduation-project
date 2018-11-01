@@ -68,7 +68,7 @@ public class BaseApplication extends Application {
         ImageView rabbit = (ImageView) progressDialog.findViewById(R.id.iv_frame_loading);
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(rabbit);
         //내가본 자료에는 아래에 activity가 context였는데 하 뭔차인지원..
-        Glide.with(activity).load(R.drawable.frame_loading01).into(gifImage);
+        Glide.with(activity).load(R.drawable.frame_loading02).into(gifImage);
 
 
 

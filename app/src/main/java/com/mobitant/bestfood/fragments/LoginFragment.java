@@ -2,7 +2,11 @@ package com.mobitant.bestfood.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -10,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,6 +37,7 @@ import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 
+import com.mobitant.bestfood.MainActivity;
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 
@@ -67,11 +73,13 @@ public class LoginFragment extends Fragment {
     private TextInputLayout mTiEmail;
     private TextInputLayout mTiPassword;
     private ProgressBar mProgressBar;
-
+    private SessionCallback mKakaocallback;
     private CompositeSubscription mSubscriptions;
     private SharedPreferences mSharedPreferences;
     CheckBox autoLogin;
     private LoginButton kakaoButton;
+    private SessionCallback callback;
+
 
     @Nullable
     @Override
@@ -80,8 +88,19 @@ public class LoginFragment extends Fragment {
         mSubscriptions = new CompositeSubscription();
         initViews(view);
         initSharedPreferences();
+
+
+
         return view;
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     private void initViews(View v) {
 
@@ -98,15 +117,10 @@ public class LoginFragment extends Fragment {
         kakaoButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
-
-                Session session = Session.getCurrentSession();
-                session.addCallback(new SessionCallback());
-                session.open(AuthType.KAKAO_LOGIN_ALL, LoginFragment.this);
-
+                callback = new SessionCallback();
+                Session.getCurrentSession().addCallback(callback);
             }
-
         });
 
         //자동로그인 구현시작
@@ -127,6 +141,7 @@ public class LoginFragment extends Fragment {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
+
     private void login() {
 
         setError();
@@ -135,7 +150,6 @@ public class LoginFragment extends Fragment {
         String password = mEtPassword.getText().toString();
 
                 if(autoLogin.isChecked()==true) {
-                    MyLog.d("셋옷첵");
                     ((MyApp) getActivity().getApplicationContext()).editor.putString("ID", email);
                     ((MyApp) getActivity().getApplicationContext()).editor.putString("PW", password);
                     ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled", true);
@@ -282,20 +296,17 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onSessionOpened() {
-
             UserManagement.getInstance().requestMe(new MeResponseCallback() {
-
                 @Override
                 public void onFailure(ErrorResult errorResult) {
                     String message = "failed to get user info. msg=" + errorResult;
 
                     ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
-                    Log.e(TAG, "onFailure: " + message);
                     if (result == ErrorCode.CLIENT_ERROR_CODE) {
-//에러로 인한 로그인 실패
-// finish();
+                        //에러로 인한 로그인 실패
+//                        finish();
                     } else {
-//redirectMainActivity();
+                        //redirectMainActivity();
                     }
                 }
 
@@ -305,16 +316,21 @@ public class LoginFragment extends Fragment {
 
                 @Override
                 public void onNotSignedUp() {
+
                 }
 
                 @Override
                 public void onSuccess(UserProfile userProfile) {
-//로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
-//사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
-                    Log.e("UserProfile", userProfile.toString());
-                    Log.e("UserProfile", userProfile.getId() + "");
+                    //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
+                    //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
 
-                    Toast.makeText(getContext(), "로그인에 성공하셧습니다.\n" + userProfile.getNickname() + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+//                    Log.e("UserProfile", userProfile.toString());
+//                    Log.e("UserProfile", userProfile.getId() + "");
+
+
+                    long number = userProfile.getId();
+
+
                 }
             });
 
@@ -322,9 +338,9 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
-// 세션 연결이 실패했을때
-// 어쩔때 실패되는지는 테스트를 안해보았음 ㅜㅜ
-            Log.e(TAG, "세션연결 실패->\n" + exception);
+            // 세션 연결이 실패했을때
+            // 어쩔때 실패되는지는 테스트를 안해보았음 ㅜㅜ
+
         }
     }
 

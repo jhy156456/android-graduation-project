@@ -29,10 +29,11 @@ public class CategoryPagerAdapterProductGrid extends FragmentPagerAdapter {
                 switch (position) {
 
                         case 0:
-                                ContestPopularFragment tab1 = new ContestPopularFragment();
+                                ContestHitsFragment tab1 = new ContestHitsFragment();
                                 return tab1;
+
                         case 1:
-                                ContestHitsFragment tab2 = new ContestHitsFragment();
+                                ContestPopularFragment tab2 = new ContestPopularFragment();
                                 return tab2;
                         case 2:
                                 ContestRecentFragment tab3 = new ContestRecentFragment();

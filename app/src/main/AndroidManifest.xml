@@ -16,6 +16,7 @@
         android:label="SoMeeting"
         android:supportsRtl="true"
         android:name=".MyApp"
+
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:label">
         <!--카카오 로그인을위한 코드 시작!-->
@@ -48,6 +49,7 @@
         <activity android:name=".SoftwareBuyActivity" />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".ContestActivity" />
+        <activity android:name=".KeepActivity" />
         <activity
             android:name=".ProfileActivity2"
             android:theme="@style/AppTheme.Profile"/>

@@ -14,7 +14,7 @@ public class BaseFragment extends Fragment {
     }
 
     public void progressON(String message) {
-        if(activity==null)  MyLog.d("널이다 다이개새끼야");
+        if(activity==null)  MyLog.d("널값입니다.");
         else {
             BaseApplication.getInstance().progressON(activity, message);
         }

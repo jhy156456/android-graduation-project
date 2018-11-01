@@ -30,7 +30,7 @@ public class ContestRecentFragment extends Fragment {
     private ArrayList<ProductGridModellClass> productGridModellClasses;
     private RecyclerView recyclerview;
     private RecycleAdapteProductGrid mAdapter2;
-
+String keyWord;
     private final String TAG = this.getClass().getSimpleName();
     int memberSeq;
 
@@ -40,9 +40,9 @@ public class ContestRecentFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.contest_fragment_popular, container, false);
 
-
+keyWord = "";
         memberSeq = ((MyApp)this.getActivity().getApplication()).getMemberSeq();
-        listInfo(memberSeq, "reg_date", 0,1001);
+        listInfo(keyWord,memberSeq, "reg_date", 0,1001);
         //위의 reg_date는 조회순정렬을 만들고 바꿔주자
 
         recyclerview = (RecyclerView)view.findViewById(R.id.recyclerview);
@@ -72,10 +72,10 @@ public class ContestRecentFragment extends Fragment {
      * @param orderType 맛집 정보 정렬 순서
      * @param currentPage 현재 페이지
      */
-    private void listInfo(int memberSeq,String orderType, final int currentPage,int from) {
+    private void listInfo(String keyWord,int memberSeq,String orderType, final int currentPage,int from) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(memberSeq,orderType, currentPage,from);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(keyWord,memberSeq,orderType, currentPage,from);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,

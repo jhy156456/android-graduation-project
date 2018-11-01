@@ -26,6 +26,12 @@ public class FoodInfoItem {
     @SerializedName("reg_date") public String regDate;
     @SerializedName("post_updated_datetime") public String updatedDate;
     @SerializedName("comments") private ArrayList<NotificationCommentItem> commentItems;
+    @SerializedName("is_keep") public boolean isKeep;
+    @SerializedName("image_filename") public String imageFilename;
+    @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
+    @SerializedName("_id") public String id;
+
+
 
     public ArrayList<NotificationCommentItem> getCommentItems() {
         return commentItems;
@@ -35,29 +41,33 @@ public class FoodInfoItem {
         this.commentItems = commentItems;
     }
 
-    @SerializedName("is_keep") public boolean isKeep;
-    @SerializedName("image_filename") public String imageFilename;
-    @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
-    @SerializedName("_id") public String id;
-    @SerializedName("user_distance_meter") public double userDistanceMeter;
-
-
-
     @Override
     public String toString() {
-
         return "FoodInfoItem{" +
                 "seq=" + seq +
                 ", memberSeq=" + memberSeq +
                 ", name='" + name + '\'' +
                 ", tel='" + tel + '\'' +
                 ", description='" + description + '\'' +
+                ", post_nickname='" + post_nickname + '\'' +
+                ", os='" + os + '\'' +
+                ", reply=" + reply +
+                ", commentCount=" + commentCount +
+                ", hits=" + hits +
+                ", like=" + like +
+                ", dislike=" + dislike +
+                ", blame=" + blame +
+                ", del=" + del +
+                ", imageNumber=" + imageNumber +
+                ", post_category=" + post_category +
+                ", postMemberIconFilename='" + postMemberIconFilename + '\'' +
                 ", regDate='" + regDate + '\'' +
-                ", modDate='" + updatedDate + '\'' +
-                ", userDistanceMeter=" + userDistanceMeter +
+                ", updatedDate='" + updatedDate + '\'' +
+                ", commentItems=" + commentItems +
                 ", isKeep=" + isKeep +
                 ", imageFilename='" + imageFilename + '\'' +
-                ", totalImageFilename ='" + totalImageFilename.toString() + '\'' +
+                ", totalImageFilename=" + totalImageFilename +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

@@ -17,6 +17,7 @@
         android:background="@drawable/rect4">
 
         <customfonts.EditText_Roboto_Regular
+            android:id="@+id/search_key"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Search"
@@ -29,6 +30,7 @@
             android:shadowDy="1.2"/>
 
         <ImageView
+            android:id="@+id/search_key_word"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:layout_width="35dp"
@@ -222,7 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/order_meter"
+            android:text="@string/order_recent"
             android:textColor="@color/text_color_green"
             android:textSize="@dimen/text_size_small2"
             android:textStyle="bold" />
@@ -244,7 +246,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/order_recent"
+            android:text="@string/order_hits"
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_small2"
             android:textStyle="bold" />
