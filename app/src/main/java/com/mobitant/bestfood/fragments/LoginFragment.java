@@ -34,10 +34,13 @@ import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.LoginButton;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 
 import com.mobitant.bestfood.MainActivity;
+import com.mobitant.bestfood.MainActivity2;
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 
@@ -84,21 +87,17 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login,container,false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        callback = new SessionCallback();//아래와 이코드가 setonclick안에있으면 callback이 진행되지않았음...
+        Session.getCurrentSession().addCallback(callback);
+
+
         mSubscriptions = new CompositeSubscription();
         initViews(view);
         initSharedPreferences();
 
 
-
         return view;
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
@@ -112,22 +111,22 @@ public class LoginFragment extends Fragment {
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress);
         mTvRegister = (TextView) v.findViewById(R.id.tv_register);
         mTvForgotPassword = (TextView) v.findViewById(R.id.tv_forgot_password);
-        kakaoButton= (LoginButton) v.findViewById(R.id.com_kakao_login);
+        kakaoButton = (LoginButton) v.findViewById(R.id.com_kakao_login);
 
         kakaoButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                callback = new SessionCallback();
-                Session.getCurrentSession().addCallback(callback);
+
+                Session.getCurrentSession().checkAndImplicitOpen();
             }
         });
 
         //자동로그인 구현시작
         //fragment라 this.getActivity()추가
-        autoLogin = (CheckBox)v.findViewById(R.id.select_autologin);
-        ((MyApp)getActivity().getApplicationContext()).setting = this.getActivity().getSharedPreferences("setting",0);
-        ((MyApp)getActivity().getApplicationContext()).editor = ((MyApp)getActivity().getApplicationContext()).setting.edit();
+        autoLogin = (CheckBox) v.findViewById(R.id.select_autologin);
+        ((MyApp) getActivity().getApplicationContext()).setting = this.getActivity().getSharedPreferences("setting", 0);
+        ((MyApp) getActivity().getApplicationContext()).editor = ((MyApp) getActivity().getApplicationContext()).setting.edit();
 
 
         //자동로그인 구현 끝
@@ -149,13 +148,12 @@ public class LoginFragment extends Fragment {
         String email = mEtEmail.getText().toString();
         String password = mEtPassword.getText().toString();
 
-                if(autoLogin.isChecked()==true) {
-                    ((MyApp) getActivity().getApplicationContext()).editor.putString("ID", email);
-                    ((MyApp) getActivity().getApplicationContext()).editor.putString("PW", password);
-                    ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled", true);
-                    ((MyApp) getActivity().getApplicationContext()).editor.commit();
-                }
-
+        if (autoLogin.isChecked() == true) {
+            ((MyApp) getActivity().getApplicationContext()).editor.putString("ID", email);
+            ((MyApp) getActivity().getApplicationContext()).editor.putString("PW", password);
+            ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled", true);
+            ((MyApp) getActivity().getApplicationContext()).editor.commit();
+        }
 
 
         int err = 0;
@@ -174,7 +172,7 @@ public class LoginFragment extends Fragment {
 
         if (err == 0) {
 
-            loginProcess(email,password);
+            loginProcess(email, password);
             mProgressBar.setVisibility(View.VISIBLE);
 
         } else {
@@ -222,7 +220,7 @@ public class LoginFragment extends Fragment {
         mSubscriptions.add(ServiceGenerator.getRetrofit(email, password).login()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(this::handleResponse,this::handleError));
+                .subscribe(this::handleResponse, this::handleError));
     }
 
     private void handleResponse(Response response) {
@@ -230,8 +228,8 @@ public class LoginFragment extends Fragment {
         mProgressBar.setVisibility(View.GONE);
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(Constants.TOKEN,response.getToken());
-        editor.putString(Constants.EMAIL,response.getMessage());
+        editor.putString(Constants.TOKEN, response.getToken());
+        editor.putString(Constants.EMAIL, response.getMessage());
         editor.apply();
 
         mEtEmail.setText(null);
@@ -252,7 +250,7 @@ public class LoginFragment extends Fragment {
             try {
 
                 String errorBody = ((HttpException) error).response().errorBody().string();
-                Response response = gson.fromJson(errorBody,Response.class);
+                Response response = gson.fromJson(errorBody, Response.class);
                 showSnackBarMessage(response.getMessage());
 
             } catch (IOException e) {
@@ -268,19 +266,19 @@ public class LoginFragment extends Fragment {
 
         if (getView() != null) {
 
-            Snackbar.make(getView(),message,Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    private void goToRegister(){
+    private void goToRegister() {
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         RegisterFragment fragment = new RegisterFragment();
-        ft.replace(R.id.fragmentFrame,fragment,RegisterFragment.TAG);
+        ft.replace(R.id.fragmentFrame, fragment, RegisterFragment.TAG);
         ft.commit();
     }
 
-    private void showDialog(){
+    private void showDialog() {
 
         ResetPasswordDialog fragment = new ResetPasswordDialog();
 
@@ -292,56 +290,59 @@ public class LoginFragment extends Fragment {
         super.onDestroy();
         mSubscriptions.unsubscribe();
     }
+
     private class SessionCallback implements ISessionCallback {
+        @Override
+        public void onSessionOpenFailed(KakaoException exception) {
+
+        }
 
         @Override
         public void onSessionOpened() {
-            UserManagement.getInstance().requestMe(new MeResponseCallback() {
+            UserManagement.getInstance().me(new MeV2ResponseCallback() {
                 @Override
                 public void onFailure(ErrorResult errorResult) {
-                    String message = "failed to get user info. msg=" + errorResult;
+                    int ErrorCode = errorResult.getErrorCode();
+                    int ClientErrorCode = -777;
 
-                    ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
-                    if (result == ErrorCode.CLIENT_ERROR_CODE) {
-                        //에러로 인한 로그인 실패
-//                        finish();
+                    if (ErrorCode == ClientErrorCode) {
+                        Toast.makeText(getActivity(), "카카오톡 서버의 네트워크가 불안정합니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                     } else {
-                        //redirectMainActivity();
+                        Log.d("TAG", "오류로 카카오로그인 실패 ");
                     }
                 }
 
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
-                }
-
-                @Override
-                public void onNotSignedUp() {
 
                 }
 
                 @Override
-                public void onSuccess(UserProfile userProfile) {
-                    //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
+                public void onSuccess(MeV2Response result) {
+//로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
 
 //                    Log.e("UserProfile", userProfile.toString());
 //                    Log.e("UserProfile", userProfile.getId() + "");
 
-
-                    long number = userProfile.getId();
-
+                    Toast.makeText(getContext(), "userProfile" + result, Toast.LENGTH_LONG).show();
+                    MyLog.d("유저프로필 : " + result);
 
                 }
             });
-
-        }
-
-        @Override
-        public void onSessionOpenFailed(KakaoException exception) {
-            // 세션 연결이 실패했을때
-            // 어쩔때 실패되는지는 테스트를 안해보았음 ㅜㅜ
-
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        MyLog.d("여기서 불름?");
+        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            MyLog.d("안에서 불름?");
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }
+

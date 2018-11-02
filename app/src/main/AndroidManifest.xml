@@ -50,6 +50,8 @@
         <activity android:name=".NotificationActivity" />
         <activity android:name=".ContestActivity" />
         <activity android:name=".KeepActivity" />
+        <activity android:name=".SupportersActivity" />
+        <activity android:name=".ChatContentsActivity" />
         <activity
             android:name=".ProfileActivity2"
             android:theme="@style/AppTheme.Profile"/>

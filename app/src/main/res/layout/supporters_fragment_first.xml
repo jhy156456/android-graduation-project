@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mobitant.bestfood.SupportersActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+            <com.mobitant.bestfood.TextViewImmacBytes
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="5dp"
+                android:text="New Questions"
+                android:textColor="@color/colorGray"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/white_bg"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="100dp"
+                            android:background="@color/colorPrimary">
+
+                        </View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:id="@+id/text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Stackoverflow or Qoura?"
+                                android:textColor="@color/colorGray"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="20dp"
+                                android:gravity="center_vertical">
+
+                                <View
+                                    android:layout_width="7dp"
+                                    android:layout_height="7dp"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/circle_blue"></View>
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="Answered"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/linear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text"
+                                android:layout_marginTop="3dp"
+                                android:orientation="horizontal">
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="Today : 3:20 am"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_marginLeft="7dp"
+                                    android:src="@drawable/address" />
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:text="IN"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/linear"
+                                android:layout_marginTop="20dp"
+                                android:orientation="horizontal">
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:background="@drawable/gray_rectangle"
+                                    android:gravity="center"
+                                    android:text="general"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/gray_rectangle"
+                                    android:gravity="center"
+                                    android:text="qoura"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/gray_rectangle"
+                                    android:gravity="center"
+                                    android:text="stackoverflow"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="15dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/white_bg"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="100dp"
+                            android:background="@color/colorOrange"></View>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="10dp">
+
+                        <com.mobitant.bestfood.TextViewImmacBytes
+                            android:id="@+id/text1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="A Short demo on deep Web?"
+                            android:textColor="@color/colorGray"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="20dp"
+                            android:gravity="center_vertical">
+
+                            <View
+                                android:layout_width="7dp"
+                                android:layout_height="7dp"
+                                android:layout_alignParentRight="true"
+                                android:background="@drawable/orange_rectangle"></View>
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="PARTIAL"
+                                android:textColor="@color/colorOrange"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linear1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text1"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Today : 4:50 am"
+                                android:textColor="@color/colorLightGray"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_marginLeft="7dp"
+                                android:src="@drawable/address" />
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:text="PK"
+                                android:textColor="@color/colorLightGray"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linear1"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="20dp"
+                                android:background="@drawable/gray_rectangle"
+                                android:gravity="center"
+                                android:text="deep web"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/gray_rectangle"
+                                android:gravity="center"
+                                android:text="dark web"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/gray_rectangle"
+                                android:gravity="center"
+                                android:text="web"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/gray_rectangle"
+                                android:gravity="center"
+                                android:text="deep analysis"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="15dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:cardElevation="4dp"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/white_bg"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="100dp"
+                            android:background="@color/colorPrimary"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.mobitant.bestfood.TextViewImmacBytes
+                                android:id="@+id/text2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Best b/w Android Iphone"
+                                android:textColor="@color/colorGray"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="20dp"
+                                android:gravity="center_vertical">
+
+                                <View
+                                    android:layout_width="7dp"
+                                    android:layout_height="7dp"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/orange_circle"></View>
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="NOT ANSWERED"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/linear2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text2"
+                                android:layout_marginTop="3dp"
+                                android:orientation="horizontal">
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="Yesterday : 08:00 am"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_marginLeft="7dp"
+                                    android:src="@drawable/address" />
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:text="US"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/linear2"
+                                android:layout_marginTop="20dp"
+                                android:orientation="horizontal">
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:background="@drawable/gray_rectangle"
+                                    android:gravity="center"
+                                    android:text="android"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/gray_rectangle"
+                                    android:gravity="center"
+                                    android:text="iPhone"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/gray_rectangle"
+                                    android:gravity="center"
+                                    android:text="iOs"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.mobitant.bestfood.TextViewImmacBytes
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/gray_rectangle"
+                                    android:gravity="center"
+                                    android:text="Java"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

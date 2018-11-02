@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.mobitant.bestfood.fragments.BestFoodKeepFragment;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
 import com.mobitant.bestfood.lib.DialogLib;
@@ -38,7 +40,7 @@ import retrofit2.Callback;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener {
     private final String TAG = this.getClass().getSimpleName();
     public static final int fromHomeActivity = 1006;
-    LinearLayout linearLayout,contentLayout;
+    LinearLayout linearLayout,contentLayout,supportersLayout;
     DrawerLayout drawer;
     View headerLayout;
     User currentUser;
@@ -57,7 +59,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.home);
 
         currentUser = ((MyApp) getApplication()).getMemberInfoItem();
-
+requestLogout();
         //슬라이더시작
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         mainSlider();
@@ -102,7 +104,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 finish();
             }
         });
-
+        supportersLayout =(LinearLayout)findViewById(R.id.go_supporters);
+        supportersLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, SupportersActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
     }
@@ -365,4 +375,21 @@ public void mainSlider(){
         MyLog.d("DATA : " + command + ", " + type + ", " + data);
         MyLog.d("[" + from + "]로부터 수신한 데이터 : " + data);
     }
+
+
+    private void requestLogout() {
+
+        UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(HomeActivity.this, "로그아웃 성공", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
 }

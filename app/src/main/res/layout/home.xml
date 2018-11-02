@@ -91,6 +91,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/go_supporters"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_weight="1"
@@ -112,7 +113,7 @@
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
                         android:background="@color/colorBitterSweetDark"
-                        android:text="판매"
+                        android:text="서포터즈"
                         android:textSize="18sp"
                         android:textAlignment="center"
                         android:textColor="@color/colorWhite"
