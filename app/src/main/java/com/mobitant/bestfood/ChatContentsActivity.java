@@ -9,6 +9,6 @@ public class ChatContentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_content_activity);
+        setContentView(R.layout.supporters_chat_content_activity);
     }
 }

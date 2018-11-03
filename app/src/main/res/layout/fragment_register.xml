@@ -116,16 +116,11 @@
                         android:gravity="center_vertical|center_horizontal">
 
                         <CheckBox
-                            android:id="@+id/select_android"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
+                            android:id="@+id/select_buyer"
                             android:text="구매자"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -134,17 +129,11 @@
                         android:gravity="center_vertical|center_horizontal">
 
                         <CheckBox
-                            android:id="@+id/select_html"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
+                            android:id="@+id/select_seller"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="5dp"
                             android:text="판매자"
-                            android:textSize="12dp" />
-
+                            android:textSize="12dp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -153,37 +142,14 @@
                         android:gravity="center_vertical|center_horizontal">
 
                         <CheckBox
-                            android:id="@+id/select_java"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
+                            android:id="@+id/select_supporters"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="5dp"
                             android:text="서포터즈"
                             android:textSize="12dp" />
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|center_horizontal">
-
-                        <CheckBox
-                            android:id="@+id/select_server"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="5dp"
-                            android:text="박윤범씹새끼"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
 
                 </TableRow>
                 </TableLayout>

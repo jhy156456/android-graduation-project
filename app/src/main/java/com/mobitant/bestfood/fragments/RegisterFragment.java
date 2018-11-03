@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -50,7 +51,7 @@ public class RegisterFragment extends Fragment {
     private EditText mEtEmail;
     private EditText mEtPassword;
     private EditText mEtNickName;
-    private Button   mBtRegister;
+    private Button mBtRegister;
     private TextView mTvLogin;
     private TextInputLayout mTiName;
     private TextInputLayout mTiEmail;
@@ -61,12 +62,14 @@ public class RegisterFragment extends Fragment {
     EditText birthEdit;
     TextView isDuplicated;
     private EditText phoneEdit;
+    CheckBox selectBuyer, selectSeller, selectSupporters;
     String nickName;
     private CompositeSubscription mSubscriptions;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_register,container,false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
         mSubscriptions = new CompositeSubscription();
         initViews(view);
         return view;
@@ -84,33 +87,32 @@ public class RegisterFragment extends Fragment {
         mTiPassword = (TextInputLayout) v.findViewById(R.id.ti_password);
         mProgressbar = (ProgressBar) v.findViewById(R.id.progress);
         mEtNickName = (EditText) v.findViewById(R.id.et_nickname);
-        isDuplicated = (TextView)v.findViewById(R.id.button2);
+        isDuplicated = (TextView) v.findViewById(R.id.button2);
+        selectBuyer = (CheckBox) v.findViewById(R.id.select_buyer);
+        selectSeller = (CheckBox) v.findViewById(R.id.select_seller);
+        selectSupporters = (CheckBox) v.findViewById(R.id.select_supporters);
 
 
-mEtNickName.addTextChangedListener(new TextWatcher() {
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        mEtNickName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    }
+            }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        nickName = mEtNickName.getText().toString();
-        if(!nickName.equals("") && nickName !=null){//이걸안해주면 닉네임을 쓰고 빈칸으로 지우면서 빈칸으로만들어놓으면
-            //아마도... user/check/빈칸이 되기때문에 라우팅을 다른곳으로 하는것같음
-            MyLog.d("nickName값 : " + nickName);
-            checkNicName(nickName);
-        }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                nickName = mEtNickName.getText().toString();
+                if (!nickName.equals("") && nickName != null) {//이걸안해주면 닉네임을 쓰고 빈칸으로 지우면서 빈칸으로만들어놓으면
+                    //아마도... user/check/빈칸이 되기때문에 라우팅을 다른곳으로 하는것같음
+                    MyLog.d("nickName값 : " + nickName);
+                    checkNicName(nickName);
+                }
+            }
 
-
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
-});
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         mBtRegister.setOnClickListener(view -> register());
         mTvLogin.setOnClickListener(view -> goToLogin());
     }
@@ -124,6 +126,7 @@ mEtNickName.addTextChangedListener(new TextWatcher() {
         String email = mEtEmail.getText().toString();
         String password = mEtPassword.getText().toString();
         String nickName = mEtNickName.getText().toString();
+        String memberType="";
         int err = 0;
 
         if (!validateFields(name)) {
@@ -147,17 +150,22 @@ mEtNickName.addTextChangedListener(new TextWatcher() {
             err++;
             mTiNickName.setError("닉네임을 입력하세요!");
         }
+        if(selectSupporters==null||selectSeller==null||selectBuyer==null){
+            err++;
+            Toast.makeText(getContext(),"유형을 선택하세요!",Toast.LENGTH_LONG).show();
+        }
         if (err == 0) {
-
+            if(selectBuyer.isChecked()) memberType = "Buyer";
+            else if(selectSeller.isChecked())memberType = "Seller";
+            else if (selectSupporters.isChecked())memberType="Supporters";
             User user = new User();
             user.setSextype(sextypeEdit.getText().toString());
             user.setBirthday(birthEdit.getText().toString().replace(" ", ""));
             user.setName(name);
+            user.setMemberType(memberType);
             user.setEmail(email);
             user.setPassword(password);
-            //Toast.makeText(getActivity(),"설정하기 전 닉네임(nickName) : " + nickName,Toast.LENGTH_LONG).show();
             user.setNickName(nickName);
-            //Toast.makeText(getActivity(),"설정된 닉네임(user.nickname) : " + user.nickname,Toast.LENGTH_LONG).show();
             mProgressbar.setVisibility(View.VISIBLE);
             registerProcess(user);
 
@@ -168,38 +176,39 @@ mEtNickName.addTextChangedListener(new TextWatcher() {
     }
 
     private void setError() {
-
         mTiName.setError(null);
         mTiEmail.setError(null);
         mTiPassword.setError(null);
     }
-private void checkNicName(String nickName){
-    mSubscriptions.add(ServiceGenerator.getRetrofit().duplicateCheck(nickName)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(this::handleCheckResponse,this::handleCheckError));
-}
+
+    private void checkNicName(String nickName) {
+        mSubscriptions.add(ServiceGenerator.getRetrofit().duplicateCheck(nickName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleCheckResponse, this::handleCheckError));
+    }
 
     private void registerProcess(User user) {
 
         mSubscriptions.add(ServiceGenerator.getRetrofit().register(user)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(this::handleResponse,this::handleError));
+                .subscribe(this::handleResponse, this::handleError));
     }
 
-    private void handleCheckResponse(Response response){
+    private void handleCheckResponse(Response response) {
         isDuplicated.setText(response.getMessage());
     }
+
     private void handleCheckError(Throwable error) {
 
-       // mProgressbar.setVisibility(View.GONE);
+        // mProgressbar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
-                Response response = gson.fromJson(errorBody,Response.class);
+                Response response = gson.fromJson(errorBody, Response.class);
                 isDuplicated.setText(response.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -208,7 +217,6 @@ private void checkNicName(String nickName){
             showSnackBarMessage("Network Error !");
         }
     }
-
 
 
     private void handleResponse(Response response) {
@@ -227,7 +235,7 @@ private void checkNicName(String nickName){
             try {
 
                 String errorBody = ((HttpException) error).response().errorBody().string();
-                Response response = gson.fromJson(errorBody,Response.class);
+                Response response = gson.fromJson(errorBody, Response.class);
                 showSnackBarMessage(response.getMessage());
 
             } catch (IOException e) {
@@ -243,11 +251,11 @@ private void checkNicName(String nickName){
 
         if (getView() != null) {
 
-            Snackbar.make(getView(),message,Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    private void goToLogin(){
+    private void goToLogin() {
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         LoginFragment fragment = new LoginFragment();

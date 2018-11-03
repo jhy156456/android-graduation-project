@@ -4,22 +4,34 @@ package com.mobitant.bestfood.item;
 import com.google.gson.annotations.SerializedName;
 
 public class User {
-//응답받는 json객체값이 순서대로 저장되는건지??
+    //응답받는 json객체값이 순서대로 저장되는건지??
     public String name;
     private String email;
     private String password;
     private String created_at;
     private String newPassword;
     private String token;
-
-    @SerializedName("_id") public String id;
-    @SerializedName("nickname") public String nickname;
+    private String memberType;
+    @SerializedName("_id")
+    public String id;
+    @SerializedName("nickname")
+    public String nickname;
     public int seq;
     public String phone;
     public String sextype;
     public String birthday;
-    @SerializedName("member_icon_filename") public String memberIconFilename;
-    @SerializedName("reg_date") public String regDate;
+    @SerializedName("member_icon_filename")
+    public String memberIconFilename;
+    @SerializedName("reg_date")
+    public String regDate;
+
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
 
     @Override
     public String toString() {
@@ -41,8 +53,14 @@ public class User {
                 '}';
     }
 
-    public void setSextype(String sex){ this.sextype = sex;}
-    public void setBirthday(String birth){ this.birthday = birth;}
+    public void setSextype(String sex) {
+        this.sextype = sex;
+    }
+
+    public void setBirthday(String birth) {
+        this.birthday = birth;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -75,5 +93,7 @@ public class User {
         this.token = token;
     }
 
-    public void setNickName(String nickname){this.nickname = nickname;}
+    public void setNickName(String nickname) {
+        this.nickname = nickname;
+    }
 }

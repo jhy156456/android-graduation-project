@@ -6,28 +6,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.mobitant.bestfood.fragments.ChatTalkFragment;
 import com.mobitant.bestfood.fragments.FirstFragment;
-import com.mobitant.bestfood.fragments.SecondFragment;
+import com.mobitant.bestfood.fragments.ChatSupportersFragment;
 
-public class SupportersActivity extends AppCompatActivity
-{
+public class SupportersActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
 
     private int[] mTabsIcons = {
             R.drawable.message,
-            R.drawable.chat,
-            R.drawable.notification};
+            R.drawable.chat};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.supporters_activity_main);
+        setToolbar();
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         if (viewPager != null)
@@ -47,9 +48,24 @@ public class SupportersActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * 툴바를 설정한다.
+     */
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("");
+        }
+    }
+
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public final int PAGE_COUNT = 3;
+        public final int PAGE_COUNT = 2;
 
         private final String[] mTabsTitle = {"Supporters", "Messages", "Notifications"};
 
@@ -58,23 +74,21 @@ public class SupportersActivity extends AppCompatActivity
         }
 
         public View getTabView(int position) {
-            View view = LayoutInflater.from(SupportersActivity.this).inflate(R.layout.toolbar, null);
+            View view = LayoutInflater.from(SupportersActivity.this).inflate(R.layout.fuck_toolbar, null);
             ImageView icon = (ImageView) view.findViewById(R.id.icon);
-            icon.setImageResource(mTabsIcons[position]);
+           icon.setImageResource(mTabsIcons[position]);
             return view;
         }
 
         @Override
         public Fragment getItem(int pos) {
             switch (pos) {
-
                 case 0:
-                    return SecondFragment.newInstance(1);
-
+                    return ChatSupportersFragment.newInstance(1);
                 case 1:
-                    return FirstFragment.newInstance(2);
-                case 2:
-                    return SecondFragment.newInstance(3);
+                    return ChatTalkFragment.newInstance(2);
+                //case 2:
+                   // return ChatSupportersFragment.newInstance(3);
             }
             return null;
         }

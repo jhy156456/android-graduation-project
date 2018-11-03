@@ -1,5 +1,7 @@
 package com.mobitant.bestfood.remote;
 
+import com.mobitant.bestfood.Constant;
+import com.mobitant.bestfood.item.ChatContentsItem;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
 import com.mobitant.bestfood.item.NotificationCommentItem;
@@ -36,11 +38,19 @@ import rx.Observable;
 
 public interface RemoteService {
     //String BASE_URL = "http://graduationproject-env.vcditjejd4.ap-northeast-2.elasticbeanstalk.com/";
-    String BASE_URL = "http://192.168.0.12:3000/";
+    String BASE_URL = Constant.NETWORK_URL;
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 
+    //<==채팅을위한 라우팅 시작 ==>
+    @GET("room/android/{id}")
+    Call<ArrayList<ChatContentsItem>> getChatContents(@Path("id") String roomId);
 
+    @POST("room/{id}/chat")
+    Call<String> sendChat(@Path("id") String roomId,
+                          @Body ChatContentsItem contentsItem);
+
+    //<==채팅을위한 라우팅 끝 ==>
     //구매완료
     @POST("/order/addorder")
     Call<String> insertOrderCheckItem(@Body OrderCheckItem orderCheckItem);
@@ -63,7 +73,7 @@ public interface RemoteService {
                                         @Part MultipartBody.Part file);
 
 
-    // Doit으로 만든 게시판 시작: Node.js에 요청하기
+    // <=== Doit으로 만든 게시판 시작: Node.js에 요청하기 ==>
     @POST("/process/addpost")
     Call<String> insertNotificationInfo(@Body NotificationItem notificationItem);
 
@@ -84,7 +94,7 @@ public interface RemoteService {
     Call<String> removeComment(@Query("postId") String postId,
                                @Query("commentId") String id);
 
-    // Doit으로 만든 게시판 끝: Node.js에 요청하기
+    // <== Doit으로 만든 게시판 끝: Node.js에 요청하기 ==>
 
     //buy_software_info_schema에 댓글추가
     @POST("/food/addcomment")
@@ -143,8 +153,8 @@ public interface RemoteService {
     @POST("users")
     Observable<Response> register(@Body User user);
 
-@GET("users/check/{nickname}")
-Observable<Response> duplicateCheck(@Path ("nickname") String nickName);
+    @GET("users/check/{nickname}")
+    Observable<Response> duplicateCheck(@Path("nickname") String nickName);
 
 
     @POST("authenticate")

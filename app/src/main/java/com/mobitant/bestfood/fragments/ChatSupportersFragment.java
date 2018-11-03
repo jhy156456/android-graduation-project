@@ -7,19 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SecondFragment extends Fragment {
+import com.mobitant.bestfood.R;
+
+public class ChatSupportersFragment extends Fragment {
 
     public static final String ARG_PAGE = "ARG_PAGE";
     public int mPageNo;
 
-    public SecondFragment() {
+    public ChatSupportersFragment() {
     }
 
-    public static SecondFragment newInstance(int pageNo) {
+    public static ChatSupportersFragment newInstance(int pageNo) {
 
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNo);
-        SecondFragment fragment = new SecondFragment();
+        ChatSupportersFragment fragment = new ChatSupportersFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,7 +36,7 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false);
+        return inflater.inflate(R.layout.supporters_fragment_second, container, false);
     }
 
 

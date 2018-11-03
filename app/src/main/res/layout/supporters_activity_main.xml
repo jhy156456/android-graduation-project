@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,10 +8,14 @@
     tools:context="com.mobitant.bestfood.SupportersActivity"
     android:id="@+id/constraintLayout">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/supporters_activity_toolbar"/>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/supporters_activity_toolbar"
         android:background="@android:color/transparent"
         android:orientation="vertical">
 
@@ -27,20 +31,10 @@
             android:layout_height="45dp"
             android:background="?attr/colorPrimary"
             app:tabIndicatorColor="@android:color/white"
-            app:tabIndicatorHeight="2dp"/>
+            app:tabIndicatorHeight="2dp" />
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/message"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="normal"
-        app:layout_anchor="@id/view_pager"
-        app:layout_anchorGravity="bottom|right|end" />
 
-</android.support.design.widget.CoordinatorLayout >
+
+</RelativeLayout >

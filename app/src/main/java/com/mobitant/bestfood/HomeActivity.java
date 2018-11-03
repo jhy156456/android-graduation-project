@@ -108,7 +108,7 @@ requestLogout();
         supportersLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, SupportersActivity.class);
+                Intent intent = new Intent(HomeActivity.this, ChatTalkContentsActivity.class);
                 startActivity(intent);
                 finish();
             }
