@@ -91,6 +91,7 @@ requestLogout();
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -100,6 +101,7 @@ requestLogout();
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ContestActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -108,7 +110,8 @@ requestLogout();
         supportersLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ChatTalkContentsActivity.class);
+                Intent intent = new Intent(HomeActivity.this, SupportersActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }

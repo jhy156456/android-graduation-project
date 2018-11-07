@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     android:background="#f3f3f3">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
+        <!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,8 +48,8 @@
 
 
         </LinearLayout>
-
-        <com.baoyz.swipemenulistview.SwipeMenuListView
+!-->
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/chat_activity_listview"
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
@@ -59,6 +57,8 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:dividerHeight="0.5dp"
-            android:layout_height="match_parent"></com.baoyz.swipemenulistview.SwipeMenuListView>
-    </LinearLayout>
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

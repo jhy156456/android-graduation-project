@@ -159,10 +159,8 @@ public class RegisterFragment extends Fragment {
             else if(selectSeller.isChecked())memberType = "Seller";
             else if (selectSupporters.isChecked())memberType="Supporters";
             User user = new User();
-            user.setSextype(sextypeEdit.getText().toString());
-            user.setBirthday(birthEdit.getText().toString().replace(" ", ""));
             user.setName(name);
-            user.setMemberType(memberType);
+            user.setUserType(memberType);
             user.setEmail(email);
             user.setPassword(password);
             user.setNickName(nickName);

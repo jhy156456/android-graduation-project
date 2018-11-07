@@ -120,7 +120,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         bestFoodList = (RecyclerView) view.findViewById(R.id.list);
         noDataText = (TextView) view.findViewById(R.id.no_data);
         searchKeyWord = (ImageView)view.findViewById(R.id.search_key_word);
-searchKey = (EditText_Roboto_Regular)view.findViewById(R.id.search_key);
+        searchKey = (EditText_Roboto_Regular)view.findViewById(R.id.search_key);
         orderRecent = (TextView) view.findViewById(R.id.order_recent);
         orderFavorite = (TextView) view.findViewById(R.id.order_favorite);
         orderHits = (TextView) view.findViewById(R.id.order_hits);

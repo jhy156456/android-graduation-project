@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -89,12 +90,15 @@
 
 
         <customfonts.EditText_Helvatica_Meidum
+            android:id="@+id/message_input"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:hint="Write a replay"
             android:minWidth="250dp"
+            android:maxWidth="250dp"
             android:textColorHint="#ced5db" />
 
         <LinearLayout
@@ -102,12 +106,19 @@
             android:layout_height="match_parent"
 
             android:gravity="right">
-
+            <ImageButton
+                android:id="@+id/send_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_send"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:contentDescription="Send"/>
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/ic_smile"
                 android:tint="#d9d9d9" />
 
@@ -117,7 +128,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/ic_attach_file"
                 android:tint="#d9d9d9" />
         </LinearLayout>

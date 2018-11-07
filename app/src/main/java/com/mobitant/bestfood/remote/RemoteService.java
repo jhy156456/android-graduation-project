@@ -2,6 +2,7 @@ package com.mobitant.bestfood.remote;
 
 import com.mobitant.bestfood.Constant;
 import com.mobitant.bestfood.item.ChatContentsItem;
+import com.mobitant.bestfood.item.ChatTalkData;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
 import com.mobitant.bestfood.item.NotificationCommentItem;
@@ -49,6 +50,13 @@ public interface RemoteService {
     @POST("room/{id}/chat")
     Call<String> sendChat(@Path("id") String roomId,
                           @Body ChatContentsItem contentsItem);
+    @GET("user/{user_type}")
+    Call<ArrayList<User>> listSupporters(@Path("user_type") String userType,
+                                            @Query("current_page") int page);
+    @GET("user/chat/{user_nickname}")
+    Call<ArrayList<ChatTalkData>> listMyChat(@Path("user_nickname") String userType,
+                                                 @Query("current_page") int page);
+
 
     //<==채팅을위한 라우팅 끝 ==>
     //구매완료

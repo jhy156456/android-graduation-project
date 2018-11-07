@@ -11,7 +11,8 @@ public class User {
     private String created_at;
     private String newPassword;
     private String token;
-    private String memberType;
+    @SerializedName("user_type")
+    private String userType;
     @SerializedName("_id")
     public String id;
     @SerializedName("nickname")
@@ -25,12 +26,13 @@ public class User {
     @SerializedName("reg_date")
     public String regDate;
 
-    public String getMemberType() {
-        return memberType;
+
+    public String getUserType() {
+        return userType;
     }
 
-    public void setMemberType(String memberType) {
-        this.memberType = memberType;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     @Override

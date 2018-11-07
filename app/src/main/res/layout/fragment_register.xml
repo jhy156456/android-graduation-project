@@ -103,7 +103,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ti_nickname"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_round"
                     android:stretchColumns="0,1,2,3">
 
                 <TableRow

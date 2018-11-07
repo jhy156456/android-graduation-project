@@ -9,6 +9,14 @@ public interface Constant {
     String ORDER_TYPE_HITS = "hits_cnt";
     String ORDER_TYPE_FAVORITE = "keep_cnt";
     String ORDER_TYPE_RECENT = "reg_date";
-    public static final String NETWORK_URL = "http://192.168.80.1:8005/";
-    public static final String CHAT_SERVER_URL = "http://192.168.80.1:8005/chat";
+    public static final String NETWORK_URL = "http://192.168.10.104:8005/";
+    public static final String CHAT_SERVER_URL = "http://192.168.10.104:8005/";
+
+        /*
+    게시글 :
+    MainActivity -> RegisterActivity : 1003
+    ListFragment -> RegisterActivity : 1002
+    ContestActivity -> RegisterActivity : 1001
+NotificationActivity -> RegisterActivity : 1004
+     */
 }
