@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -12,12 +11,13 @@
     <LinearLayout
         android:id="@+id/linear_profile"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="60dp"
         android:background="#6747cd"
         android:orientation="horizontal">
 
 
         <ImageView
+            android:id="@+id/chat_room_back"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
@@ -26,11 +26,13 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chat_room_participant_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/circle_images" />
+            android:src="@drawable/ic_person"
+            />
 
         <LinearLayout
 
@@ -49,6 +51,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <!--
             <customfonts.MyTextView_Roboto_Regular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,6 +59,25 @@
                 android:text="Active in last 2 minss"
                 android:textColor="#9580d7"
                 android:textSize="14sp" />
+!-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/chat_room_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="100dp"
+            android:orientation="vertical">
+
+            <customfonts.MyTextView_Roboto_Bold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나가기"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
 
         </LinearLayout>
     </LinearLayout>
@@ -64,9 +86,9 @@
         android:id="@+id/messages_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linear_profile"
         android:layout_above="@+id/chat_input_linear_layout"
->
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/linear_profile">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/messages"
@@ -75,8 +97,8 @@
             android:layout_weight="1"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"/>
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical" />
     </LinearLayout>
 
     <LinearLayout
@@ -97,8 +119,8 @@
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:hint="Write a replay"
-            android:minWidth="250dp"
             android:maxWidth="250dp"
+            android:minWidth="250dp"
             android:textColorHint="#ced5db" />
 
         <LinearLayout
@@ -106,14 +128,16 @@
             android:layout_height="match_parent"
 
             android:gravity="right">
+
             <ImageButton
                 android:id="@+id/send_button"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@android:drawable/ic_menu_send"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="10dp"
-                android:contentDescription="Send"/>
+                android:contentDescription="Send"
+                android:src="@android:drawable/ic_menu_send" />
+
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"

@@ -1,5 +1,6 @@
 package com.mobitant.bestfood.item;
 
+import com.google.gson.annotations.SerializedName;
 import com.mobitant.bestfood.MyApp;
 
 import java.util.Date;
@@ -17,6 +18,8 @@ public class ChatContentsItem {
     private String receiver;
     private Date createdAt;
     private int type;
+    @SerializedName("receiver_member_icon_file_name")
+    private String receiverMemberIconFileName;
 
     public ChatContentsItem() {
     }

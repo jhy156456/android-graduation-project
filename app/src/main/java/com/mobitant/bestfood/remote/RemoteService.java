@@ -45,20 +45,32 @@ public interface RemoteService {
 
     //<==채팅을위한 라우팅 시작 ==>
     @GET("room/android/{id}")
-    Call<ArrayList<ChatContentsItem>> getChatContents(@Path("id") String roomId);
+    Call<ArrayList<ChatContentsItem>> getChatContents(@Path("id") String roomId,
+                                                    @Query("current_page")int page);
 
     @POST("room/{id}/chat")
     Call<String> sendChat(@Path("id") String roomId,
                           @Body ChatContentsItem contentsItem);
+
     @GET("user/{user_type}")
     Call<ArrayList<User>> listSupporters(@Path("user_type") String userType,
-                                            @Query("current_page") int page);
+                                         @Query("current_page") int page);
+
     @GET("user/chat/{user_nickname}")
     Call<ArrayList<ChatTalkData>> listMyChat(@Path("user_nickname") String userType,
-                                                 @Query("current_page") int page);
+                                             @Query("current_page") int page);
 
+    @GET("room/participant_down/{id}")
+    Call<String> chatRoomParticipantExit(@Path("id") String roomId);
+    @GET("room/owner_down/{id}")
+    Call<String> chatRoomOwnerExit(@Path("id") String roomId);
+
+    @POST("room/android/newroom")
+    Call<String> newRoomFromAndroid(@Body ChatTalkData chatTalkData);
 
     //<==채팅을위한 라우팅 끝 ==>
+
+
     //구매완료
     @POST("/order/addorder")
     Call<String> insertOrderCheckItem(@Body OrderCheckItem orderCheckItem);

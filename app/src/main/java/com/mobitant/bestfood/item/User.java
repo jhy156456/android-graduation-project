@@ -25,7 +25,15 @@ public class User {
     public String memberIconFilename;
     @SerializedName("reg_date")
     public String regDate;
+    private String chatParticipantOrOwner;
 
+    public String getChatParticipantOrOwner() {
+        return chatParticipantOrOwner;
+    }
+
+    public void setChatParticipantOrOwner(String chatParticipantOrOwner) {
+        this.chatParticipantOrOwner = chatParticipantOrOwner;
+    }
 
     public String getUserType() {
         return userType;

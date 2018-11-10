@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.item.ChatContentsItem;
+import com.mobitant.bestfood.item.ChatTalkData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 .inflate(layout, parent, false);
         return new ViewHolder(v);
     }
+    public void addFirstItem(ChatContentsItem chatContentsItem){
+        this.mMessages.add(0,chatContentsItem);
+    }
 
+    public void addItem(ChatContentsItem chatContentsItem){
+        this.mMessages.add(chatContentsItem);
+}
+
+    public void addItemList(ArrayList<ChatContentsItem> itemList) {
+        this.mMessages.addAll(itemList);
+        notifyDataSetChanged();
+    }
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         ChatContentsItem message = mMessages.get(position);

@@ -20,6 +20,7 @@ import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.SoftwareBuyActivity;
 import com.mobitant.bestfood.TextViewImmacBytes;
 import com.mobitant.bestfood.item.User;
+import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
@@ -64,7 +65,7 @@ public class SupportersChatAdapter extends RecyclerView.Adapter<SupportersChatAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(currentUser.seq);
+                showDialog(currentUser.nickname,currentUser.memberIconFilename,currentUser.seq);
             }
         });
         holder.supportersNickName.setText(currentUser.nickname);
@@ -77,7 +78,7 @@ public class SupportersChatAdapter extends RecyclerView.Adapter<SupportersChatAd
                     .into(holder.supportersMemberIconFileName);
         }
     }
-private void showDialog(int userSeq){
+private void showDialog(String nickName,String memberIconFileName,int userSeq){
     new AlertDialog.Builder(context)
             .setTitle(R.string.title_bestfood_image_register)
             .setSingleChoiceItems(R.array.user_click, -1,
@@ -96,6 +97,10 @@ private void showDialog(int userSeq){
                                 context.startActivity(intent);
                             } else {
                                 Intent intent = new Intent(context, ChatTalkContentsActivity.class);
+                                intent.putExtra("owner",((MyApp)context.getApplicationContext()).getMemberNickName());
+                                intent.putExtra("participant",nickName);
+                                intent.putExtra("participant_member_icon_file_name",memberIconFileName);
+                                intent.putExtra("callActivity", "ChatSupportersFragment");
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intent);
                             }

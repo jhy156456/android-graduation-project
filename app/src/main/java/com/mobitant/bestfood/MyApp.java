@@ -21,7 +21,8 @@ public class MyApp extends Application {
     private boolean isLogin;
     private boolean isNewNotification;
     private static MyApp instance;
-
+    private String chatWhoAmI;
+    private Boolean isChatExitButton;
 
 
     private static volatile MyApp obj = null;
@@ -40,19 +41,10 @@ public class MyApp extends Application {
     public static void setCurrentActivity(Activity currentActivity) {
         MyApp.currentActivity = currentActivity;
     }
-
-
-
-
-
-
-
-
-
-
     public MyApp() {
         isNewBestFood = false;
         isNewNotification =false;
+        isChatExitButton = false;
     }
 
     @Override
@@ -140,4 +132,12 @@ public String getMemberNickname(){
         return userItem.memberIconFilename;
     }
 
+
+    public Boolean getChatExitButton() {
+        return isChatExitButton;
+    }
+
+    public void setChatExitButton(Boolean chatExitButton) {
+        isChatExitButton = chatExitButton;
+    }
 }

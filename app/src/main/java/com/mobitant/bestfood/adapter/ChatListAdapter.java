@@ -18,11 +18,15 @@ import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mobitant.bestfood.ChatTalkContentsActivity;
+import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.TextViewImmacBytes;
 import com.mobitant.bestfood.item.ChatTalkData;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.lib.MyLog;
+import com.mobitant.bestfood.lib.StringLib;
+import com.mobitant.bestfood.remote.RemoteService;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +39,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     Context context;
     ArrayList<ChatTalkData> items;
-    Integer[] imageId = {
-            R.drawable.circle_images,
-            R.drawable.circle_images,
-            R.drawable.circle_images
-    };
-
     public ChatListAdapter(Context context, ArrayList<ChatTalkData> dataArrayList) {
-
         this.context = context;
         this.items = dataArrayList;
     }
@@ -54,7 +51,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
      * @param itemList 새로운 아이템 리스트
      */
     public void addItemList(ArrayList<ChatTalkData> itemList) {
-        MyLog.d("에드아이템리스트 : " + itemList);
         this.items.addAll(itemList);
         notifyDataSetChanged();
     }
@@ -65,7 +61,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.supporters_chat_activity_delete_talk_list_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.supporters_chat_activity_delete_talk_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -73,42 +70,72 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatTalkData productItems = items.get(position);
-        MyLog.d("프로덕트아이템즈 : " + productItems);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChatTalkData chatTalkData = (ChatTalkData) items.get(position);
-                Intent intent = new Intent(context, ChatTalkContentsActivity.class);
-                intent.putExtra("roomId",chatTalkData.id);
-                intent.putExtra("owner", chatTalkData.getOwner()); //흠 이렇게해도 되는건가.. 아닌것같다
-                intent.putExtra("participant", chatTalkData.getParticipant());
-                intent.putExtra("callActivity", "ChatTalkFragment");
+        //서버에서 가져오는값 : 내 닉네임이 participant에 있던 owner에있던 우선 전부 가져온다
+        String userNickName = ((MyApp)context.getApplicationContext()).getMemberNickName();
+        if(userNickName.equals(productItems.getParticipant())) productItems.setNowAdapterRoomNickName("participant");
+        else productItems.setNowAdapterRoomNickName("owner");
+        if(productItems.getNowAdapterRoomNickName().equals("participant")&&! productItems.isParticipant_is_exit()) {
+            //현재룸이 참가자입장이고, 나가지않았을경우
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChatTalkData chatTalkData = (ChatTalkData) items.get(position);
+                    Intent intent = new Intent(context, ChatTalkContentsActivity.class);
+                    intent.putExtra("roomId", chatTalkData.id);
+                    intent.putExtra("owner", chatTalkData.getOwner()); //흠 이렇게해도 되는건가.. 아닌것같다
+                    intent.putExtra("participant", chatTalkData.getParticipant());
+                    intent.putExtra("callActivity", "ChatTalkFragment");
 
-                //멤버의 프로필을 보려면 그사람의 seq를 조회하고 프로필화면으로 들어갔을때
-                //그사람의 전체게시글,닉네임,설명 등을 확인해야할듯!!
-                //추가하자!
-                context.startActivity(intent);
+                    //멤버의 프로필을 보려면 그사람의 seq를 조회하고 프로필화면으로 들어갔을때
+                    //그사람의 전체게시글,닉네임,설명 등을 확인해야할듯!!
+                    //추가하자!
+                    context.startActivity(intent);
+                }
+            });
+            holder.name.setText(productItems.getOwner());
+            holder.description.setText(productItems.getLast_chat_contents());
+
+            if (StringLib.getInstance().isBlank(productItems.getParticipantMemberIconFileName())) {
+                Picasso.with(context).load(R.drawable.ic_person).into(holder.image);
+            } else {
+                Picasso.with(context)
+                        .load(RemoteService.MEMBER_ICON_URL +productItems.getParticipantMemberIconFileName())
+                        .into(holder.image);
             }
-        });
-        MyLog.d("어디가먼저?");
-        holder.name.setText(productItems.getOwner());
-        holder.description.setText(productItems.getParticipant());
-        holder.image.setImageResource(imageId[0]);
-
+        }else if(productItems.getNowAdapterRoomNickName().equals("owner")&&!productItems.isOwner_is_exit()){
+            //현재룸이 owner입장이고, 나가지않은경우
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChatTalkData chatTalkData = (ChatTalkData) items.get(position);
+                    Intent intent = new Intent(context, ChatTalkContentsActivity.class);
+                    intent.putExtra("roomId", chatTalkData.id);
+                    intent.putExtra("owner", chatTalkData.getOwner()); //흠 이렇게해도 되는건가.. 아닌것같다
+                    intent.putExtra("participant", chatTalkData.getParticipant());
+                    intent.putExtra("callActivity", "ChatTalkFragment");
+                    context.startActivity(intent);
+                }
+            });
+            holder.name.setText(productItems.getOwner());
+            holder.description.setText(productItems.getLast_chat_contents());
+            if (StringLib.getInstance().isBlank(productItems.getOwnerMemberIconFileName())) {
+                Picasso.with(context).load(R.drawable.ic_person).into(holder.image);
+            } else {
+                Picasso.with(context)
+                        .load(RemoteService.MEMBER_ICON_URL +productItems.getOwnerMemberIconFileName())
+                        .into(holder.image);
+            }
+        }
     }
-
     @Override
     public int getItemCount() {
         return this.items.size();
     }
-
-
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView description, name;
         ImageView image;
 
         public ViewHolder(View itemView) {
-
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.card_name);
             description = (TextView) itemView.findViewById(R.id.card_description);
