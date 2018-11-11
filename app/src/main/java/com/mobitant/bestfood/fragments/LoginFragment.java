@@ -127,9 +127,8 @@ public class LoginFragment extends Fragment {
         autoLogin = (CheckBox) v.findViewById(R.id.select_autologin);
         ((MyApp) getActivity().getApplicationContext()).setting = this.getActivity().getSharedPreferences("setting", 0);
         ((MyApp) getActivity().getApplicationContext()).editor = ((MyApp) getActivity().getApplicationContext()).setting.edit();
-
-
         //자동로그인 구현 끝
+
         mBtLogin.setOnClickListener(view -> login());
         mTvRegister.setOnClickListener(view -> goToRegister());
         mTvForgotPassword.setOnClickListener(view -> showDialog());
@@ -154,8 +153,6 @@ public class LoginFragment extends Fragment {
             ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled", true);
             ((MyApp) getActivity().getApplicationContext()).editor.commit();
         }
-
-
         int err = 0;
 
         if (!validateEmail(email)) {

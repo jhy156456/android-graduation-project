@@ -116,5 +116,6 @@
     <string name="no_keep">즐겨찾기에 등록된 소프트웨어가 없습니다.</string>
     <string name="kakao_app_key">65e84d107c900fd753f714fa37fa01dd</string>
 
-
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
 </resources>

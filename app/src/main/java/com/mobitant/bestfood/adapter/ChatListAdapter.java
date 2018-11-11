@@ -57,7 +57,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     public void addFirst(ChatTalkData chatTalkData){
         this.items.add(0,chatTalkData);
     }
+    public void modifyLastChatContents(int index,String lastChatContents){
 
+        this.items.get(index).setLast_chat_contents(lastChatContents);
+        notifyDataSetChanged();
+    }
+public ChatTalkData getItem(int index){
+        return this.items.get(index);
+}
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

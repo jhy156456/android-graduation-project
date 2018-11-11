@@ -7,16 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.item.ChatContentsItem;
 import com.mobitant.bestfood.item.ChatTalkData;
+import com.mobitant.bestfood.lib.StringLib;
+import com.mobitant.bestfood.remote.RemoteService;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import customfonts.MyEditText;
 import customfonts.MyTextView_Roboto_Regular;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
@@ -50,27 +55,36 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 .inflate(layout, parent, false);
         return new ViewHolder(v);
     }
-    public void addFirstItem(ChatContentsItem chatContentsItem){
-        this.mMessages.add(0,chatContentsItem);
+
+    public void addFirstItem(ChatContentsItem chatContentsItem) {
+        this.mMessages.add(0, chatContentsItem);
     }
 
-    public void addItem(ChatContentsItem chatContentsItem){
+    public void addItem(ChatContentsItem chatContentsItem) {
         this.mMessages.add(chatContentsItem);
-}
+    }
 
     public void addItemList(ArrayList<ChatContentsItem> itemList) {
         this.mMessages.addAll(itemList);
         notifyDataSetChanged();
     }
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         ChatContentsItem message = mMessages.get(position);
 
         if (message.getType() == 0) {//보낸메세지
             viewHolder.setSendMessage(message.getChat());
-        } else {
+        } else {//받은메세지
             viewHolder.setReceiveMessage(message.getChat());
             viewHolder.setUsername(message.getUser());
+            if (StringLib.getInstance().isBlank(message.getSenderMemberIconFileName())) {
+                Picasso.with(context).load(R.drawable.ic_person).into(viewHolder.circle_image);
+            } else {
+                Picasso.with(context)
+                        .load(RemoteService.MEMBER_ICON_URL + message.getSenderMemberIconFileName())
+                        .into(viewHolder.circle_image);
+            }
         }
     }
 
@@ -82,7 +96,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public int getItemViewType(int position) {
 
-        if (mMessages.get(position).getSender().equals("asdf")){//본인이 보낸 메세지
+        if (mMessages.get(position).getSender().equals(((MyApp)context.getApplicationContext()).getMemberNickName())) {//본인이 보낸 메세지
             mMessages.get(position).setType(ChatContentsItem.TYPE_MESSAGE);
         } else {
             mMessages.get(position).setType(ChatContentsItem.TYPE_RECEIVE);
@@ -94,10 +108,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         private MyTextView_Roboto_Regular mUsernameView;
         private MyTextView_Roboto_Regular mReceiveMessageView;
         private MyTextView_Roboto_Regular mSendMessageView;
+        private CircleImageView circle_image;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
+            circle_image = (CircleImageView) itemView.findViewById(R.id.circle_image);
             mUsernameView = (MyTextView_Roboto_Regular) itemView.findViewById(R.id.username);
             mReceiveMessageView = (MyTextView_Roboto_Regular) itemView.findViewById(R.id.receive_message);
             mSendMessageView = (MyTextView_Roboto_Regular) itemView.findViewById(R.id.send_message);
@@ -106,7 +121,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public void setUsername(String username) {
             if (null == mUsernameView) return;
             mUsernameView.setText(username);
-           // mUsernameView.setTextColor(getUsernameColor(username));
+            // mUsernameView.setTextColor(getUsernameColor(username));
         }
 
         public void setSendMessage(String message) {

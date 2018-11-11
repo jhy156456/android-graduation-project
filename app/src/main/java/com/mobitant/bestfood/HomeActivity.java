@@ -1,5 +1,6 @@
 package com.mobitant.bestfood;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -37,10 +38,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener {
+public class HomeActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener {
     private final String TAG = this.getClass().getSimpleName();
     public static final int fromHomeActivity = 1006;
-    LinearLayout linearLayout,contentLayout,supportersLayout;
+    LinearLayout linearLayout, contentLayout, supportersLayout;
     DrawerLayout drawer;
     View headerLayout;
     User currentUser;
@@ -51,46 +53,54 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     SliderLayout mDemoSlider;
     NavigationView navigationView;
     TextView nameText;
-
+    Context context;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-
+        context = this;
+        ((MyApp) getApplication()).setting = getSharedPreferences("setting", 0);
+        ((MyApp) getApplication()).editor = ((MyApp) getApplication()).setting.edit();
         currentUser = ((MyApp) getApplication()).getMemberInfoItem();
-requestLogout();
-        //슬라이더시작
+        requestLogout();
+        setSlider();
+        setToolBar();
+        setNavigationView();
+        //setNavLogin();onCreate랑 onResume이 앱이 시작될때 호출된다면 여기에 setNav를 할 필요가 없지않을까?
+        setHomeMenu();
+    }
+
+    private void setSlider() {
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         mainSlider();
+    }
 
-//슬라이더끝
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    private void setNavigationView() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);//툴바왼쪽3줄 생성
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
         headerLayout = navigationView.getHeaderView(0);
+    }
 
+    private void setToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
 
-        ((MyApp) getApplication()).setting = getSharedPreferences("setting", 0);
-        ((MyApp) getApplication()).editor = ((MyApp) getApplication()).setting.edit();
-
-
-        setNavLogin();
-
+    private void setHomeMenu() {
         linearLayout = (LinearLayout) findViewById(R.id.buy);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                Intent intent = new Intent(context, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
@@ -100,60 +110,59 @@ requestLogout();
         contentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ContestActivity.class);
+                Intent intent = new Intent(context, ContestActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
         });
-        supportersLayout =(LinearLayout)findViewById(R.id.go_supporters);
+        supportersLayout = (LinearLayout) findViewById(R.id.go_supporters);
         supportersLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, SupportersActivity.class);
+                Intent intent = new Intent(context, SupportersActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
         });
-
-
     }
 
-public void mainSlider(){
-    HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
-    file_maps.put("1", R.drawable.s1);
-    file_maps.put("2", R.drawable.s2);
-    file_maps.put("3", R.drawable.s3);
+    public void mainSlider() {
+        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("1", R.drawable.s1);
+        file_maps.put("2", R.drawable.s2);
+        file_maps.put("3", R.drawable.s3);
 
 
-    for (String name : file_maps.keySet()) {
-        TextSliderView textSliderView = new TextSliderView(this);
-        // initialize a SliderLayout
-        textSliderView
-                //  .description(name)
-                .image(file_maps.get(name))
-                .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-                .setOnSliderClickListener(this);
+        for (String name : file_maps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView
+                    //  .description(name)
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                    .setOnSliderClickListener(this);
 
 
-        textSliderView.bundle(new Bundle());
-        textSliderView.getBundle().putString("extra", name);
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle().putString("extra", name);
 
-        mDemoSlider.addSlider(textSliderView);
+            mDemoSlider.addSlider(textSliderView);
+        }
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new ChildAnimationExample());
+        mDemoSlider.setDuration(4000);
+        mDemoSlider.addOnPageChangeListener(this);
     }
-    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-    mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-    mDemoSlider.setCustomAnimation(new ChildAnimationExample());
-    mDemoSlider.setDuration(4000);
-    mDemoSlider.addOnPageChangeListener(this);
-}
+
     public void setNavLogin() {
         menuItem = menu.getItem(4);
         profileMenuItem = menu.getItem(6);
         logoutMenuItem = menu.getItem(5);
-
         if (((MyApp) getApplication()).setting.getBoolean("Auto_Login_enabled", false)) {
+            //자동로그인이 선택된적이 있다면
             loginProcess(((MyApp) getApplication()).setting.getString("ID", ""));
             profileMenuItem.setVisible(true);
             menuItem.setVisible(false);
@@ -163,17 +172,12 @@ public void mainSlider(){
             menuItem.setTitle("로그인");
             profileMenuItem.setVisible(false);
             logoutMenuItem.setVisible(false);
-        } else{ //자동로그인 클릭 안했을경우
+        } else { //자동로그인 클릭 안했을경우
             profileMenuItem.setVisible(true);
             menuItem.setVisible(false);
             logoutMenuItem.setVisible(true);
         }
-
-
     }
-
-
-
 
 
     private void loginProcess(String email) {
@@ -185,10 +189,9 @@ public void mainSlider(){
             @Override
             public void onResponse(Call<User> call, retrofit2.Response<User> response) {
                 User item = response.body();
-
                 if (response.isSuccessful() && !StringLib.getInstance().isBlank(item.name)) { //널검사 , 응답성공검사
                     MyLog.d(TAG, "success " + response.body().toString());
-                    ((MyApp)getApplication()).setUserItem(item);
+                    ((MyApp) getApplication()).setUserItem(item);
                     currentUser = item;
                     setProfileView();
 
@@ -207,6 +210,7 @@ public void mainSlider(){
         });
 
     }
+
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
@@ -220,28 +224,6 @@ public void mainSlider(){
         return true;
     }
 
-    /**
-     * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
-     * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
-     * 여기서는 모든 버튼이 액티비티를 종료한다.
-     *
-     * @param item 메뉴 아이템 객체
-     * @return 메뉴를 처리했다면 true, 그렇지 않다면 false
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                //close();
-                break;
-
-            case R.id.action_submit:
-                //save();
-                break;
-        }
-
-        return true;
-    }
 
     /**
      * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
@@ -254,7 +236,7 @@ public void mainSlider(){
         setNavLogin();
         setProfileView();
     }
-
+// <====================네비게이션 필요한 메뉴들 시작======================>
     /**
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
@@ -267,7 +249,6 @@ public void mainSlider(){
                 GoLib.getInstance().goProfileActivity(HomeActivity.this);
             }
         });
-
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
         } else {
@@ -275,13 +256,13 @@ public void mainSlider(){
                     .load(RemoteService.MEMBER_ICON_URL + currentUser.memberIconFilename)
                     .into(profileIconImage);
         }
-
-        nameText = (TextView) headerLayout.findViewById(R.id.name);
-
+        nameText = (TextView) headerLayout.findViewById(R.id.header_name);
         if (currentUser.nickname == null || currentUser.nickname.equals("")) {
             nameText.setText("로그인해주세요");
+            MyLog.d("로그인해주세요");
         } else {
             nameText.setText(currentUser.name);
+            MyLog.d("currentUser.name : " + currentUser.name);
         }
     }
 
@@ -303,38 +284,32 @@ public void mainSlider(){
         } else if (id == R.id.nav_notice) {
             GoLib.getInstance().goNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
-
             GoLib.getInstance().goKeepActivity(this);
-
         } else if (id == R.id.nav_register) {
             if (currentUser.nickname == null || currentUser.nickname.equals("")) {
-
-
             }
-            GoLib.getInstance().goBestFoodRegisterActivity(this,fromHomeActivity);
+            GoLib.getInstance().goBestFoodRegisterActivity(this, fromHomeActivity);
 
         } else if (id == R.id.nav_login) {
             GoLib.getInstance().goLoginActivity(this);
-        }else if(id==R.id.nav_logout) {
-            ((MyApp)getApplication()).editor.remove("ID");
-            ((MyApp)getApplication()).editor.remove("PW");
-            ((MyApp)getApplication()).editor.remove("Auto_Login_enabled");
-            ((MyApp)getApplication()).editor.clear();
-            ((MyApp)getApplication()).editor.commit();
+        } else if (id == R.id.nav_logout) {
+            ((MyApp) getApplication()).editor.remove("ID");
+            ((MyApp) getApplication()).editor.remove("PW");
+            ((MyApp) getApplication()).editor.remove("Auto_Login_enabled");
+            ((MyApp) getApplication()).editor.clear();
+            ((MyApp) getApplication()).editor.commit();
 
             currentUser = new User();
             Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-            ((MyApp)getApplication()).setUserItem(currentUser);
+            ((MyApp) getApplication()).setUserItem(currentUser);
             setNavLogin();
             setProfileView();
-        }
-
-        else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
-        }else if (id==R.id.nav_question){
-            if (((MyApp)getApplication()).getMemberNickname() == null || ((MyApp)getApplication()).equals("")) {
+        } else if (id == R.id.nav_question) {
+            if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).equals("")) {
                 DialogLib.getInstance().inputPostDialog(this);
-            }else{
+            } else {
                 GoLib.getInstance().goNotificationActivity(this);
             }
         }
@@ -345,7 +320,6 @@ public void mainSlider(){
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-
     }
 
     protected void onNewIntent(Intent intent) {

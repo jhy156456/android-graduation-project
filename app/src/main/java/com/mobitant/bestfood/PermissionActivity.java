@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class PermissionActivity extends AppCompatActivity {
     private static final int PERMISSION_MULTI_CODE = 100;
-    private String myIp = "192.168.25.6";
+
     /**
      * 화면을 구성하고 SDK 버전과 권한에 따른 처리를 한다.
      * @param savedInstanceState 액티비티가 새로 생성되었을 경우, 이전 상태 값을 가지는 객체
@@ -127,7 +127,6 @@ public class PermissionActivity extends AppCompatActivity {
         //권한이 부여되었다면
         if (isAllGranted) {
             gogoDevice();
-
             goIndexActivity();
 
         //권한이 부여되어 있지 않다면
@@ -186,14 +185,13 @@ public class PermissionActivity extends AppCompatActivity {
 
     public void gogoDevice() {
 
-        String url = "http://"+myIp+":3000/process/adddevice";
-
+        String url = Constant.NETWORK_URL+ "process/adddevice";
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            MyLog.d("onResponse() 호출됨 : " + response);
+                            MyLog.d("PermissionActivitiy의 onResponse() 호출됨 : " + response);
                             gogoFcm();
                             //디바이스를 먼저 등록하고 gogoFcm을 실행해야한다
                             //gogoFcm 서버코드에서 디바이스를 검색하고 Firebase에서 받아온등록ID를 업데이트시키므로
@@ -295,7 +293,7 @@ public class PermissionActivity extends AppCompatActivity {
     }
 
     public void sendToMobileServer(final String regId) {
-        String registerUrl = "http://"+myIp+":3000/process/register";
+        String registerUrl = Constant.NETWORK_URL+"process/register";
 
         StringRequest request = new StringRequest(Request.Method.POST, registerUrl,
                 new Response.Listener<String>() {

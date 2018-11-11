@@ -1,15 +1,20 @@
 package com.mobitant.bestfood.fragments;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -126,7 +131,7 @@ public class RegisterFragment extends Fragment {
         String email = mEtEmail.getText().toString();
         String password = mEtPassword.getText().toString();
         String nickName = mEtNickName.getText().toString();
-        String memberType="";
+        String memberType = "";
         int err = 0;
 
         if (!validateFields(name)) {
@@ -150,20 +155,21 @@ public class RegisterFragment extends Fragment {
             err++;
             mTiNickName.setError("닉네임을 입력하세요!");
         }
-        if(selectSupporters==null||selectSeller==null||selectBuyer==null){
+        if (selectSupporters == null || selectSeller == null || selectBuyer == null) {
             err++;
-            Toast.makeText(getContext(),"유형을 선택하세요!",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "유형을 선택하세요!", Toast.LENGTH_LONG).show();
         }
         if (err == 0) {
-            if(selectBuyer.isChecked()) memberType = "Buyer";
-            else if(selectSeller.isChecked())memberType = "Seller";
-            else if (selectSupporters.isChecked())memberType="Supporters";
+            if (selectBuyer.isChecked()) memberType = "Buyer";
+            else if (selectSeller.isChecked()) memberType = "Seller";
+            else if (selectSupporters.isChecked()) memberType = "Supporters";
             User user = new User();
             user.setName(name);
             user.setUserType(memberType);
             user.setEmail(email);
             user.setPassword(password);
             user.setNickName(nickName);
+            user.setPhone(getPhoneNumber());
             mProgressbar.setVisibility(View.VISIBLE);
             registerProcess(user);
 
@@ -265,5 +271,28 @@ public class RegisterFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mSubscriptions.unsubscribe();
+    }
+
+    private String getPhoneNumber(){
+        // 1. mobile
+        String mobile = null;
+        TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_SMS)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_NUMBERS)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return null;
+        }
+        if (telephonyManager.getLine1Number() != null) {
+            mobile = telephonyManager.getLine1Number();
+        }
+        return mobile;
     }
 }

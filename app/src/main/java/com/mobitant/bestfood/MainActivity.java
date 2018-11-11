@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
+// <====================네비게이션 필요한 메뉴들 시작======================>
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
@@ -114,17 +114,6 @@ public class MainActivity extends AppCompatActivity
 
     }
     /**
-     * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
-     * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setNavLogin();
-        setProfileView();
-    }
-
-    /**
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
     private void setProfileView() {
@@ -145,7 +134,7 @@ public class MainActivity extends AppCompatActivity
                     .into(profileIconImage);
         }
 
-        TextView nameText = (TextView) headerLayout.findViewById(R.id.name);
+        TextView nameText = (TextView) headerLayout.findViewById(R.id.header_name);
 
         if (userItem.name == null || userItem.name.equals("")) {
             nameText.setText(R.string.name_need);
@@ -199,4 +188,18 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    // <====================네비게이션 필요한 메뉴들 끝======================>
+    /**
+     * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
+     * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setNavLogin();
+        setProfileView();
+    }
+
+
 }

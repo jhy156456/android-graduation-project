@@ -241,6 +241,7 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
         curItem.setChat(message);
         curItem.setUser(((MyApp) getApplicationContext()).getMemberNickName());
         curItem.setSender("asdf");
+        curItem.setSenderMemberIconFileName(((MyApp)getApplicationContext()).getMemberNickName());
         curItem.setReceiver("qwer");
         mInputMessageView.setText("");
         sendChat(curItem);

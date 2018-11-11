@@ -20,6 +20,25 @@ public class ChatContentsItem {
     private int type;
     @SerializedName("receiver_member_icon_file_name")
     private String receiverMemberIconFileName;
+    @SerializedName("sender_member_icon_file_name")
+    private String senderMemberIconFileName;
+
+
+    public String getSenderMemberIconFileName() {
+        return senderMemberIconFileName;
+    }
+
+    public void setSenderMemberIconFileName(String senderMemberIconFileName) {
+        this.senderMemberIconFileName = senderMemberIconFileName;
+    }
+
+    public String getReceiverMemberIconFileName() {
+        return receiverMemberIconFileName;
+    }
+
+    public void setReceiverMemberIconFileName(String receiverMemberIconFileName) {
+        this.receiverMemberIconFileName = receiverMemberIconFileName;
+    }
 
     public ChatContentsItem() {
     }

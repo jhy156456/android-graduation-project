@@ -39,12 +39,13 @@ public class KeepActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.fragment_bestfood_keep);
-setToolbar();
+        setToolbar();
+        setRecyclerView();
+        listKeep(memberSeq);
+    }
 
-
-
+    private void setRecyclerView() {
         keepRecyclerView = (RecyclerView) findViewById(R.id.keep_list);
         noDataText = (TextView) findViewById(R.id.no_keep);
 
@@ -56,23 +57,21 @@ setToolbar();
                 StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         keepRecyclerView.setLayoutManager(layoutManager);
         keepRecyclerView.setAdapter(keepListAdapter);
-
-        listKeep(memberSeq);
     }
+
     /**
      * 툴바를 설정한다.
      */
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(R.string.nav_keep);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem mItem) {
         //원래 MenuItem item 이였는데 지금보고있는 게시물의 변수명인 item과 같아서 오류가났었다
@@ -82,14 +81,14 @@ setToolbar();
                 finish();
                 break;
         }
-
         return super.onOptionsItemSelected(mItem);
     }
+
     @Override
     public void onResume() {
         super.onResume();
 
-        MyApp myApp = ((MyApp)getApplication());
+        MyApp myApp = ((MyApp) getApplication());
         FoodInfoItem currentInfoItem = myApp.getFoodInfoItem();
 
         if (keepListAdapter != null && currentInfoItem != null) {
@@ -104,6 +103,7 @@ setToolbar();
 
     /**
      * 서버에서 즐겨찾기한 맛집 정보를 조회한다.
+     *
      * @param memberSeq 사용자 시퀀스
      */
     private void listKeep(int memberSeq) {

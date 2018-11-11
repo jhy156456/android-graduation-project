@@ -23,8 +23,6 @@ public class MyApp extends Application {
     private static MyApp instance;
     private String chatWhoAmI;
     private Boolean isChatExitButton;
-
-
     private static volatile MyApp obj = null;
     private static volatile Activity currentActivity = null;
 

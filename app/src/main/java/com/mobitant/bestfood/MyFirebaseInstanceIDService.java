@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = "MyIID";
-    private String myIp = "192.168.25.6";
+
     @Override
     //토큰 : 등록아이디, 등록아이디 갱신되었을때(단말환경 바뀌었을때 갱신됨)
 
@@ -32,8 +32,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         gogoFcm();
 
         //(0928작성)
-        //음 여기서 권한이란건 뭔지 모르겠는데  내생각엔.. gogoDevice함수를 호출하기위해선 권한이 필요할것같다.
-        //그래서 이 클래스에 작성하면 먼저 설치시에  onTokenRefresh()를 호출하지만 권하닝 없어서 gogoDevice를 실행하지 못하기때문에
+        //음 여기서 권한이란건 뭔지 모르겠는데  내생각엔.. gogoDevice함수를 호출하기위해선 권한이 필요한것같다.
+        //그래서 이 클래스에 작성하면 먼저 설치시에  onTokenRefresh()를 호출하지만 권한이 없어서 gogoDevice를 실행하지 못하기때문에
         //등록아이디를 데이터베이스에 저장못하는것같음!
         //나중에 시간날때 한번 확인해보장~
 
@@ -52,7 +52,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     public void sendToMobileServer(final String regId) {
-        String registerUrl = "http://"+myIp+":3000/process/register";
+        MyLog.d("sendToMobileServer 호출 ");
+        String registerUrl = Constant.NETWORK_URL+"process/register";
 
         StringRequest request = new StringRequest(Request.Method.POST, registerUrl,
                 new Response.Listener<String>() {

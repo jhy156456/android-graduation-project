@@ -54,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //중요도 설정, MAX(5), HIGH(4), DEFAULT(3), LOW(2), MIN(1), NONE(0), UNSPECIFIED(-1000), MAX를 사용하려면 @SuppressLint("WrongConstant") 를 맨 앞에 붙여야함
-            @SuppressLint("WrongConstant") NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "소미팅", NotificationManager.IMPORTANCE_MAX);
+            @SuppressLint("WrongConstant") NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "SoMeeting", NotificationManager.IMPORTANCE_MAX);
 
             // Configure the notification channel.
             notificationChannel.setDescription("Channel description");
