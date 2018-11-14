@@ -1,6 +1,9 @@
 package com.mobitant.bestfood;
 
+import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -23,6 +26,7 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.mobitant.bestfood.fragments.BestFoodKeepFragment;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
+import com.mobitant.bestfood.fragments.LoginNickNameSettingFragment;
 import com.mobitant.bestfood.lib.DialogLib;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
@@ -61,10 +65,9 @@ public class HomeActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         context = this;
-        ((MyApp) getApplication()).setting = getSharedPreferences("setting", 0);
-        ((MyApp) getApplication()).editor = ((MyApp) getApplication()).setting.edit();
-        currentUser = ((MyApp) getApplication()).getMemberInfoItem();
-        requestLogout();
+        ((MyApp) getApplicationContext()).setting = getSharedPreferences("setting", 0);
+        ((MyApp) getApplicationContext()).editor = ((MyApp) getApplicationContext()).setting.edit();
+        currentUser = ((MyApp) getApplicationContext()).getMemberInfoItem();
         setSlider();
         setToolBar();
         setNavigationView();
@@ -103,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
         contentLayout = (LinearLayout) findViewById(R.id.content_layout);
@@ -113,7 +116,7 @@ public class HomeActivity extends AppCompatActivity implements
                 Intent intent = new Intent(context, ContestActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
         supportersLayout = (LinearLayout) findViewById(R.id.go_supporters);
@@ -123,7 +126,7 @@ public class HomeActivity extends AppCompatActivity implements
                 Intent intent = new Intent(context, SupportersActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }
@@ -161,9 +164,16 @@ public class HomeActivity extends AppCompatActivity implements
         menuItem = menu.getItem(4);
         profileMenuItem = menu.getItem(6);
         logoutMenuItem = menu.getItem(5);
-        if (((MyApp) getApplication()).setting.getBoolean("Auto_Login_enabled", false)) {
+        if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled", false)) {
             //자동로그인이 선택된적이 있다면
-            loginProcess(((MyApp) getApplication()).setting.getString("ID", ""));
+            loginProcess(((MyApp) getApplicationContext()).setting.getString("ID", ""));
+            profileMenuItem.setVisible(true);
+            menuItem.setVisible(false);
+            logoutMenuItem.setVisible(true);
+        } else if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled_Kakao", false)) {
+            MyLog.d("카카오 일로오세욤");
+            isPastKaKaoLogin(((MyApp) getApplicationContext()).setting.getString("KakaoEmail", ""),
+                    ((MyApp) getApplicationContext()).setting.getString("KakaoNickName", ""));
             profileMenuItem.setVisible(true);
             menuItem.setVisible(false);
             logoutMenuItem.setVisible(true);
@@ -189,10 +199,13 @@ public class HomeActivity extends AppCompatActivity implements
             @Override
             public void onResponse(Call<User> call, retrofit2.Response<User> response) {
                 User item = response.body();
+                MyLog.d("홈액티비티 로그인프로세스 리스폰스값 : " + item);
                 if (response.isSuccessful() && !StringLib.getInstance().isBlank(item.name)) { //널검사 , 응답성공검사
                     MyLog.d(TAG, "success " + response.body().toString());
-                    ((MyApp) getApplication()).setUserItem(item);
+                    ((MyApp) getApplicationContext()).setUserItem(item);
                     currentUser = item;
+                    MyLog.d("홈액티비티 커렌트유저 : " + currentUser);
+                    MyLog.d("홈액티비티 아이템  : " + item);
                     setProfileView();
 
                 } else {
@@ -232,11 +245,12 @@ public class HomeActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        currentUser = ((MyApp) getApplication()).getMemberInfoItem();
+        currentUser = ((MyApp) getApplicationContext()).getMemberInfoItem();
         setNavLogin();
         setProfileView();
     }
 // <====================네비게이션 필요한 메뉴들 시작======================>
+
     /**
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
@@ -284,30 +298,35 @@ public class HomeActivity extends AppCompatActivity implements
         } else if (id == R.id.nav_notice) {
             GoLib.getInstance().goNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
-            GoLib.getInstance().goKeepActivity(this);
+            if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).equals("")) {
+                DialogLib.getInstance().inputPostDialog(this);
+            } else {
+                GoLib.getInstance().goKeepActivity(this);
+            }
         } else if (id == R.id.nav_register) {
             if (currentUser.nickname == null || currentUser.nickname.equals("")) {
             }
             GoLib.getInstance().goBestFoodRegisterActivity(this, fromHomeActivity);
-
         } else if (id == R.id.nav_login) {
             GoLib.getInstance().goLoginActivity(this);
         } else if (id == R.id.nav_logout) {
-            ((MyApp) getApplication()).editor.remove("ID");
-            ((MyApp) getApplication()).editor.remove("PW");
-            ((MyApp) getApplication()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplication()).editor.clear();
-            ((MyApp) getApplication()).editor.commit();
-
+            ((MyApp) getApplicationContext()).editor.remove("ID");
+            ((MyApp) getApplicationContext()).editor.remove("PW");
+            ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
+            ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
+            ((MyApp) getApplicationContext()).editor.clear();
+            ((MyApp) getApplicationContext()).editor.commit();
             currentUser = new User();
-            Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-            ((MyApp) getApplication()).setUserItem(currentUser);
+            requestLogout();
+            ((MyApp) getApplicationContext()).setUserItem(currentUser);
             setNavLogin();
             setProfileView();
         } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
         } else if (id == R.id.nav_question) {
-            if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).equals("")) {
+            if (((MyApp) getApplicationContext()).getMemberNickname() == null || ((MyApp) getApplicationContext()).equals("")) {
                 DialogLib.getInstance().inputPostDialog(this);
             } else {
                 GoLib.getInstance().goNotificationActivity(this);
@@ -362,11 +381,30 @@ public class HomeActivity extends AppCompatActivity implements
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(HomeActivity.this, "로그아웃 성공", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
 
+    public void isPastKaKaoLogin(String email, String name) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+        Call<User> call = remoteService.isPastKaKaoLogin(email, name);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
+                if (response.isSuccessful()) {
+                    ((MyApp) getApplicationContext()).setUserItem(response.body());
+                } else { // 등록 실패
+                    MyLog.d(TAG, "response error " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                MyLog.d(TAG, "no internet connectivity");
+            }
+        });
+    }
 }

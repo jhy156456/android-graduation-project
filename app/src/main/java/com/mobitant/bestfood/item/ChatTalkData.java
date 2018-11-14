@@ -25,7 +25,15 @@ public class ChatTalkData {
     private String participantMemberIconFileName;
     @SerializedName("owner_member_icon_file_name")
     private String ownerMemberIconFileName;
+private String whoAmI;
 
+    public String getWhoAmI() {
+        return whoAmI;
+    }
+
+    public void setWhoAmI(String whoAmI) {
+        this.whoAmI = whoAmI;
+    }
 
     public String getParticipantMemberIconFileName() {
         return participantMemberIconFileName;

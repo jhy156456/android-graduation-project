@@ -18,29 +18,29 @@ public class ChatContentsItem {
     private String receiver;
     private Date createdAt;
     private int type;
-    @SerializedName("receiver_member_icon_file_name")
-    private String receiverMemberIconFileName;
-    @SerializedName("sender_member_icon_file_name")
-    private String senderMemberIconFileName;
-
-
-    public String getSenderMemberIconFileName() {
-        return senderMemberIconFileName;
+    @SerializedName("sender_id")
+    private SenderID senderId;
+    @SerializedName("receiver_id")
+    private ReceiverID receiverId;
+    public SenderID getSenderId() {
+        return senderId;
     }
 
-    public void setSenderMemberIconFileName(String senderMemberIconFileName) {
-        this.senderMemberIconFileName = senderMemberIconFileName;
+    public void setSenderId(SenderID senderId) {
+        this.senderId = senderId;
     }
 
-    public String getReceiverMemberIconFileName() {
-        return receiverMemberIconFileName;
+    public ReceiverID getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceiverMemberIconFileName(String receiverMemberIconFileName) {
-        this.receiverMemberIconFileName = receiverMemberIconFileName;
+    public void setReceiverId(ReceiverID receiverId) {
+        this.receiverId = receiverId;
     }
 
     public ChatContentsItem() {
+        this.senderId = new SenderID();
+        this.receiverId = new ReceiverID();
     }
 
     public String getSender() {

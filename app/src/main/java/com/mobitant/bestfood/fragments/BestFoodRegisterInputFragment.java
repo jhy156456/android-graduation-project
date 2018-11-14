@@ -90,7 +90,7 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
     EditText nameEdit;
     EditText telEdit;
     EditText osEdit;
-    EditText descriptionEdit;
+    EditText descriptionEdit,sellPrice;
     TextView currentLength;
 
     private static final int PICK_FROM_CAMERA = 0;
@@ -197,6 +197,9 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
         telEdit = (EditText) view.findViewById(R.id.bestfood_tel);
         osEdit = (EditText) view.findViewById(R.id.bestfood_os);
         descriptionEdit = (EditText) view.findViewById(R.id.bestfood_description);
+        sellPrice=(EditText)view.findViewById(R.id.sell_price);
+        if(infoItem.post_category!=1002)sellPrice.setVisibility(View.GONE);
+
         descriptionEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -234,13 +237,13 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
         infoItem.description = descriptionEdit.getText().toString();
         infoItem.postMemberIconFilename = ((MyApp)getActivity().getApplication()).getMemberIconFilename();
         infoItem.memberSeq = ((MyApp)getActivity().getApplication()).getMemberSeq();
+        infoItem.setSell_price(sellPrice.getText().toString());
 
         MyLog.d(TAG, "onClick imageItem " + infoItem);
 
         if (v.getId() == R.id.prev) {
             GoLib.getInstance().goFragment(getFragmentManager(),
                     R.id.content_main, BestFoodListFragment.newInstance());
-            //원래 : R.id.content_main, BestFoodRegisterLocationFragment.newInstance(infoItem));
         } else if (v.getId() == R.id.next) {
             save();
         }else if (v.getId() == R.id.bestfood_image_register) {

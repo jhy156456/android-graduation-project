@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_more"
+        android:title="MainMenu"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/user_profile_like"
+                android:icon="@drawable/icon_up"
+                android:title="좋아요"
+                app:showAsAction="never"></item>
+
+            <item
+                android:id="@+id/user_profile_dislike"
+                android:icon="@drawable/icon_down"
+                android:title="싫어요"
+                app:showAsAction="never"></item>
+
+            <item
+                android:id="@+id/user_profile_send_message"
+                android:icon="@drawable/ic_chatting"
+                android:title="채팅"
+                app:showAsAction="never"></item>
+        </menu>
+
+    </item>
+</menu>

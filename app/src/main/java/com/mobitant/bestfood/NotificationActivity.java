@@ -35,6 +35,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
     MenuItem menuItem;
     MenuItem profileMenuItem,logoutMenuItem;
     NavigationView navigationView;
+    Toolbar toolbar;
     User userItem;
     CircleImageView profileIconImage;
 
@@ -42,12 +43,27 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         userItem = ((MyApp)getApplication()).getUserItem();
 
+        setToolBar();
+        setNavigationView();
 
+
+        setNavLogin();
+        GoLib.getInstance()
+                .goFragment(getSupportFragmentManager(), R.id.notification_change_fragment,
+                        NotificationListFragment.newInstance());
+
+    }
+
+    // <====================네비게이션 필요한 메뉴들 시작======================>
+    public void setToolBar(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+    public void setNavigationView(){
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
@@ -58,14 +74,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
         menu = navigationView.getMenu();//동적 메뉴아이템을위함
         navigationView.setNavigationItemSelectedListener(this);
         headerLayout = navigationView.getHeaderView(0);//동적 메뉴아이템을위함
-
-        setNavLogin();
-        GoLib.getInstance()
-                .goFragment(getSupportFragmentManager(), R.id.notification_change_fragment,
-                        NotificationListFragment.newInstance());
-
     }
-
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
@@ -109,16 +118,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
 
     }
 
-    /**
-     * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
-     * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setNavLogin();
-        setProfileView();
-    }
+
     /**
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
@@ -140,7 +140,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
                     .into(profileIconImage);
         }
 
-        TextView nameText = (TextView) headerLayout.findViewById(R.id.name);
+        TextView nameText = (TextView) headerLayout.findViewById(R.id.header_name);
 
         if (userItem.name == null || userItem.name.equals("")) {
             nameText.setText(R.string.name_need);
@@ -176,6 +176,18 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+// <====================네비게이션 필요한 메뉴들 끝======================>
+    /**
+     * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
+     * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setNavLogin();
+        setProfileView();
     }
 
     /**

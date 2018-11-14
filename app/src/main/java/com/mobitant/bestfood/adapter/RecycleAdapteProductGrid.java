@@ -110,7 +110,7 @@ public class RecycleAdapteProductGrid extends RecyclerView.Adapter<RecycleAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoLib.getInstance().goBestFoodInfoActivity(context, item.seq);
+                GoLib.getInstance().goBestFoodInfoActivity(context, item.seq,item.post_nickname);
             }
         });
 

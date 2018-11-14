@@ -14,11 +14,12 @@
         android:id="@+id/keep_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/keep_toolbar"
+        android:layout_below="@+id/no_keep"
         android:dividerHeight="@dimen/spacing_small" />
 
     <TextView
         android:id="@+id/no_keep"
+        android:layout_below="@+id/keep_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_red_dark"
@@ -28,6 +29,7 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_small2"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="gone"
+     />
 
 </RelativeLayout>

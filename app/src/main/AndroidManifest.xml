@@ -46,7 +46,9 @@
         <activity android:name=".BestFoodRegisterActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ProfileIconActivity" />
-        <activity android:name=".SoftwareBuyActivity" />
+        <activity android:name=".SoftwareBuyActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".ContestActivity" />
         <activity android:name=".KeepActivity" />

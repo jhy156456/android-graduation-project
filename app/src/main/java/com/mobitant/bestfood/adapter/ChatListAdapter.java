@@ -77,12 +77,15 @@ public ChatTalkData getItem(int index){
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatTalkData productItems = items.get(position);
+        MyLog.d("오우널 멤버아이콘파일네임 : " + productItems.getOwnerMemberIconFileName());
         //서버에서 가져오는값 : 내 닉네임이 participant에 있던 owner에있던 우선 전부 가져온다
         String userNickName = ((MyApp)context.getApplicationContext()).getMemberNickName();
         if(userNickName.equals(productItems.getParticipant())) productItems.setNowAdapterRoomNickName("participant");
         else productItems.setNowAdapterRoomNickName("owner");
         if(productItems.getNowAdapterRoomNickName().equals("participant")&&! productItems.isParticipant_is_exit()) {
+            MyLog.d("참가자 들어온곳");
             //현재룸이 참가자입장이고, 나가지않았을경우
+            //참가자 입장이던 owner입장이던 무슨상관이지? -> 닉네임띄워줄때 상대방닉넴을 띄워줘야하므로!!!
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,14 +105,15 @@ public ChatTalkData getItem(int index){
             holder.name.setText(productItems.getOwner());
             holder.description.setText(productItems.getLast_chat_contents());
 
-            if (StringLib.getInstance().isBlank(productItems.getParticipantMemberIconFileName())) {
+            if (StringLib.getInstance().isBlank(productItems.getOwnerMemberIconFileName())) {
                 Picasso.with(context).load(R.drawable.ic_person).into(holder.image);
             } else {
                 Picasso.with(context)
-                        .load(RemoteService.MEMBER_ICON_URL +productItems.getParticipantMemberIconFileName())
+                        .load(RemoteService.MEMBER_ICON_URL +productItems.getOwnerMemberIconFileName())
                         .into(holder.image);
             }
         }else if(productItems.getNowAdapterRoomNickName().equals("owner")&&!productItems.isOwner_is_exit()){
+            MyLog.d("오우널 들어온곳");
             //현재룸이 owner입장이고, 나가지않은경우
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,13 +127,13 @@ public ChatTalkData getItem(int index){
                     context.startActivity(intent);
                 }
             });
-            holder.name.setText(productItems.getOwner());
+            holder.name.setText(productItems.getParticipant());
             holder.description.setText(productItems.getLast_chat_contents());
-            if (StringLib.getInstance().isBlank(productItems.getOwnerMemberIconFileName())) {
+            if (StringLib.getInstance().isBlank(productItems.getParticipantMemberIconFileName())) {
                 Picasso.with(context).load(R.drawable.ic_person).into(holder.image);
             } else {
                 Picasso.with(context)
-                        .load(RemoteService.MEMBER_ICON_URL +productItems.getOwnerMemberIconFileName())
+                        .load(RemoteService.MEMBER_ICON_URL +productItems.getParticipantMemberIconFileName())
                         .into(holder.image);
             }
         }

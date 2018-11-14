@@ -8,15 +8,18 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -82,7 +85,7 @@ public class LoginFragment extends Fragment {
     CheckBox autoLogin;
     private LoginButton kakaoButton;
     private SessionCallback callback;
-
+    private User kakaoUser;
 
     @Nullable
     @Override
@@ -90,8 +93,6 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         callback = new SessionCallback();//아래와 이코드가 setonclick안에있으면 callback이 진행되지않았음...
         Session.getCurrentSession().addCallback(callback);
-
-
         mSubscriptions = new CompositeSubscription();
         initViews(view);
         initSharedPreferences();
@@ -117,7 +118,6 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-
                 Session.getCurrentSession().checkAndImplicitOpen();
             }
         });
@@ -132,10 +132,33 @@ public class LoginFragment extends Fragment {
         mBtLogin.setOnClickListener(view -> login());
         mTvRegister.setOnClickListener(view -> goToRegister());
         mTvForgotPassword.setOnClickListener(view -> showDialog());
+        //Enter key Action
+        mEtPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    login();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        mEtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        login();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initSharedPreferences() {
-
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
@@ -143,43 +166,32 @@ public class LoginFragment extends Fragment {
     private void login() {
 
         setError();
-
         String email = mEtEmail.getText().toString();
         String password = mEtPassword.getText().toString();
-
-        if (autoLogin.isChecked() == true) {
-            ((MyApp) getActivity().getApplicationContext()).editor.putString("ID", email);
-            ((MyApp) getActivity().getApplicationContext()).editor.putString("PW", password);
-            ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled", true);
-            ((MyApp) getActivity().getApplicationContext()).editor.commit();
-        }
         int err = 0;
-
         if (!validateEmail(email)) {
-
             err++;
             mTiEmail.setError("이메일이 유효하지 않습니다.");
         }
-
         if (!validateFields(password)) {
-
             err++;
             mTiPassword.setError("비밀번호를 입력하세요");
         }
-
         if (err == 0) {
-
+            if (autoLogin.isChecked() == true) {
+                ((MyApp) getActivity().getApplicationContext()).editor.putString("ID", email);
+                ((MyApp) getActivity().getApplicationContext()).editor.putString("PW", password);
+                ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled", true);
+                ((MyApp) getActivity().getApplicationContext()).editor.commit();
+            }
             loginProcess(email, password);
             mProgressBar.setVisibility(View.VISIBLE);
-
         } else {
-
             showSnackBarMessage("Enter Valid Details !");
         }
     }
 
     private void setError() {
-
         mTiEmail.setError(null);
         mTiPassword.setError(null);
     }
@@ -212,8 +224,6 @@ public class LoginFragment extends Fragment {
             }
 
         });
-
-
         mSubscriptions.add(ServiceGenerator.getRetrofit(email, password).login()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -268,7 +278,6 @@ public class LoginFragment extends Fragment {
     }
 
     private void goToRegister() {
-
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         RegisterFragment fragment = new RegisterFragment();
         ft.replace(R.id.fragmentFrame, fragment, RegisterFragment.TAG);
@@ -316,15 +325,25 @@ public class LoginFragment extends Fragment {
 
                 @Override
                 public void onSuccess(MeV2Response result) {
-//로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
-                    //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
-
-//                    Log.e("UserProfile", userProfile.toString());
-//                    Log.e("UserProfile", userProfile.getId() + "");
-
-                    Toast.makeText(getContext(), "userProfile" + result, Toast.LENGTH_LONG).show();
-                    MyLog.d("유저프로필 : " + result);
-
+             /*       로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
+                    사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.*/
+                    MyLog.d("프로필 닉네임 : " + result.getNickname());
+                    MyLog.d("프로필 이메일 : " + result.getKakaoAccount().getEmail());
+                    MyLog.d("프로필 이미지URL : " + result.getProfileImagePath());
+                    String name = result.getNickname();
+                    kakaoUser = new User();
+                    kakaoUser.setName(name);
+                    kakaoUser.setEmail(result.getKakaoAccount().getEmail());
+                    kakaoUser.setKakaoUser(false);
+                    isPastKaKaoLogin(result.getKakaoAccount().getEmail(), name);
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    Log.i("tag", "This'll run 300 milliseconds later");
+                                }
+                            },
+                            5000);
+                    return;
                 }
             });
         }
@@ -341,5 +360,42 @@ public class LoginFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void isPastKaKaoLogin(String email, String name) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+        Call<User> call = remoteService.isPastKaKaoLogin(email, name);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
+                User loadingUser = response.body();
+                if (response.isSuccessful()) {
+                        MyLog.d("로딩유저 : " + loadingUser);
+                    if (loadingUser == null) {//과거에 로그인한적이 없어염->닉네임 설정칸으로갑시다
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragmentFrame, LoginNickNameSettingFragment.newInstance(kakaoUser));
+                        ft.commit();
+                    } else { //과거에 로그인한적 있어염 -> 그대로 자동로그인값 활성화시키고 종료시키자
+                        MyLog.d("과거로그인");
+                        ((MyApp) getActivity().getApplicationContext()).setUserItem((User) response.body());
+                        setAutoLogin((User) response.body());
+                    }
+
+                } else { // 등록 실패
+                    MyLog.d(TAG, "response error " + response.errorBody());
+                }
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                MyLog.d(TAG, "no internet connectivity");
+            }
+        });
+    }
+
+    public void setAutoLogin(User userItem) {
+        ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoEmail", userItem.getEmail());
+        ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoNickName", userItem.name);
+        ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled_Kakao", true);
+        ((MyApp) getActivity().getApplicationContext()).editor.commit();
+        getActivity().finish();
+    }
 }
 

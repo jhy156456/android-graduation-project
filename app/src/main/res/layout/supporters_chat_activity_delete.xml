@@ -7,58 +7,58 @@
     android:background="#f3f3f3">
 
 
-        <!--
+    <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="13dp"
+        android:orientation="horizontal">
+
+        <customfonts.MyTextView_Roboto_Regular
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="3 message unread"
+            android:textColor="#afadad" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="13dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right|center"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <customfonts.MyTextView_Roboto_Regular
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="3 message unread"
-                android:textColor="#afadad" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:gravity="right|center"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:layout_marginRight="30dp"
+                android:src="@drawable/ic_delete"
+                android:tint="#afadad" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="30dp"
-                    android:src="@drawable/ic_delete"
-                    android:tint="#afadad" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="right"
-                    android:src="@drawable/ic_correct_mark"
-                    android:tint="#afadad" />
-            </LinearLayout>
-
-
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_correct_mark"
+                android:tint="#afadad" />
         </LinearLayout>
-!-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/chat_activity_listview"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:scrollbars="none"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:dividerHeight="0.5dp"
-            android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+!-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chat_activity_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

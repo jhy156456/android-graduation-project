@@ -12,6 +12,7 @@ import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.item.ChatContentsItem;
 import com.mobitant.bestfood.item.ChatTalkData;
+import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.squareup.picasso.Picasso;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import customfonts.MyEditText;
 import customfonts.MyTextView_Roboto_Regular;
+import customfonts.MyTextView_SF_Pro_Display_Semibold;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -77,12 +79,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             viewHolder.setSendMessage(message.getChat());
         } else {//받은메세지
             viewHolder.setReceiveMessage(message.getChat());
-            viewHolder.setUsername(message.getUser());
-            if (StringLib.getInstance().isBlank(message.getSenderMemberIconFileName())) {
+            viewHolder.setUsername(message.getSender());
+            if (StringLib.getInstance().isBlank(message.getSenderId().getMember_icon_filename())) {
                 Picasso.with(context).load(R.drawable.ic_person).into(viewHolder.circle_image);
             } else {
                 Picasso.with(context)
-                        .load(RemoteService.MEMBER_ICON_URL + message.getSenderMemberIconFileName())
+                        .load(RemoteService.MEMBER_ICON_URL + message.getSenderId().getMember_icon_filename())
                         .into(viewHolder.circle_image);
             }
         }
@@ -95,26 +97,26 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-
-        if (mMessages.get(position).getSender().equals(((MyApp)context.getApplicationContext()).getMemberNickName())) {//본인이 보낸 메세지
+        //sender의 이름과 로그인되어있는 내 닉네임 이름이 같으면 현재 내가보낸메세지
+        if (mMessages.get(position).getSender().equals(((MyApp)context.getApplicationContext()).getMemberNickName())) {
             mMessages.get(position).setType(ChatContentsItem.TYPE_MESSAGE);
-        } else {
+        } else { //센더이름이 로그인되어있는 내 닉네임 이름과 다르다면 내가 받은메세지
             mMessages.get(position).setType(ChatContentsItem.TYPE_RECEIVE);
         }
         return mMessages.get(position).getType();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private MyTextView_Roboto_Regular mUsernameView;
-        private MyTextView_Roboto_Regular mReceiveMessageView;
+        private MyTextView_SF_Pro_Display_Semibold mUsernameView;
+        private MyTextView_SF_Pro_Display_Semibold mReceiveMessageView;
         private MyTextView_Roboto_Regular mSendMessageView;
         private CircleImageView circle_image;
 
         public ViewHolder(View itemView) {
             super(itemView);
             circle_image = (CircleImageView) itemView.findViewById(R.id.circle_image);
-            mUsernameView = (MyTextView_Roboto_Regular) itemView.findViewById(R.id.username);
-            mReceiveMessageView = (MyTextView_Roboto_Regular) itemView.findViewById(R.id.receive_message);
+            mUsernameView = (MyTextView_SF_Pro_Display_Semibold) itemView.findViewById(R.id.username);
+            mReceiveMessageView = (MyTextView_SF_Pro_Display_Semibold) itemView.findViewById(R.id.receive_message);
             mSendMessageView = (MyTextView_Roboto_Regular) itemView.findViewById(R.id.send_message);
         }
 

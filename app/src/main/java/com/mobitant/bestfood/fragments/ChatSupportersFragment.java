@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.adapter.InfoListAdapter;
 import com.mobitant.bestfood.adapter.SupportersChatAdapter;
@@ -65,12 +66,9 @@ public class ChatSupportersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         supportersList = (RecyclerView)view.findViewById(R.id.fragment_second_recyclerview);
         setRecyclerView();
-
-        listSupporters("Supporters",0);
-
+        listSupporters("Supporters",((MyApp)getActivity().getApplicationContext()).getMemberNickName(),0);
     }
     private void setRecyclerView() {
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -84,7 +82,7 @@ public class ChatSupportersFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listSupporters("Supporters",page);
+                listSupporters("Supporters",((MyApp)getActivity().getApplicationContext()).getMemberNickName(),page);
             }
         };
         supportersList.addOnScrollListener(scrollListener);
@@ -92,10 +90,10 @@ public class ChatSupportersFragment extends Fragment {
     /**
 
      */
-    private void listSupporters(String userType,int page) {
+    private void listSupporters(String userType,String myNickName,int page) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<User>> call = remoteService.listSupporters(userType,page);
+        Call<ArrayList<User>> call = remoteService.listSupporters(userType,myNickName,page);
         call.enqueue(new Callback<ArrayList<User>>() {
             @Override
             public void onResponse(Call<ArrayList<User>> call,

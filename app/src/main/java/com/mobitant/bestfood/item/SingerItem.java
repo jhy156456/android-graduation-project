@@ -11,8 +11,25 @@ public class SingerItem {
     String mobile;
     int age;
     int resId;
-    String id;
+    @SerializedName("_id")
+    private String id;
+    String postId;
     public String memberIconFileName;
+
+
+    public SingerItem(String name, String mobile) {
+        this.name = name;
+        this.mobile = mobile;
+    }
+
+    public SingerItem(String name, String mobile, int age, String memberIconFileName,String id,String postId) {
+        this.name = name;
+        this.mobile = mobile;
+        this.age = age;
+        this.memberIconFileName = memberIconFileName;
+        this.id=id;
+        this.postId = postId;
+    }
 
     public String getId() {
         return id;
@@ -22,17 +39,12 @@ public class SingerItem {
         this.id = id;
     }
 
-    public SingerItem(String name, String mobile) {
-        this.name = name;
-        this.mobile = mobile;
+    public String getPostId() {
+        return postId;
     }
 
-    public SingerItem(String name, String mobile, int age, String memberIconFileName,String id) {
-        this.name = name;
-        this.mobile = mobile;
-        this.age = age;
-        this.memberIconFileName = memberIconFileName;
-        this.id = id;
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public int getAge() {

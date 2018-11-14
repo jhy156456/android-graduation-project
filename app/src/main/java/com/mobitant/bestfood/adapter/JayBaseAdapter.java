@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class JayBaseAdapter extends BaseAdapter {
 
@@ -65,7 +67,7 @@ public void DataChange(Bean bean,int index){
 
             viewHolder = new ViewHolder();
 
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image);
+            viewHolder.imageView = (CircleImageView) convertView.findViewById(R.id.image);
             viewHolder.title = (TextView) convertView.findViewById(R.id.list_title);
             viewHolder.discription = (TextView) convertView.findViewById(R.id.list_description);
             viewHolder.postOS = (TextView) convertView.findViewById(R.id.post_os);
@@ -105,6 +107,7 @@ public void DataChange(Bean bean,int index){
             }
         }
         if(position ==3){//카드번호 아이템일경우 텍스트설정
+            viewHolder.imageView.setImageResource(R.drawable.visa);
             viewHolder.title.setText("카드번호 : "+bean.getTitle());
             viewHolder.discription.setText("소유주 : "+bean.getDiscription());
         }else{
@@ -118,7 +121,7 @@ public void DataChange(Bean bean,int index){
     }
 
     private class ViewHolder {
-        ImageView imageView;
+        CircleImageView imageView;
         TextView title;
         TextView discription;
         TextView postOS;

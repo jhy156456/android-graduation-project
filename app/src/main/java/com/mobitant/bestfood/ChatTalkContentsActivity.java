@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 
 import customfonts.EditText_Helvatica_Meidum;
 import customfonts.EditText_Roboto_Regular;
+import customfonts.EditText__SF_Pro_Display_Medium;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -48,7 +50,7 @@ import retrofit2.Response;
 public class ChatTalkContentsActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
     private LinearLayout chatRoomExit;
-    private EditText_Helvatica_Meidum mInputMessageView;
+    private EditText__SF_Pro_Display_Medium mInputMessageView;
 
     private Socket mSocket;
     private ArrayList<ChatContentsItem> contentsItems;
@@ -56,6 +58,7 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
     private RecyclerView mMessagesView;
     private Boolean isConnected = true;
     private MessageAdapter mAdapter;
+    String receiver;
     EndlessRecyclerViewScrollListener scrollListener;
     LinearLayoutManager layoutManager;
     Context context;
@@ -71,22 +74,30 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
         setContentView(R.layout.supporters_test_chat_layout);
         context = this;
         mMessagesView = (RecyclerView) findViewById(R.id.messages);
-        mInputMessageView = (EditText_Helvatica_Meidum) findViewById(R.id.message_input);
+        mInputMessageView = (EditText__SF_Pro_Display_Medium) findViewById(R.id.message_input);
         chatRoomExit = (LinearLayout) findViewById(R.id.chat_room_exit);
-        ImageButton sendButton = (ImageButton) findViewById(R.id.send_button);
-        ImageView chatRoomBack = (ImageView)findViewById(R.id.chat_room_back);
-
+        ImageView sendButton = (ImageView) findViewById(R.id.send_button);
+        ImageView chatRoomBack = (ImageView) findViewById(R.id.chat_room_back);
         setView();
-
-
-
         chatRoomBack.setOnClickListener(this);
         sendButton.setOnClickListener(this);
         chatRoomExit.setOnClickListener(this);
+
+        mInputMessageView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    attemptSend();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
-    private void setRecyclerView(){
-        layoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true);
+    private void setRecyclerView() {
+        layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true);
         //layoutManager.setReverseLayout(true);
         mMessagesView.setLayoutManager(layoutManager);
 
@@ -101,37 +112,43 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
         mMessagesView.addOnScrollListener(scrollListener);
         mMessagesView.scrollToPosition(0);
     }
-    private void setView(){
+
+    private void setView() {
         roomId = getIntent().getExtras().getString("roomId");
         MyLog.d("roomID : " + roomId);
         String owner = getIntent().getExtras().getString("owner");
+        MyLog.d("겟인텐트 오우너"+owner);
         String participant = getIntent().getExtras().getString("participant");
         String participantMemberIconFileName = getIntent().getExtras().getString("participant_member_icon_file_name");
         String callActivity = getIntent().getExtras().getString("callActivity");
-        if(participant.equals(((MyApp) getApplicationContext()).getMemberNickName())){
+        if (participant.equals(((MyApp) getApplicationContext()).getMemberNickName())) {
+            //참가자 닉네임과 내 닉네임이 같을경우 나는 praticipant이다 그러므로 receiver는 owner이다
             whoAmI = "participant";
-        }else{
+            receiver = owner;
+        } else {//다를경우 나는 owner이다 그러므로 receiver는 participant이다
             whoAmI = "owner";
+            receiver = participant;
         }
-
-        if(callActivity.equals("ChatSupportersFragment")){
+        if (callActivity.equals("ChatSupportersFragment")) {
             ChatTalkData chatTalkData = new ChatTalkData();
+            MyLog.d("오우너"+owner);
+            chatTalkData.setWhoAmI(whoAmI);
             chatTalkData.setOwner(owner);
-            chatTalkData.setOwnerMemberIconFileName(((MyApp)getApplicationContext()).getMemberIconFilename());
+            chatTalkData.setOwnerMemberIconFileName(((MyApp) getApplicationContext()).getMemberIconFilename());
             chatTalkData.setParticipant(participant);
             chatTalkData.setParticipantMemberIconFileName(participantMemberIconFileName);
             newRoomFromAndroid(chatTalkData);
-        }else{
-            setRecyclerView();
-            selectFoodInfo(roomId,0);
+        } else {
             setSocket();
+            setRecyclerView();
+            selectFoodInfo(roomId, 0);
+
         }
 
     }
 
-    public void newRoomFromAndroid(ChatTalkData chatTalkData){
+    public void newRoomFromAndroid(ChatTalkData chatTalkData) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
         Call<String> call = remoteService.newRoomFromAndroid(chatTalkData);
         call.enqueue(new Callback<String>() {
             @Override
@@ -140,19 +157,21 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
                     roomId = response.body();
                     setSocket();
                     setRecyclerView();
-                    selectFoodInfo(roomId,0);
+                    selectFoodInfo(roomId, 0);
                 } else { // 등록 실패
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
                 }
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.send_button) {
@@ -165,7 +184,7 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             MyLog.d("whoAmI값 : " + whoAmI);
-                            if(whoAmI.equals("participant")) chatRoomParticipantExit();
+                            if (whoAmI.equals("participant")) chatRoomParticipantExit();
                             else chatRoomOwnerExit();
                         }
                     })
@@ -175,10 +194,23 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
 
                         }
                     }).show();
-        }else if(v.getId()==R.id.chat_room_back){
+        } else if (v.getId() == R.id.chat_room_back) {
+            /*
+            그냥 뒤로가기 버튼 눌렀을때도 lastchat을 갱신하기위해 바꿔준다.
+             */
+            ((MyApp) getApplicationContext()).setChatExitButton(true);
             finish();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ((MyApp) getApplicationContext()).setChatExitButton(true);
+        finish();
+
+    }
+
     private void chatRoomParticipantExit() {
         RemoteService remoteService =
                 ServiceGenerator.createService(RemoteService.class);
@@ -189,15 +221,17 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
                 if (response.isSuccessful()) {
                 }
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");
                 MyLog.d(TAG, t.toString());
             }
         });
-        ((MyApp)getApplicationContext()).setChatExitButton(true);
+        ((MyApp) getApplicationContext()).setChatExitButton(true);
         finish();
     }
+
     private void chatRoomOwnerExit() {
         RemoteService remoteService =
                 ServiceGenerator.createService(RemoteService.class);
@@ -208,16 +242,16 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
                 if (response.isSuccessful()) {
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");
                 MyLog.d(TAG, t.toString());
             }
         });
-        ((MyApp)getApplicationContext()).setChatExitButton(true);
+        ((MyApp) getApplicationContext()).setChatExitButton(true);
         finish();
     }
+
     private void setSocket() {
         IO.Options options = new IO.Options();
         //((MyApp) getActivity().getApplicationContext()).getMemberNickName();
@@ -240,9 +274,8 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
         String message = mInputMessageView.getText().toString().trim();
         curItem.setChat(message);
         curItem.setUser(((MyApp) getApplicationContext()).getMemberNickName());
-        curItem.setSender("asdf");
-        curItem.setSenderMemberIconFileName(((MyApp)getApplicationContext()).getMemberNickName());
-        curItem.setReceiver("qwer");
+        curItem.setSender(((MyApp) getApplicationContext()).getMemberNickName());
+        curItem.setReceiver(receiver);
         mInputMessageView.setText("");
         sendChat(curItem);
 
@@ -257,7 +290,7 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
             mMessagesView.scrollToPosition(0);
 
         } else if (sendOrReceive == 2) { //받은메세지
-            MyLog.d("메세지 추가할 내용 : " + sender+"//"+receiver+"//"+message);
+            MyLog.d("메세지 추가할 내용 : " + sender + "//" + receiver + "//" + message);
             MyLog.d("콘텐스아이템즈사이즈 : " + contentsItems.size());
             mAdapter.addFirstItem(new ChatContentsItem.Builder(ChatContentsItem.TYPE_RECEIVE)
                     .sender(sender).receiver(receiver).message(message).build());
@@ -325,20 +358,24 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
                         return;
                     }
                     MyLog.d("이게두번?");
-                    addMessage(sender, receiver, chat, 2);
+                    if (sender.equals(((MyApp) getApplicationContext()).getMemberNickName())) //내가 보낸메세지
+                        addMessage(sender, receiver, chat, 1);
+                    else addMessage(sender, receiver, chat, 2); //상대방이 보낸 메세지
                 }
             });
         }
     };
 
 
-    private void selectFoodInfo(String roomId,int page) {
+    private void selectFoodInfo(String roomId, int page) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-        Call<ArrayList<ChatContentsItem>> call = remoteService.getChatContents(roomId,page);
+        Call<ArrayList<ChatContentsItem>> call = remoteService.getChatContents(roomId, page);
 
         call.enqueue(new Callback<ArrayList<ChatContentsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<ChatContentsItem>> call, Response<ArrayList<ChatContentsItem>> response) {
+                //로그는 필드가 부족하게찍히는데 어댑터에서 .getSender()해보면 잘 찍힘 ㅡㅡ
+                //도대체왜이러는거지
                 contentsItems = response.body();
                 if (response.isSuccessful() && contentsItems != null) {
                     ((MessageAdapter) mAdapter).addItemList(contentsItems);

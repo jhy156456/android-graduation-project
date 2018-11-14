@@ -64,6 +64,7 @@ public class BestFoodKeepFragment extends Fragment {
         context = this.getActivity();
 
         memberSeq = ((MyApp)getActivity().getApplication()).getMemberSeq();
+        MyLog.d("킵프래그먼트");
         View layout = inflater.inflate(R.layout.fragment_bestfood_keep, container, false);
 
         return layout;

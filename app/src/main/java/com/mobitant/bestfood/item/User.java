@@ -3,13 +3,17 @@ package com.mobitant.bestfood.item;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     //응답받는 json객체값이 순서대로 저장되는건지??
     public String name;
     private String email;
     private String password;
     private String created_at;
     private String newPassword;
+    @SerializedName("one_line_description")
+    private String oneLineDescription;
     private String token;
     @SerializedName("user_type")
     private String userType;
@@ -26,7 +30,26 @@ public class User {
     @SerializedName("reg_date")
     public String regDate;
     private String chatParticipantOrOwner;
+    private Boolean isKakaoUser;
+    //0 : 카카오회원
+    //1 : 소모임회원
 
+
+    public String getOneLineDescription() {
+        return oneLineDescription;
+    }
+
+    public void setOneLineDescription(String oneLineDescription) {
+        this.oneLineDescription = oneLineDescription;
+    }
+
+    public Boolean getKakaoUser() {
+        return isKakaoUser;
+    }
+
+    public void setKakaoUser(Boolean kakaoUser) {
+        isKakaoUser = kakaoUser;
+    }
 
     public String getPhone() {
         return phone;

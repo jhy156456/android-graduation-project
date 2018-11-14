@@ -33,9 +33,9 @@
                 android:layout_weight="7"
                 android:background="@color/sort_by_bg"
                 android:gravity="center"
-                android:text="정렬선택"
+                android:text="정렬"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout"
@@ -45,13 +45,14 @@
                 android:layout_weight="1.5"
                 android:elevation="2dp"
                 android:tag="sticky"
+
                 app:tabGravity="center"
-                app:tabIndicatorColor="#51a3df"
+                app:tabIndicatorColor="#118df0"
                 app:tabIndicatorHeight="3.9dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/black"
+                app:tabSelectedTextColor="#3b3b3b"
                 app:tabTextAppearance="@style/MyMenuTextAppearance1"
-                app:tabTextColor="#8b8a8a" />
+                app:tabTextColor="#a9a9b0" />
 
         </LinearLayout>
         <!--Viewpager used-->

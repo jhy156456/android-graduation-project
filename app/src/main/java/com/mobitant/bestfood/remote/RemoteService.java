@@ -46,7 +46,7 @@ public interface RemoteService {
     //<==채팅을위한 라우팅 시작 ==>
     @GET("room/android/{id}")
     Call<ArrayList<ChatContentsItem>> getChatContents(@Path("id") String roomId,
-                                                    @Query("current_page")int page);
+                                                      @Query("current_page") int page);
 
     @POST("room/{id}/chat")
     Call<String> sendChat(@Path("id") String roomId,
@@ -54,6 +54,7 @@ public interface RemoteService {
 
     @GET("user/{user_type}")
     Call<ArrayList<User>> listSupporters(@Path("user_type") String userType,
+                                         @Query("my_nick_name")String myNickName,
                                          @Query("current_page") int page);
 
     @GET("user/chat/{user_nickname}")
@@ -62,6 +63,7 @@ public interface RemoteService {
 
     @GET("room/participant_down/{id}")
     Call<String> chatRoomParticipantExit(@Path("id") String roomId);
+
     @GET("room/owner_down/{id}")
     Call<String> chatRoomOwnerExit(@Path("id") String roomId);
 
@@ -99,8 +101,8 @@ public interface RemoteService {
 
 
     @GET("/process/listpost")
-    Call<ArrayList<NotificationItem>> listNotificationQuestionList(
-            @Query("current_page") int currentPage);
+    Call<ArrayList<NotificationItem>> listNotificationQuestionList(@Query("user_id") String id,
+                                                                   @Query("current_page") int currentPage);
 
     //문의정보
     @GET("/process/showpost/{info_seq}")
@@ -112,7 +114,8 @@ public interface RemoteService {
 
     @GET("/process/removecomment")
     Call<String> removeComment(@Query("postId") String postId,
-                               @Query("commentId") String id);
+                               @Query("commentId") String id,
+                               @Query("from") int from);
 
     // <== Doit으로 만든 게시판 끝: Node.js에 요청하기 ==>
 
@@ -191,6 +194,10 @@ public interface RemoteService {
 
     @POST("users/{email}/password")
     Observable<Response> resetPasswordFinish(@Path("email") String email, @Body User user);
-
+/*    과거에 카카오톡으로 로그인한적이 있는지 조사
+    있다면 그값 불러와서 MyApp User에 두고
+    없다면 닉네임설정하는화면으로 넘어감*/
+    @GET("/users/kakao/{email}/{name}")
+    Call<User>  isPastKaKaoLogin(@Path("email") String email, @Path("name") String name);
     //로그인 관련 라우팅 끝
 }

@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobitant.bestfood.R;
+import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.model.Response;
 import com.mobitant.bestfood.item.User;
@@ -51,7 +53,6 @@ import static com.mobitant.bestfood.utils.Validation.validateFields;
 public class RegisterFragment extends Fragment {
 
     public static final String TAG = RegisterFragment.class.getSimpleName();
-
     private EditText mEtName;
     private EditText mEtEmail;
     private EditText mEtPassword;
@@ -140,7 +141,6 @@ public class RegisterFragment extends Fragment {
         }
 
         if (!validateEmail(email)) {
-
             err++;
             mTiEmail.setError("Email should be valid !");
         }
@@ -198,6 +198,7 @@ public class RegisterFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse, this::handleError));
+        getFragmentManager().popBackStack();
     }
 
     private void handleCheckResponse(Response response) {

@@ -49,7 +49,7 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     private final String TAG = this.getClass().getSimpleName();
     String[] items = {"","메세지 보내기","안녕","나야"};
     User currentUser;
-    User memberProfle;
+    User memberProfle;//보려는 멤버 프로필
     Context context;
 
     //bestfood
@@ -68,32 +68,29 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        setContentView(R.layout.activity_member_profile);
+        setContentView(R.layout.user_profile);
         currentUser = ((MyApp) getApplication()).getUserItem();//로그인한 사용자..
         bestFoodList = (RecyclerView) findViewById(R.id.list);
         noDataText = (TextView) findViewById(R.id.no_data);
-        setSpinnerMenu();
         setToolbar();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        if (bundle.getString("callActivity").equals("BestFoodInfoActivity")) { // info에서 상대방 프로필보기 누른경우
+        if (bundle.getString("callActivity").equals("BestFoodInfoActivity")
+                ||bundle.getString("callActivity").equals("SupportersActivity")) { // info에서 상대방 프로필보기 누른경우
             int wantMemberSeq = (int) bundle.getInt("data");
             int mySeq = (int) bundle.getInt("MySeq");
-
             //로그인한 상태이고 내가쓴 게시글에있는 프로필을 누른경우
             if (((MyApp) getApplication()).isLogin() == true && mySeq == ((MyApp) getApplication()).getMemberSeq()) {
                 setViewMyProfile();
                 setMyProfileImage();
                 setRecyclerView(((MyApp) getApplication()).getMemberSeq());
                 listInfo(((MyApp) getApplication()).getMemberSeq(), 0);
-            } else {
+            } else { //내가아닌 사람의 프로필을 누른경우
                 setMemberProfileView();
                 selectUserInfo(wantMemberSeq);
             }
-
-
         } else { // 내 프로필설정 누른경우
             setViewMyProfile();
             setMyProfileImage();
@@ -107,7 +104,7 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     public void setMemberProfileView(){
         profileIconImage = (ImageView) findViewById(R.id.profile_icon);
         profileChange = (ImageView) findViewById(R.id.profile_change);
-        profileChange.setVisibility(View.INVISIBLE);
+        profileChange.setVisibility(View.GONE);
         userNickName = (TextView) findViewById(R.id.user_profile_nickname);
     }
     /*
@@ -122,27 +119,7 @@ public void setViewMyProfile() {
 
 
 }
-    /*
-    점3개버튼 구현
-     */
-    public void setSpinnerMenu(){
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position !=0) Toast.makeText(getApplicationContext(),"선택 : " + items[position],Toast.LENGTH_LONG).show();
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-}
     /**
      * 리사이클러뷰를 설정하고 스크롤 리스너를 추가한다.
      */
@@ -224,7 +201,7 @@ public void setViewMyProfile() {
      * 액티비티 툴바를 설정한다.
      */
     private void setToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_profile);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 
@@ -269,13 +246,14 @@ public void setViewMyProfile() {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_submit, menu);
+        getMenuInflater().inflate(R.menu.user_profile_menu, menu);
+
         return true;
     }
 
     /**
      * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
-     * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
+     * 오른쪽 상단 메뉴를 클릭했을 때의 동작을 지정한다.
      * 여기서는 모든 버튼이 액티비티를 종료한다.
      * @param item 메뉴 아이템 객체
      * @return 메뉴를 처리했다면 true, 그렇지 않다면 false
@@ -286,22 +264,13 @@ public void setViewMyProfile() {
             case android.R.id.home:
                 finish();
                 break;
-/*
-            case R.id.action_submit:
-                save();
+            case R.id.user_profile_send_message:
                 break;
-                */
         }
 
         return true;
     }
-    /**
-     * 뒤로가기 버튼을 클릭했을 때, close() 메소드를 호출한다.
-     */
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
+
 
     /**
      * 프로필 아이콘이나 프로필 아이콘 변경 뷰를 클릭했을 때, 프로필 아이콘을 변경할 수 있도록

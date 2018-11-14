@@ -4,18 +4,31 @@
 
     <item
         android:id="@+id/go_home"
-        android:title="@string/go_home"
         android:icon="@drawable/ic_icon_home"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/go_home"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_close"
         android:title="@string/close"
-        app:showAsAction="always|withText"
-        />
+        app:showAsAction="always|withText" />
     <item
-        android:id="@+id/action_buy"
-        android:title="@string/buy"
-        app:showAsAction="always|withText"
-        />
+        android:icon="@drawable/ic_more_black"
+        android:title="MainMenu"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/action_modify"
+                android:icon="@drawable/ic_setting"
+                android:title="수정"
+                app:showAsAction="never"></item>
+            <item
+                android:id="@+id/action_delete"
+                android:title="삭제"
+                android:icon="@drawable/ic_delete"
+                app:showAsAction="never"></item>
+        </menu>
+
+    </item>
+
 </menu>

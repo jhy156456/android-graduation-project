@@ -43,12 +43,8 @@ public class BestFoodRegisterActivity extends AppCompatActivity {
         FoodInfoItem infoItem = new FoodInfoItem();
         infoItem.post_category = from;
         infoItem.memberSeq = memberSeq;
-        infoItem.post_nickname = "hi"; //((MyApp)getApplication()).getMemberNickName();
-
-
+        infoItem.post_nickname = ((MyApp)getApplication()).getMemberNickName();
         setToolbar();
-
-
         GoLib.getInstance().goFragment(getSupportFragmentManager(),
                 R.id.content_main, BestFoodRegisterInputFragment.newInstance(infoItem));
     }

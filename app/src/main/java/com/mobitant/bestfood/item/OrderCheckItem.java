@@ -12,6 +12,7 @@ public class OrderCheckItem implements Serializable {
     private String postRegisterDate;
     private String postPhoneNumber;
     private String postRealName;
+    private String cardNumber;
     private int postSeq;
     private int postMemberSeq;
     private int buyerMemberSeq;
@@ -20,6 +21,15 @@ public class OrderCheckItem implements Serializable {
     private String CardHorder;
     private String created_at;
     private String updated_at;
+
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
 
     public int getPostMemberSeq() {
         return postMemberSeq;

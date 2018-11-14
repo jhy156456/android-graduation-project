@@ -66,7 +66,7 @@ public class KeepLib extends AppCompatActivity {
      */
     public void deleteKeep(final Handler handler, int memberSeq, final int infoSeq) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
+        MyLog.d("딜리트킵 함수 멤버시큐 : " + memberSeq);
         Call<String> call = remoteService.deleteKeep(memberSeq, infoSeq);
         call.enqueue(new Callback<String>() {
             @Override
@@ -85,10 +85,9 @@ public class KeepLib extends AppCompatActivity {
             }
         });
     }
-    public void deleteComment(String postId,String id){
+    public void deleteComment(String postId,String id,int from){
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
-        Call<String> call = remoteService.removeComment(postId,id);
+        Call<String> call = remoteService.removeComment(postId,id,from);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -100,7 +99,6 @@ public class KeepLib extends AppCompatActivity {
                     MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");

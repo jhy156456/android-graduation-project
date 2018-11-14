@@ -64,7 +64,7 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
         MyApp myApp = ((MyApp) getActivity().getApplication());
         if(myApp.getIsNewBestfood() == true){
             setRecyclerView();
-            listInfo(0);
+            listInfo(((MyApp)getActivity().getApplicationContext()).getUserItem().id,0);
             myApp.setIsNewNotification(false);
         }
     }
@@ -80,16 +80,16 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
         recyclerView = (RecyclerView) view.findViewById(R.id.notification_list);
 
         setRecyclerView();
-        listInfo(0);
+        listInfo(((MyApp)getActivity().getApplicationContext()).getUserItem().id,0);
     }
     /**
      * 서버에서 맛집 정보를 조회한다.
      * @param currentPage 현재 페이지
      */
-    private void listInfo(final int currentPage) {
+    private void listInfo(String id,final int currentPage) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<NotificationItem>> call = remoteService.listNotificationQuestionList(currentPage);
+        Call<ArrayList<NotificationItem>> call = remoteService.listNotificationQuestionList(id,currentPage);
         //여기서 writer가 객체라서 NotificationItem에서 객체끼리 연결을해줘야 정상진행되는듯합니다^^
         call.enqueue(new Callback<ArrayList<NotificationItem>>() {
             @Override
@@ -126,7 +126,7 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listInfo(page);
+                listInfo(((MyApp)getActivity().getApplicationContext()).getUserItem().id,page);
             }
         };
         recyclerView.addOnScrollListener(scrollListener);

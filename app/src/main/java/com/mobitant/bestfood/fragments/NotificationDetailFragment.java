@@ -39,6 +39,7 @@ import com.mobitant.bestfood.lib.MyToast;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -70,6 +71,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
     SingerAdapter adapter;
     ScrollView scrollView;
     ImageView keepImage;
+    String mCurrentNickName;
     InfoImageAdapter infoImageAdapter;
     ArrayList<ImageItem> images = new ArrayList<>();
     private RecyclerView.LayoutManager layoutManager, postLayoutManager;
@@ -99,6 +101,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         memberSeq = ((MyApp) getActivity().getApplication()).getMemberSeq();
+        mCurrentNickName = ((MyApp) getActivity().getApplicationContext()).getMemberNickName();
         infoItemId = getArguments().getString("SEQ");
         this.view = view;
         selectFoodInfo(infoItemId, memberSeq);
@@ -114,7 +117,9 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         adapter = new SingerAdapter();
         for (int i = 0; i < item.getCommentItems().size(); i++) {
             adapter.addItem(new SingerItem(item.getCommentItems().get(i).getWriter(), item.getCommentItems().get(i).getContents(),
-                    item.getCommentItems().get(i).getComment_like(), item.getCommentItems().get(i).getMemberIconFileName(), item.getCommentItems().get(i).id));
+                    item.getCommentItems().get(i).getComment_like(),
+                    item.getCommentItems().get(i).getMemberIconFileName(),
+                    item.getCommentItems().get(i).getId(), item.id));
         }
         postLayoutManager = new LinearLayoutManager(getActivity());
         viewdlistView.setLayoutManager(postLayoutManager);
@@ -130,17 +135,16 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         //getSupportActionBar().setTitle(item.name);
 
         // scrollView = (ScrollView) findViewById(R.id.scroll_view);
-//프로필 이미지 추가
-        /*
+
         if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
-            Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
+            Picasso.with(getContext()).load(R.drawable.ic_person).into(profileIconImage);
         } else {
-            Picasso.with(this)
+            Picasso.with(getContext())
                     .load(RemoteService.MEMBER_ICON_URL + item.postMemberIconFilename)
                     .into(profileIconImage);
         }
-*/
-        // ((BViewHolder) holder).textView.setText(item.getName());
+
+
 
         if (!StringLib.getInstance().isBlank(item.getTitle())) {
             ((SingerAdapter.AViewHolder) holder).nameText.setText(item.getTitle());
@@ -240,16 +244,22 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                 setView(holder);
                 setRecyclerView();
             } else if (position < (allHeight - 1)) { //댓글위치의 포지션
-                MyLog.d(TAG, "댓글 사이즈 " + item.getCommentItems().size());
-
                 SingerItem singerItem = items.get(position - 1);
-
                 ((BViewHolder) holder).textView.setText(singerItem.getName());
                 ((BViewHolder) holder).textView2.setText(singerItem.getMobile());
-                ((BViewHolder) holder).textView3.setText(String.valueOf(singerItem.getAge()));
-                ((BViewHolder) holder).imageView.setImageResource(singerItem.getResId());
-                //로그인되어있는 사용자와 댓글입력한 사용자의 닉네임이 같을때
-                if(((MyApp) getActivity().getApplication()).getMemberNickName()==singerItem.getName()){
+                if (StringLib.getInstance().isBlank(singerItem.memberIconFileName)) {
+                    Picasso.with(context).load(R.drawable.ic_person).into(((BViewHolder) holder).imageView);
+                } else {
+                    Picasso.with(context)
+                            .load(RemoteService.MEMBER_ICON_URL + singerItem.memberIconFileName)
+                            .into(((BViewHolder) holder).imageView);
+                }
+                             /*로그인되어있는 사용자와 댓글입력한 사용자의 닉네임이 같을때
+                mCurrentNickName으로 안하고 아래의 if문장에 직접 ((MyApp))~~.getMemberNickName으로했더니
+                이미지가 안뜨는경우도 있었다 내생각엔 memeberNickName가져오는 시간과 비교하는시간이
+                맞지않아서 안떴던거로 생각된다 그래서 oncreate에서전역변수로뺐음*/
+                if (mCurrentNickName.equals(singerItem.getName())) {
+                    ((BViewHolder) holder).removeComment.setVisibility(View.VISIBLE);
                     ((BViewHolder) holder).removeComment.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -260,7 +270,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            KeepLib.getInstance().deleteComment(item.id, singerItem.getId());
+                                            KeepLib.getInstance().deleteComment(item.id, singerItem.getId(),1004);
                                             deleteItem(singerItem.getId()); // _아이디로 어레이리스트삭제
                                             adapter.notifyDataSetChanged();
                                             MyToast.s(context, "댓글이 삭제되었습니다.");
@@ -275,15 +285,10 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                                     .show();
                         }
                     });
-                }else{
+                } else {
                     ((BViewHolder) holder).removeComment.setVisibility(View.GONE);
                 }
-
-
-
-
             } else { //등록버튼 포지션
-
                 ((CViewHolder) holder).viwedButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -291,11 +296,12 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                         String name = ((MyApp) getActivity().getApplication()).getMemberNickName();
                         commentItem.setWriter(name);
                         String contents = ((SingerAdapter.CViewHolder) holder).viewedEditText.getText().toString();
+                        ((SingerAdapter.CViewHolder) holder).viewedEditText.setText("");
                         commentItem.setContents(contents);
                         commentItem.setPostId(item.id);//mongoDB의 _id필드를 말하는듯하다.
                         int comment_like = 0;
                         commentItem.setComment_like(comment_like);
-                        commentItem.setMemberIconFileName( ((MyApp)getActivity().getApplication()).getMemberIconFilename());
+                        commentItem.setMemberIconFileName(((MyApp) getActivity().getApplication()).getMemberIconFilename());
                         insertCommentItem(commentItem, name, contents, comment_like);
                         //서버에 요청한후 그다음 화면갱신
                         //댓글 삭제,수정을위해 mongoDB의 ID값을 저장해놓고 있어야하기때문에 서버에 저장한 후에
@@ -321,10 +327,10 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                     if (response.isSuccessful()) {
                         String commentId = response.body();
                         MyToast.s(context, "댓글이 등록되었습니다.");
-
                         adapter.addItem(new SingerItem(name, contents, comment_like,
-                                ((MyApp)getActivity().getApplication()).getMemberIconFilename(), commentId));
-                        adapter.notifyDataSetChanged();
+                                ((MyApp) getActivity().getApplication()).getMemberIconFilename(),
+                                commentId, item.id));
+                        adapter.notifyItemChanged(adapter.getItemCount()-1);;
 
                     } else { // 등록 실패
                         int statusCode = response.code();
@@ -339,8 +345,6 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                 }
             });
         }
-
-
         public void addItem(SingerItem item) {
             items.add(item);
         }
@@ -396,16 +400,17 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         public class BViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
             TextView textView2;
-            TextView textView3;
+            // TextView textView3;
             ImageView imageView;
-            TextView removeComment;
+            ImageView removeComment;
 
             public BViewHolder(View itemView) {
                 super(itemView);
                 textView = (TextView) itemView.findViewById(R.id.textView);
-                removeComment = (TextView) itemView.findViewById(R.id.remove_comment);
+                removeComment = (ImageView) itemView.findViewById(R.id.remove_comment);
+                //textView3 = (TextView) itemView.findViewById(R.id.textView3);
                 textView2 = (TextView) itemView.findViewById(R.id.textView2);
-                textView3 = (TextView) itemView.findViewById(R.id.textView3);
+
                 imageView = (ImageView) itemView.findViewById(R.id.imageView);
             }
         }

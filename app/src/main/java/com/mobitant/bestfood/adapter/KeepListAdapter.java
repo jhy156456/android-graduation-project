@@ -133,13 +133,14 @@ public class KeepListAdapter extends RecyclerView.Adapter<KeepListAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoLib.getInstance().goBestFoodInfoActivity(context, item.seq);
+                GoLib.getInstance().goBestFoodInfoActivity(context, item.seq,item.post_nickname);
             }
         });
 
         holder.keep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MyLog.d("쇼킵딜리트다이어로그 띄우기 전 멤버시큐 : " + memberSeq);
                 DialogLib.getInstance().showKeepDeleteDialog(context, keepHandler, memberSeq, item.seq);
             }
         });

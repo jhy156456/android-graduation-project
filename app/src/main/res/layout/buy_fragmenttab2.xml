@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:tag="aaaa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fff"
-    >
+    android:background="#fff">
 
 
     <ScrollView
@@ -46,27 +48,34 @@
 
             </LinearLayout>
 
-            <HorizontalScrollView
-                android:id="@+id/horizontalview"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fbfaff"
-                android:scrollbars="none">
+                android:layout_margin="20dp"
+                card_view:cardElevation="8dp"
+                app:cardCornerRadius="5dp"
+                android:background="#ffffff">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
                     android:orientation="horizontal">
 
-                    <include layout="@layout/buy_payment1"></include>
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_visa" />
 
-                    <include layout="@layout/buy_payment2"></include>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="170dp"
+                        android:src="@drawable/ic_right" />
 
-                    <include layout="@layout/buy_payment4"></include>
-
-                    <include layout="@layout/buy_payment3"></include>
                 </LinearLayout>
-            </HorizontalScrollView>
+            </android.support.v7.widget.CardView>
 
 
             <LinearLayout
@@ -91,209 +100,128 @@
 
 
             <!--******CARD NO*******-->
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                app:cardCornerRadius="5dp"
+                card_view:cardElevation="9dp"
+                android:layout_marginRight="20dp"
 
-                >
-
-
-                <customfonts.MyTextView
-                    android:id="@+id/cardno1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="카드 번호"
-                    android:textColor="@color/color"
-                    android:textSize="12dp" />
-
+                android:background="@drawable/round_border">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
                     android:orientation="vertical">
-
-                    <customfonts.MyEditText
-
-                        android:id="@+id/cardno2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#00000000"
-                        android:drawableRight="@drawable/card"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:textColor="#333333" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#dad8d8" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.6"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-
-                    >
-
-
-                    <customfonts.MyTextView
-                        android:id="@+id/date1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="만료 기간"
-                        android:textColor="@color/color"
-                        android:textSize="12dp" />
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/round_border">
 
-                        <customfonts.MyEditText
-
-                            android:id="@+id/date2"
+                        <customfonts.EditText_Roboto_Regular
+                            android:id="@+id/cardno2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="#00000000"
-                            android:hint="dd/year"
-                            android:maxLength="8"
-                            android:maxLines="1"
-                            android:textColor="#333333"
-                            android:textColorHint="@color/color"
-                            android:textSize="13dp"
-
-                            />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#dad8d8" />
+                            android:hint="CARD NUMBER"
+                            android:padding="15dp"
+                            android:textSize="13dp"/>
 
                     </LinearLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-
-                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:layout_margin="18dp"
+                        android:background="@drawable/round_border">
 
-                        >
-
-                        <customfonts.MyTextView
-                            android:id="@+id/cvv1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CVV"
-                            android:textColor="@color/color"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:orientation="vertical">
-
-                        <customfonts.MyEditText
-
-                            android:id="@+id/cvv2"
+                        <customfonts.EditText_Roboto_Regular
+                            android:id="@+id/card_holder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="#00000000"
-                            android:inputType="number"
-                            android:maxLength="3"
-                            android:maxLines="1"
-
-                            android:textColor="#333333"
-                            android:textSize="13dp"
-
-                            />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#dad8d8" />
+                            android:hint="CARDHOLDER'S NAME"
+                            android:padding="15dp"
+                            android:textSize="13dp" />
 
                     </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
 
-
-            <!--****** NAME*******-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="16dp"
-
-                >
-
-
-                <customfonts.MyTextView
-                    android:id="@+id/name1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="카드 소유주"
-                    android:textColor="@color/color"
-                    android:textSize="12dp" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    android:orientation="vertical">
-
-                    <customfonts.MyEditText
-
-                        android:id="@+id/card_holder"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#00000000"
-                        android:maxLines="1"
-                        android:textColor="#333333" />
+                        android:orientation="horizontal">
 
-                    <View
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="18dp"
+                            android:background="@drawable/round_border">
+
+
+                            <Spinner
+                                android:id="@+id/spinner_month"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/spinner">
+                            </Spinner>
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/round_border">
+
+
+                            <Spinner
+                                android:id="@+id/spinner_year"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/spinner">
+
+                            </Spinner>
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/round_border">
+
+                            <customfonts.EditText_Roboto_Regular
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#00000000"
+                                android:hint="CVV"
+                                android:textSize="12dp"
+                                android:padding="13dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <CheckBox
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#dad8d8" />
+                        android:layout_height="wrap_content"
+                        android:text="   Save cradit card information"
+                        android:layout_marginLeft="15dp"
+                    android:visibility="invisible"/>
 
                 </LinearLayout>
-            </LinearLayout>
-
+            </android.support.v7.widget.CardView>
 
             <!--******TOTAL*******-->
 

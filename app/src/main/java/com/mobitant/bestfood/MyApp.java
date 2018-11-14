@@ -23,6 +23,7 @@ public class MyApp extends Application {
     private static MyApp instance;
     private String chatWhoAmI;
     private Boolean isChatExitButton;
+
     private static volatile MyApp obj = null;
     private static volatile Activity currentActivity = null;
 
@@ -49,7 +50,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-
         //카카오로그인시작
         obj = this;
         KakaoSDK.init(new KakaoSDKAdapter());
@@ -124,13 +124,9 @@ public String getMemberNickname(){
     public void setIsNewNotification(boolean isNewNotification) {
         this.isNewNotification = isNewNotification;
     }
-
-
     public String getMemberIconFilename() {
         return userItem.memberIconFilename;
     }
-
-
     public Boolean getChatExitButton() {
         return isChatExitButton;
     }

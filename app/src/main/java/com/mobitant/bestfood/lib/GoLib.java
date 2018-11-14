@@ -163,9 +163,10 @@ public void goBestFoodMainActivity(Context context){
      * @param context 컨텍스트
      * @param infoSeq 맛집 정보 일련번호
      */
-    public void goBestFoodInfoActivity(Context context, int infoSeq) {
+    public void goBestFoodInfoActivity(Context context, int infoSeq,String itemPostNickName) {
         Intent intent = new Intent(context, BestFoodInfoActivity.class);
         intent.putExtra(BestFoodInfoActivity.INFO_SEQ, infoSeq);
+        intent.putExtra("item_post_nick_name",itemPostNickName);
         context.startActivity(intent);
     }
 

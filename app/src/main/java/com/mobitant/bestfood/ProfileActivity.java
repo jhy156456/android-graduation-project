@@ -47,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     EditText birthEdit;
     EditText phoneEdit;
     EditText nickName;
+    EditText oneLineDescription;
     User currentItem;
 
     /**
@@ -57,11 +58,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
         context = this;
-
         currentItem = ((MyApp) getApplication()).getMemberInfoItem();
-
+        MyLog.d("보고자하는 프로필 : " + currentItem);
         setToolbar();
         setView();
     }
@@ -114,6 +113,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         nickName =(EditText)findViewById(R.id.profile_nickname);
         nickName.setText(currentItem.nickname);
 
+        oneLineDescription=(EditText)findViewById(R.id.profile_one_line_description);
+        oneLineDescription.setText(currentItem.getOneLineDescription());
 
         sextypeEdit = (EditText) findViewById(R.id.profile_sextype);
         sextypeEdit.setText(currentItem.birthday);
@@ -135,18 +136,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        String phoneNumber = "폰넘버필요?";
-                //EtcLib.getInstance().getPhoneNumber(context);
-
-        phoneEdit = (EditText) findViewById(R.id.profile_phone);
-        phoneEdit.setText(phoneNumber);
-
-        TextView phoneStateEdit = (TextView) findViewById(R.id.phone_state);
-        if (phoneNumber.startsWith("0")) {
-            phoneStateEdit.setText("(" + getResources().getString(R.string.device_number) + ")");
-        } else {
-            phoneStateEdit.setText("(" + getResources().getString(R.string.phone_number) + ")");
-        }
     }
 
     /**

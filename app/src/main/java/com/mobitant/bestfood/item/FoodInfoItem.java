@@ -16,6 +16,7 @@ public class FoodInfoItem {
     public String tel;
     public String description;
     public String post_nickname;
+    private String sell_price;
     public String os;
     public int reply;
     public int commentCount;
@@ -39,6 +40,14 @@ public class FoodInfoItem {
 
     public void setCommentItems(ArrayList<NotificationCommentItem> commentItems) {
         this.commentItems = commentItems;
+    }
+
+    public String getSell_price() {
+        return sell_price;
+    }
+
+    public void setSell_price(String sell_price) {
+        this.sell_price = sell_price;
     }
 
     @Override

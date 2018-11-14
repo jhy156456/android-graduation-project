@@ -18,13 +18,9 @@ public class Validation {
     }
 
     public static boolean validateEmail(String string) {
-
         if (TextUtils.isEmpty(string) || !Patterns.EMAIL_ADDRESS.matcher(string).matches()) {
-
             return false;
-
         } else {
-
             return  true;
         }
     }

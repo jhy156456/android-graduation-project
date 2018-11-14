@@ -1,5 +1,11 @@
 package com.mobitant.bestfood;
 
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 public interface Constant {
     int MAX_LENGTH_DESCRIPTION = 50;
 
@@ -9,7 +15,10 @@ public interface Constant {
     String ORDER_TYPE_HITS = "hits_cnt";
     String ORDER_TYPE_FAVORITE = "keep_cnt";
     String ORDER_TYPE_RECENT = "reg_date";
-    public static final String NETWORK_URL = "http://172.30.1.36:8005/";
+
+    public static final String NETWORK_URL ="http://192.168.216.103:8005/";
+            //"http://50812547.ngrok.io/";
+            //"http://192.168.216.103:8005/";
 
     /*
     #나가기버튼클릭 :
@@ -42,5 +51,29 @@ public interface Constant {
     NotificationActivity -> RegisterActivity : 1004
     HomeActivity -> 1006
     SupportersActivity-> 1007
+    BestFoodInfoActivitiy -> 1008
      */
+
+
+    /*
+       점3개버튼 구현
+    public void setSpinnerMenu(){
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position !=0) Toast.makeText(getApplicationContext(),"선택 : " + items[position],Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    */
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,8 +9,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
-
-    <include layout="@layout/toolbar" />
+        />
 
 
     <RelativeLayout
@@ -20,6 +20,8 @@
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
             android:scaleType="centerCrop"
             android:src="@drawable/navigation_header_image" />
 
@@ -33,7 +35,8 @@
             android:elevation="5dp"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_icon"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
@@ -134,4 +137,4 @@
 
 
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

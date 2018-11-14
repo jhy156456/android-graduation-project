@@ -10,8 +10,8 @@ public class NotificationCommentItem {
     private String created_at;
     private String postId;
     private int comment_like;
-    @SerializedName("_id") public String id;
-    @SerializedName("writer_member_icon_filename") private String memberIconFileName;
+    @SerializedName("_id") private String id;
+    @SerializedName("comment_writer_icon_filename") private String memberIconFileName;
 
     public String getMemberIconFileName() {
         return memberIconFileName;
@@ -19,6 +19,15 @@ public class NotificationCommentItem {
 
     public void setMemberIconFileName(String memberIconFileName) {
         this.memberIconFileName = memberIconFileName;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getContents() {

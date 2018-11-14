@@ -62,6 +62,7 @@ public class SupportersChatAdapter extends RecyclerView.Adapter<SupportersChatAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User currentUser = itemList.get(position);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +89,7 @@ private void showDialog(String nickName,String memberIconFileName,int userSeq){
                             if (which == 0) {
                                 Intent intent = new Intent(context.getApplicationContext(), MemberProfile.class);
                                 intent.putExtra("data", userSeq); //흠 이렇게해도 되는건가.. 아닌것같다
+                                intent.putExtra("userNickName", nickName); //흠 이렇게해도 되는건가.. 아닌것같다
                                 intent.putExtra("MySeq", ((MyApp) context.getApplicationContext()).getMemberSeq());
                                 intent.putExtra("callActivity", "SupportersActivity");
 

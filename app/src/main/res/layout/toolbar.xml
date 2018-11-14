@@ -5,13 +5,15 @@
     android:id="@+id/toolbar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/AppTheme.AppBarOverlay">
-
+    android:theme="@style/GalaxyZooThemeToolbarDarkOverflow">
+<!--위에 android:theme를바꿔주니까 제목이랑 드로어버튼이 검정으로바뀜!-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPinkRose"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        android:background="@color/white"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+
+        />
 
 </android.support.design.widget.AppBarLayout>

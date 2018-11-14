@@ -15,7 +15,7 @@ import com.mobitant.bestfood.R;
 public class SingerItemView extends LinearLayout {
     TextView textView;
     TextView textView2;
-    TextView textView3;
+  //  TextView textView3;
     ImageView imageView;
 
     public SingerItemView(Context context) {
@@ -36,7 +36,7 @@ public class SingerItemView extends LinearLayout {
 
         textView = (TextView) findViewById(R.id.textView);
         textView2 = (TextView) findViewById(R.id.textView2);
-        textView3 = (TextView) findViewById(R.id.textView3);
+       // textView3 = (TextView) findViewById(R.id.textView3);
         imageView = (ImageView) findViewById(R.id.imageView);
     }
 
@@ -48,9 +48,9 @@ public class SingerItemView extends LinearLayout {
         textView2.setText(mobile);
     }
 
-    public void setAge(int age) {
+  /*  public void setAge(int age) {
         textView3.setText(String.valueOf(age));
-    }
+    }*/
 
     public void setImage(int resId) {
         imageView.setImageResource(resId);

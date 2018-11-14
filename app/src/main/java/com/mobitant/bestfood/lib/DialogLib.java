@@ -94,7 +94,8 @@ public class DialogLib {
      * @param infoSeq 맛집 정보 일련번호
      */
     public void showKeepDeleteDialog(Context context, final Handler handler,
-                                     final int memberSeq, final int infoSeq) {
+                                     int memberSeq, final int infoSeq) {
+        MyLog.d("쇼킵딜리트다이어로그 멤버시큐 : " + memberSeq);
         new AlertDialog.Builder(context)
                 .setTitle(R.string.keep_delete)
                 .setMessage(R.string.keep_delete_message)

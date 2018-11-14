@@ -63,7 +63,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -95,7 +97,8 @@
                 android:id="@+id/com_kakao_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+android:paddingLeft="4dp"
+                android:paddingRight="4dp"
                 />
 
 

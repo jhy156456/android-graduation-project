@@ -6,39 +6,47 @@
 
 
     >
+
     <LinearLayout
         android:id="@+id/list_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rect4">
+        android:layout_marginRight="15dp"
+        android:background="@drawable/rect4"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
 
         <customfonts.EditText_Roboto_Regular
             android:id="@+id/search_key"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Search"
-            android:layout_weight="1"
-            android:paddingTop="5dp"
             android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp"
+            android:layout_weight="1"
             android:background="#00000000"
+            android:hint="Search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:shadowColor="@color/white"
-            android:shadowDy="1.2"/>
-
+            android:shadowDy="1.2" />
+        <!--  원래 imeoptions만으로 돋보기모양 안나왔는데  android:inputType="text"
+                    android:maxLines="1" 추가하니까 키보드에 돋보기모양나옴 !-->
         <ImageView
             android:id="@+id/search_key_word"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/ic_search_black_24dp"/>
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:src="@drawable/ic_search_black_24dp" />
 
 
     </LinearLayout>
+
     <TableLayout
         android:id="@+id/table_layout"
         android:layout_width="wrap_content"
@@ -46,8 +54,7 @@
         android:layout_below="@+id/list_top_layout"
         android:layout_marginTop="@dimen/spacing_small"
         android:background="@drawable/bg_round"
-        android:stretchColumns="0,1,2,3"
-        >
+        android:stretchColumns="0,1,2,3">
 
         <TableRow
             android:layout_width="wrap_content"
@@ -74,8 +81,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                >
+                android:layout_gravity="left">
 
                 <CheckBox
                     android:id="@+id/select_ios"
@@ -94,8 +100,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                >
+                android:layout_gravity="left">
 
                 <CheckBox
                     android:id="@+id/select_web"
@@ -114,8 +119,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                >
+                android:layout_gravity="left">
 
                 <CheckBox
                     android:id="@+id/select_d"
@@ -140,8 +144,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                >
+                android:layout_gravity="left">
 
                 <CheckBox
                     android:id="@+id/select_sql"
@@ -198,20 +201,21 @@
             </LinearLayout>
 
             <Button
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="-5dp"
                 android:layout_width="20dp"
                 android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="-5dp"
                 android:padding="0dp"
                 android:text="선택완료"
                 android:textSize="12sp" />
         </TableRow>
     </TableLayout>
+
     <LinearLayout
         android:id="@+id/top_layout"
-        android:layout_below="@+id/table_layout"
         android:layout_width="match_parent"
         android:layout_height="37dp"
+        android:layout_below="@+id/table_layout"
         android:layout_marginTop="@dimen/spacing_small"
         android:background="@drawable/bg_round"
         android:gravity="center_vertical"
@@ -250,6 +254,7 @@
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_small2"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/input_post"
             android:layout_width="wrap_content"
@@ -269,7 +274,6 @@
             android:src="@drawable/ic_list2"/>
 !-->
     </LinearLayout>
-
 
 
     <android.support.v7.widget.RecyclerView

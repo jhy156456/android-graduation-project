@@ -109,7 +109,7 @@ public class ChatTalkFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //이게 newRoom핸들러 호출되면 실행이되버린다;;
+        //이게 newRoom핸들러 호출되면 실행이돼버린다;;
         MyLog.d("onResume() 호출됨");
         if (((MyApp) getActivity().getApplication()).getChatExitButton()) {
             MyLog.d("onResume()안의 if문장  호출됨");
@@ -118,7 +118,6 @@ public class ChatTalkFragment extends Fragment {
             ((MyApp) getActivity().getApplication()).setChatExitButton(false);
             setSocket();
         }
-
     }
 
     private void setSocket() {
@@ -250,7 +249,7 @@ public class ChatTalkFragment extends Fragment {
                 if (response.isSuccessful() && list != null) {
                     //여기에 dataArrayList로놓고 =list로놓으면 page=1일떄 또 요청하면서 빈값이되어버림 ㅡㅡ
                     for (int i = 0; i < list.size(); i++) {
-                        String userNickName = ((MyApp) getActivity().getApplicationContext()).getMemberNickName();
+                        String userNickName = ((MyApp) getActivity().getApplication()).getMemberNickName();
                         if (userNickName.equals(list.get(i).getParticipant()))
                             list.get(i).setNowAdapterRoomNickName("participant");
                         else list.get(i).setNowAdapterRoomNickName("owner");

@@ -57,23 +57,22 @@ public class TabFragment3 extends BaseFragment implements View.OnClickListener {
         orderCheckItem = (OrderCheckItem) getArguments().getSerializable("orderCheckItem");
         Bean = new ArrayList<Bean>();
 
-//구매아이템
+        //구매아이템
         Bean bean = new Bean(orderCheckItem.getInfoFirstImageFilename(), orderCheckItem.getInfoTitle()
                 , orderCheckItem.getInfoContent(), orderCheckItem.getPostRegisterDate());
         Bean.add(bean);
-//판매자정보
+        //판매자정보
         bean = new Bean(orderCheckItem.getPostMemberIconFilename(), orderCheckItem.getPostNickName(),
                 orderCheckItem.getPostRealName(), orderCheckItem.getPostPhoneNumber());
         Bean.add(bean);
-//구매자정보
-        bean = new Bean(buyerUser.memberIconFilename,buyerUser.nickname,
-                buyerUser.name,buyerUser.phone);
+        //구매자정보
+        bean = new Bean(buyerUser.memberIconFilename, buyerUser.nickname,
+                buyerUser.name, buyerUser.phone);
         Bean.add(bean);
 
         //구매자 카드번호
-        bean = new Bean("",orderItem.getCard_number(),
-                orderItem.getCard_holder(),orderItem.getExp_date());
-
+        bean = new Bean("", orderItem.getCard_number(),
+                orderItem.getCard_holder(), orderItem.getExp_date());
         Bean.add(bean);
 
 
@@ -103,22 +102,24 @@ public TabFragment3(String sellerNickName, String sellerPostMemberIconFilename){
         this.orderItem = orderItem;
 
         Bean bean;
-        bean = new Bean("",this.orderItem.getCard_number(),
-                this.orderItem.getCard_holder(),this.orderItem.getExp_date());
+        bean = new Bean("", this.orderItem.getCard_number(),
+                this.orderItem.getCard_holder(), this.orderItem.getExp_date());
 
-        baseAdapter.DataChange(bean,3);
+        baseAdapter.DataChange(bean, 3);
         baseAdapter.notifyDataSetChanged();
 
 
         //cardHolder.setText(mOrderItem.getBuyer_nickname());
     }
+
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.order_pay) {
-            progressON("저장중...");
+            progressON("구매중...");
+
             orderCheckItem.setBuyerMemberSeq(buyerUser.seq);
             orderCheckItem.setCardHorder(orderItem.getCard_holder());
+            orderCheckItem.setCardNumber(orderItem.getCard_number());
             orderCheckItem.setBuyerMemberNickName(orderItem.getBuyer_nickname());
             save();
             this.getActivity().finish();
@@ -130,23 +131,21 @@ public TabFragment3(String sellerNickName, String sellerPostMemberIconFilename){
      * 사용자가 입력한 정보를 서버에 저장한다.
      */
     private void save() {
-
-
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
         Call<String> call = remoteService.insertOrderCheckItem(orderCheckItem);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     progressOFF();
-                    MyToast.s(getContext(),"구매신청완료");
+                    MyToast.s(getContext(), "구매신청완료");
                 } else { // 등록 실패
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
                 }
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");

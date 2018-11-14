@@ -1,5 +1,6 @@
 package com.mobitant.bestfood;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -24,6 +25,7 @@ public class ContestActivity extends AppCompatActivity {
     private Typeface mTypeface;
     private Typeface mTypefaceBold;
     public static final int fromContest = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class ContestActivity extends AppCompatActivity {
         toolbar.setTitle("공모전 팀원을 만들어보세요");
         setSupportActionBar(toolbar);
 
-        tabLayout =  findViewById(R.id.tab_layout);
+        tabLayout = findViewById(R.id.tab_layout);
 
 //        View root = tabLayout.getChildAt(0);
 //        if (root instanceof LinearLayout) {
@@ -47,7 +49,7 @@ public class ContestActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("조회"));
         tabLayout.addTab(tabLayout.newTab().setText("즐겨찾기"));
         tabLayout.addTab(tabLayout.newTab().setText("등록"));
-        Typeface mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+      /*  Typeface mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
         int tabsCount = vg.getChildCount();
         for (int j = 0; j < tabsCount; j++) {
@@ -59,10 +61,7 @@ public class ContestActivity extends AppCompatActivity {
                     ((TextView) tabViewChild).setTypeface(mTypeface, Typeface.NORMAL);
                 }
             }
-        }
-
-        //  sliderAdd = (SliderLayout) view.findViewById(R.id.sliderAdd);
-
+        }*/
 
         setCustomFontAndStyle(tabLayout, 0);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -74,16 +73,40 @@ public class ContestActivity extends AppCompatActivity {
         viewPager1.setOffscreenPageLimit(1);
         viewPager1.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+        //폰트 입히기위해 필요한듯? Flipy앱에서 가져옴
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                TextView tabTextView = new TextView(this);
+                tab.setCustomView(tabTextView);
+                tabTextView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                tabTextView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                tabTextView.setText(tab.getText());
+                tabTextView.setTextColor(Color.parseColor("#acacac"));
+                // First tab is the selected tab, so if i==0 then set BOLD typeface
+                if (i == 0) {
+                    tabTextView.setTypeface(null, Typeface.BOLD);
+                    tabTextView.setTextColor(Color.parseColor("#000000"));
+                }
+
+            }
+
+        }
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager1.setCurrentItem(tab.getPosition());
-                setCustomFontAndStyle(tabLayout, tab.getPosition());
+                TextView textView = (TextView) tab.getCustomView();
+                textView.setTextColor(Color.parseColor("#000000"));
+                textView.setTypeface(null, Typeface.BOLD);
+                //setCustomFontAndStyle(tabLayout, tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                TextView text = (TextView) tab.getCustomView();
+                text.setTextColor(Color.parseColor("#acacac"));
+                text.setTypeface(null, Typeface.NORMAL);
             }
 
             @Override
@@ -95,6 +118,7 @@ public class ContestActivity extends AppCompatActivity {
         });
 
     }
+
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
@@ -104,6 +128,7 @@ public class ContestActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.notificationactivity_toolbar_menu, menu);
         return true;
     }
+
     /**
      * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
      * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
@@ -116,11 +141,12 @@ public class ContestActivity extends AppCompatActivity {
                 GoLib.getInstance().goHomeActivity(this);
                 break;
             case R.id.go_notification_write:
-                GoLib.getInstance().goBestFoodRegisterActivity(this,fromContest);
+                GoLib.getInstance().goBestFoodRegisterActivity(this, fromContest);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void setCustomFontAndStyle(TabLayout tabLayout, Integer position) {
         mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
         mTypefaceBold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");

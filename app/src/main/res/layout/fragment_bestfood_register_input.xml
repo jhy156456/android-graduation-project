@@ -48,6 +48,20 @@
             android:maxLines="1"
             android:padding="@dimen/spacing_large"
             android:textSize="@dimen/text_size_small2" />
+        <EditText
+            android:id="@+id/sell_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/bg_round"
+            android:gravity="start"
+            android:hint="판매가격을 입력해주세요."
+            android:inputType="phone"
+            android:maxLength="13"
+            android:maxLines="1"
+            android:padding="@dimen/spacing_large"
+            android:textSize="@dimen/text_size_small2"
+            android:visibility="visible"/>
 
         <TableLayout
             android:id="@+id/table_layout"

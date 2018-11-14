@@ -8,9 +8,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -131,6 +133,18 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         orderHits.setOnClickListener(this);
         inputPost.setOnClickListener(this);
         searchKeyWord.setOnClickListener(this);
+        searchKey.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId){
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        keyWord = searchKey.getText().toString();
+                        listInfo(keyWord, memberSeq, orderType, 0,fromBestFoodListFragment);
+
+                }
+                return false;
+            }
+        });
       //listType.setOnClickListener(this);
 
         setRecyclerView();

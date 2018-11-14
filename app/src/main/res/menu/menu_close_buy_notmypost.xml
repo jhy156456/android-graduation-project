@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/go_home"
+        android:title="@string/go_home"
+        android:icon="@drawable/ic_icon_home"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_close"
+        android:title="@string/close"
+        app:showAsAction="always|withText"
+        />
+    <item
+        android:id="@+id/action_buy"
+        android:title="@string/buy"
+        app:showAsAction="always|withText"
+        />
+</menu>

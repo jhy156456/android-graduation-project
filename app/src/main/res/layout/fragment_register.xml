@@ -155,18 +155,17 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/ti_nickname"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/ti_password"
                     android:orientation="horizontal"
                     android:layout_marginTop="0dp">
 
                     <EditText
                         android:id="@+id/et_nickname"
-                        android:layout_width="264dp"
+                        android:layout_width="230dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:drawableRight="@drawable/ic_personhint"
-                        android:hint="별명"
+                        android:hint="닉네임(변경불가)"
                         android:padding="12dp"
                         android:textColor="@android:color/black"
                         android:textColorHint="@android:color/white" />

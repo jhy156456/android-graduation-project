@@ -40,6 +40,8 @@ public class KeepActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_bestfood_keep);
+        memberSeq=((MyApp)getApplicationContext()).getMemberSeq();
+        context=this;
         setToolbar();
         setRecyclerView();
         listKeep(memberSeq);
