@@ -11,6 +11,16 @@ public class ImageItem {
     @SerializedName("filename") public String fileName;
     @SerializedName("image_memo") public String imageMemo = "";
     @SerializedName("reg_date") public String regDate;
+    @SerializedName("created_at") private String createdAt;
+
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @Override
     public String toString() {

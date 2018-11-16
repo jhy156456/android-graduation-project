@@ -56,6 +56,7 @@
 
     <string name="name_need">이름을 설정해주세요</string>
     <string name="change_save">변경사항을 저장하시겠습니까?</string>
+    <string name="save">저장</string>
 
     <string name="no_change">변경된 사항이 없습니다</string>
     <string name="no_data">데이터가 없습니다</string>
@@ -68,7 +69,7 @@
 
     <!-- 맛집 등록 -->
     <string name="bestfood_register">소프트웨어 등록</string>
-    <string name="input_bestfood_name">소프트웨어이름을 입력해주세요</string>
+    <string name="input_bestfood_name">이름을 입력해주세요</string>
     <string name="input_bestfood_address">주소를 입력해주세요</string>
     <string name="input_bestfood_tel">전화번호를 입력해주세요</string>
     <string name="input_bestfood_description">설명을 입력해주세요</string>
@@ -120,4 +121,6 @@
     <string name="closeDrawer">close_drawer</string>
     <string name="nick_name_setting_description">소모임에서 사용하실 닉네임과\n타입을 선택해주세요\n선택하신 닉네임은
     변경이 불가능합니다.</string>
+
+    <string name="no_noti">문의사항이 없습니다.</string>
 </resources>

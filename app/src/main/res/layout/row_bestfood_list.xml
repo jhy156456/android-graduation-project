@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardUseCompatPadding="true"
-    card_view:cardCornerRadius="@dimen/cardview_round_basic">
+    card_view:cardCornerRadius="@dimen/cardview_round_basic"
+    card_view:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +21,7 @@
             android:scaleType="centerCrop" />
 
         <LinearLayout
-            android:layout_width="313dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:gravity="top"
@@ -38,27 +37,30 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="257dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="1"
                     android:gravity="start"
                     android:text="name"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_small2"
                     android:textStyle="bold" />
-
                 <ImageView
                     android:id="@+id/keep"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginRight="5dp"
                     android:src="@drawable/ic_keep_off" />
-
             </LinearLayout>
 
             <TextView
+
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:maxEms="15"
+                android:maxLines="1"
                 android:text="description"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/text_size_small2" />

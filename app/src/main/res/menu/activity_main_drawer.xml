@@ -5,7 +5,7 @@
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_notice"
-            android:icon="@drawable/ic_profile"
+            android:icon="@drawable/ic_notification"
             android:title="공지사항"/>
         <item
             android:id="@+id/nav_list"
@@ -15,10 +15,6 @@
             android:id="@+id/nav_keep"
             android:icon="@drawable/ic_keep_off"
             android:title="@string/nav_keep" />
-        <item
-            android:id="@+id/nav_register"
-            android:icon="@drawable/ic_register"
-            android:title="@string/nav_register" />
     </group>
 
     <group
@@ -30,31 +26,23 @@
             android:title="로그인"/>
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_profile"
+            android:icon="@drawable/ic_logout"
             android:title="로그아웃"/>
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_profile"
+            android:icon="@drawable/ic_setting"
             android:title="@string/nav_profile"/>
         <item
             android:id="@+id/nav_order"
-            android:icon="@drawable/ic_profile"
+            android:icon="@drawable/ic_history"
             android:title="구매/판매내역"/>
     </group>
     <group
         android:id="@+id/g3"
         android:checkableBehavior="all" >
         <item
-            android:id="@+id/nav_think"
-            android:icon="@drawable/ic_profile"
-            android:title="제안/의견"/>
-        <item
-            android:id="@+id/nav_bug"
-            android:icon="@drawable/ic_profile"
-            android:title="버그/오류"/>
-        <item
             android:id="@+id/nav_question"
-            android:icon="@drawable/ic_profile"
+            android:icon="@drawable/ic_question"
             android:title="문의하기"/>
         <item
             android:id="@+id/nav_version"

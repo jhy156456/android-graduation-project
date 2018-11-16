@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
     android:layout_alignParentStart="true"
+    android:layout_alignParentBottom="true"
 
     android:background="@color/bg_default"
     android:fillViewport="true"
@@ -12,10 +13,10 @@
     <!--  위에있던것  android:layout_margin="@dimen/spacing_small"!-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="111dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_round"
-        android:padding="@dimen/spacing_medium"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium">
         <!--  위에있던것  android:layout_margin="@dimen/spacing_small"!-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,12 +37,13 @@
                 android:id="@+id/name"
                 android:layout_width="93dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:gravity="start"
                 android:text=""
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/hits"
                 android:layout_width="wrap_content"
@@ -52,6 +54,7 @@
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/keep"
                 android:layout_width="30dp"
@@ -60,9 +63,96 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/os_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/product_os_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="OS : "
+                android:textColor="@color/text_color_green"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/product_os"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sell_price_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="판매가격 : "
+                android:textColor="@color/text_color_green"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/product_sell_price"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="작성시간 : "
+                android:textColor="@color/text_color_green"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/created_at"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="49dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="4dp"
             android:orientation="vertical"
 
@@ -79,47 +169,46 @@
                 app:civ_border_color="#AAAAAA"
                 app:civ_border_width="2dp" />
 
-            <TextView
-                android:id="@+id/nickname"
-                android:layout_width="137dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="55dp"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:text=""
-                android:textColor="@color/text_color_black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10sp"
+                android:layout_toRightOf="@+id/post_profile_icon"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/nickname"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="닉네임"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_black"
+                    android:text="전화번호"
+                    android:textSize="@dimen/text_size_small2"
+           />
 
-            <TextView
-                android:id="@+id/tel"
-                android:layout_width="146dp"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/nickname"
-                android:layout_marginBottom="2dp"
-                android:layout_marginEnd="152dp"
-                android:layout_marginTop="-1dp"
-                android:gravity="start|center_vertical"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small2"
-                android:textStyle="bold" />
+            </LinearLayout>
         </RelativeLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
         android:background="@drawable/bg_round"
 
-        android:padding="@dimen/spacing_medium"
-        >
+        android:padding="@dimen/spacing_medium">
 
 
         <include layout="@layout/post_image_list" />
@@ -131,8 +220,6 @@
             android:scaleType="fitCenter" />
 !-->
     </LinearLayout>
-
-
 
 
     <LinearLayout

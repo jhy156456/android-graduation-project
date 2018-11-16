@@ -25,6 +25,8 @@ public class ContestActivity extends AppCompatActivity {
     private Typeface mTypeface;
     private Typeface mTypefaceBold;
     public static final int fromContest = 1001;
+    CategoryPagerAdapterProductGrid adapter;
+    ViewPager viewPager1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +64,11 @@ public class ContestActivity extends AppCompatActivity {
                 }
             }
         }*/
-
         setCustomFontAndStyle(tabLayout, 0);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        viewPager1 = (ViewPager) findViewById(R.id.pager);
 
-
-        final ViewPager viewPager1 = (ViewPager) findViewById(R.id.pager);
-        CategoryPagerAdapterProductGrid adapter = new CategoryPagerAdapterProductGrid(getSupportFragmentManager(), 3);
-        viewPager1.setAdapter(adapter);
-        viewPager1.setOffscreenPageLimit(1);
-        viewPager1.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        setAdapter();
 
         //폰트 입히기위해 필요한듯? Flipy앱에서 가져옴
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -113,9 +110,15 @@ public class ContestActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-
-
         });
+    }
+
+    public void setAdapter() {
+        adapter = new CategoryPagerAdapterProductGrid(getSupportFragmentManager(), 3);
+        viewPager1.setAdapter(adapter);
+        viewPager1.setOffscreenPageLimit(1);
+        viewPager1.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
 
     }
 
@@ -145,6 +148,16 @@ public class ContestActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (((MyApp) getApplicationContext()).isNewContest() == true) {
+            setAdapter();
+            ((MyApp) getApplicationContext()).setNewContest(false);
+        }
+
     }
 
     private void setCustomFontAndStyle(TabLayout tabLayout, Integer position) {

@@ -42,16 +42,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     ImageView profileIconImage;
     ImageView profileIconChangeImage;
-    EditText emailEdit;
+    TextView emailEdit;
     EditText sextypeEdit;
     EditText birthEdit;
-    EditText phoneEdit;
-    EditText nickName;
+    TextView nameEdit;
+    TextView nickName;
     EditText oneLineDescription;
     User currentItem;
 
     /**
      * 액티비티를 생성하고 화면을 구성한다.
+     *
      * @param savedInstanceState 액티비티가 새로 생성되었을 경우, 이전 상태 값을 가지는 객체
      */
     @Override
@@ -107,18 +108,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profileIconChangeImage = (ImageView) findViewById(R.id.profile_icon_change);
         profileIconChangeImage.setOnClickListener(this);
 
-        emailEdit = (EditText) findViewById(R.id.profile_email);
+        emailEdit = (TextView) findViewById(R.id.profile_email);
         emailEdit.setText(currentItem.getEmail());
 
-        nickName =(EditText)findViewById(R.id.profile_nickname);
+        nickName = (TextView) findViewById(R.id.profile_nickname);
         nickName.setText(currentItem.nickname);
 
-        oneLineDescription=(EditText)findViewById(R.id.profile_one_line_description);
+        oneLineDescription = (EditText) findViewById(R.id.profile_one_line_description);
         oneLineDescription.setText(currentItem.getOneLineDescription());
 
         sextypeEdit = (EditText) findViewById(R.id.profile_sextype);
         sextypeEdit.setText(currentItem.birthday);
-
+        nameEdit = (TextView) findViewById(R.id.profile_name);
+        nameEdit.setText(currentItem.name);
 
         sextypeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +195,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
+     *
      * @param menu 메뉴 객체
      * @return 메뉴를 보여준다면 true, 보여주지 않는다면 false
      */
@@ -206,6 +209,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
      * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
      * 여기서는 모든 버튼이 액티비티를 종료한다.
+     *
      * @param item 메뉴 아이템 객체
      * @return 메뉴를 처리했다면 true, 그렇지 않다면 false
      */
@@ -226,29 +230,34 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * 사용자가 입력한 정보를 MemberInfoItem 객체에 저장해서 반환한다.
+     *
      * @return 사용자 정보 객체
      */
     private User getMemberInfoItem() {
         User item = new User();
-        item.phone = "폰넘버필요?";
-
-                //EtcLib.getInstance().getPhoneNumber(context);
-        item.nickname = nickName.getText().toString();
         item.sextype = sextypeEdit.getText().toString();
         item.birthday = birthEdit.getText().toString().replace(" ", "");
-
+        item.setOneLineDescription(oneLineDescription.getText().toString());
         return item;
     }
 
     /**
      * 기존 사용자 정보와 새로 입력한 사용자 정보를 비교해서 변경되었는지를 파악한다.
+     *
      * @param newItem 사용자 정보 객체
      * @return 변경되었다면 true, 변경되지 않았다면 false
      */
     private boolean isChanged(User newItem) {
-        if (newItem.nickname.trim().equals(currentItem.nickname)
-                && newItem.sextype.trim().equals(currentItem.sextype)
-                && newItem.birthday.trim().equals(currentItem.birthday)) {
+        MyLog.d("프로필 : " + newItem.sextype.trim());
+        MyLog.d("프로필 : " +currentItem.sextype);
+        MyLog.d("프로필 : " + newItem.birthday.trim());
+        MyLog.d("프로필 : " + currentItem.birthday);
+        MyLog.d("프로필 : " + newItem.getOneLineDescription());
+        MyLog.d("프로필 : " + currentItem.getOneLineDescription());
+
+        if (newItem.sextype.trim().equals(currentItem.sextype)
+                && newItem.birthday.trim().equals(currentItem.birthday)
+                && newItem.getOneLineDescription().trim().equals(currentItem.getOneLineDescription())) {
             Log.d(TAG, "return " + false);
             return false;
         } else {
@@ -256,18 +265,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * 사용자가 이름을 입력했는지를 확인한다.
-     * @param newItem 사용자가 새로 입력한 정보 객체
-     * @return 입력하지 않았다면 true, 입력했다면 false
-     */
-    private boolean isNoName(User newItem) {
-        if (StringLib.getInstance().isBlank(newItem.nickname)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * 화면이 닫히기 전에 변경 유무를 확인해서
@@ -275,13 +272,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void close() {
         User newItem = getMemberInfoItem(); // 바뀐값들로 셋팅해서 멤버객체생성
-
-        if (!isChanged(newItem) && !isNoName(newItem)) {
+        if (!isChanged(newItem)) {
             finish();
-        } else if (isNoName(newItem)) {
-            MyToast.s(context, R.string.name_need);
-            finish();
-        } else {
+        }  else {
             new AlertDialog.Builder(this).setTitle(R.string.change_save)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -335,6 +328,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     currentItem.name = newItem.name;
                     currentItem.sextype = newItem.sextype;
                     currentItem.birthday = newItem.birthday;
+                    currentItem.setOneLineDescription(newItem.getOneLineDescription());
                     finish();
                 }
             }
@@ -356,6 +350,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * 프로필 아이콘이나 프로필 아이콘 변경 뷰를 클릭했을 때, 프로필 아이콘을 변경할 수 있도록
      * startProfileIconChange() 메소드를 호출한다.
+     *
      * @param v 클릭한 뷰 객체
      */
     @Override

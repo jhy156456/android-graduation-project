@@ -1,6 +1,7 @@
 package com.mobitant.bestfood.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.mobitant.bestfood.MyApp;
 import com.mobitant.bestfood.R;
+import com.mobitant.bestfood.TextViewImmacBytes;
 import com.mobitant.bestfood.fragments.NotificationDetailFragment;
 import com.mobitant.bestfood.item.NotificationItem;
 import com.mobitant.bestfood.lib.GoLib;
@@ -59,10 +61,31 @@ public class NotificationAdapter extends RecyclerView.Adapter <NotificationAdapt
         NotificationItem item = itemList.get(position);
 
         holder.textView.setText(item.getTitle());
-        holder.created_at.setText(item.getCreate_at());
+        String year="";
+        String month="";
+        String day="";
+        String hour="";
+        String minute="";
+        year = item.getCreate_at().substring(0,4);
+        month=item.getCreate_at().substring(5,7);
+        day = item.getCreate_at().substring(8,10);
+
+        int koreanHour= Integer.parseInt(item.getCreate_at().substring(11,13));
+        koreanHour +=9;
+        MyLog.d("한국시간 : " + koreanHour);
+        hour = String.valueOf(koreanHour);
+        minute=item.getCreate_at().substring(14,16);
+
+        holder.created_at.setText(year+"년 "+month+"월 "+day+"일 "+hour+"시 "+minute+"분");
         MyLog.d("날짜" + item.getCreate_at());
         Bundle bundle = new Bundle();
         bundle.putString("SEQ",item.id);
+        if(item.getCommentItems().size()==0){
+            holder.notiStatus.setText("Not Answered");
+            holder.notiStatus.setTextColor(Color.parseColor("#F68159"));
+            holder.circleColor.setBackgroundResource(R.color.colorOrange);
+            holder.leftColor.setBackgroundResource(R.color.colorOrange);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,10 +106,15 @@ public class NotificationAdapter extends RecyclerView.Adapter <NotificationAdapt
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
         TextView created_at;
+        TextViewImmacBytes notiStatus;
+        View circleColor;
+        View leftColor;
         public ViewHolder(View itemView) {
 
             super(itemView);
-
+            leftColor=(View)itemView.findViewById(R.id.left_color);
+            circleColor = (View)itemView.findViewById(R.id.circle_color);
+            notiStatus=(TextViewImmacBytes)itemView.findViewById(R.id.noti_status);
             textView = (TextView) itemView.findViewById(R.id.notification_title);
             created_at=(TextView)itemView.findViewById(R.id.notification_create_at);
         }

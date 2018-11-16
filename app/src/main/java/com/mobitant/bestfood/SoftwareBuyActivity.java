@@ -28,7 +28,6 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
     public TabFragment3 tabFragment3;
     PagerAdapter1 adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

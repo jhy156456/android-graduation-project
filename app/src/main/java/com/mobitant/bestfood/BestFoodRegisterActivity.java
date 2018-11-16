@@ -38,7 +38,7 @@ public class BestFoodRegisterActivity extends AppCompatActivity {
         context = this;
         from = (int) getIntent().getExtras().getInt("from");
         MyLog.d("프롬값!!!!!!!!!!!!!!!!!!!!!!!" + from);
-        int memberSeq = 400; //((MyApp)getApplication()).getMemberSeq();
+        int memberSeq = ((MyApp)getApplication()).getMemberSeq();
         //BestFoodRegisterLocationFragment로 넘길 기본적인 정보를 저장한다.
         FoodInfoItem infoItem = new FoodInfoItem();
         infoItem.post_category = from;
@@ -58,9 +58,16 @@ public class BestFoodRegisterActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
 
-        if (actionBar != null) {
+        if (actionBar != null &&from==1002) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(R.string.bestfood_register);
+        }else if(actionBar != null &&from==1001){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("모집 등록");
+        }
+        else{
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("등록");
         }
     }
 

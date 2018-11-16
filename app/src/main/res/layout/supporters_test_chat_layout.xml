@@ -35,6 +35,7 @@
 
 
             <customfonts.MyTextView_Roboto_Bold
+                android:id="@+id/other_party_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Barry Aguiler"
@@ -53,15 +54,24 @@
 !-->
         </LinearLayout>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <!--중간에 뷰를넣고 layout_weight옵션을주면 아래속성이 오른쪽정렬된다
+        https://m.blog.naver.com/PostView.nhn?blogId=sejin7307&logNo=220095283350&proxyReferer=https%3A%2F%2Fwww.google.co.kr%2F
+        !-->
         <LinearLayout
             android:id="@+id/chat_room_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="150dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <customfonts.MyTextView_Roboto_Bold
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="나가기"
@@ -78,8 +88,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/chat_input_linear_layout"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linear_profile">
+        android:layout_below="@+id/linear_profile"
+        android:layout_marginTop="10dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/messages"
@@ -93,10 +103,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/chat_input_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/chat_input_linear_layout"
         android:orientation="vertical">
 
         <View
@@ -122,11 +132,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:background="@null"
-                android:inputType="textMultiLine|textNoSuggestions"
                 android:layout_weight="1"
+                android:background="@null"
                 android:hint="Type something..."
                 android:imeOptions="actionDone"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:textColor="#a9a9b0"
                 android:textSize="20sp" />
 

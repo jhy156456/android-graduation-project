@@ -102,9 +102,9 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
         return super.onOptionsItemSelected(item);
     }
     public void setNavLogin(){
-        menuItem = menu.getItem(4);
-        profileMenuItem = menu.getItem(6);
-        logoutMenuItem = menu.getItem(5);
+        menuItem = menu.getItem(3);
+        logoutMenuItem = menu.getItem(4);
+        profileMenuItem = menu.getItem(5);
         if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).getMemberNickname().equals("")) {
             menuItem.setTitle("로그인");
             profileMenuItem.setVisible(false);
@@ -167,10 +167,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
             GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.content_main, BestFoodKeepFragment.newInstance());
 
-        } else if (id == R.id.nav_register) {
-            GoLib.getInstance().goBestFoodRegisterActivity(this,fromNotificationActivity);
-
-        } else if (id == R.id.nav_profile) {
+        }  else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
         }
 

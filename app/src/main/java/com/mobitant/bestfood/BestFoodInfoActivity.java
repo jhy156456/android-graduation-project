@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -86,8 +89,11 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bestfood_info);
-        mCurrentNickName =     ((MyApp) getApplication()).getMemberNickName();
+        mCurrentNickName = ((MyApp) getApplication()).getMemberNickName();
+        if (mCurrentNickName == null) mCurrentNickName = " ";//로그인안했을경우 널값에러
+
         item = new FoodInfoItem();
+
         context = this;
         memberSeq = ((MyApp) getApplication()).getMemberSeq();
         foodInfoSeq = getIntent().getIntExtra(INFO_SEQ, 0);
@@ -107,7 +113,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             adapter.addItem(new SingerItem(item.getCommentItems().get(i).getWriter(), item.getCommentItems().get(i).getContents(),
                     item.getCommentItems().get(i).getComment_like(),
                     item.getCommentItems().get(i).getMemberIconFileName(),
-                    item.getCommentItems().get(i).getId(),item.id));
+                    item.getCommentItems().get(i).getId(), item.id));
         }
         postLayoutManager = new LinearLayoutManager(this);
         viewdlistView.setLayoutManager(postLayoutManager);
@@ -255,6 +261,32 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
 
         //멤버 프로필 이미지 설정 끝
 
+        if (item.post_category == 1002) { //구매관련글
+            ((SingerAdapter.AViewHolder) holder).sellPrice.setText(item.getSell_price());
+            ((SingerAdapter.AViewHolder) holder).osText.setText(item.os);
+        } else if (item.post_category == 1001) { //공모전 관련글
+            ((SingerAdapter.AViewHolder) holder).sellPriceLayout.setVisibility(View.GONE);
+            ((SingerAdapter.AViewHolder) holder).osLeftText.setText("종류 : ");
+            ((SingerAdapter.AViewHolder) holder).osText.setText(item.os);
+        }
+
+        //<=======시간표시 ========>
+        String year = "";
+        String month = "";
+        String day = "";
+        String hour = "";
+        String minute = "";
+        year = item.getCreatedAt().substring(0, 4);
+        month = item.getCreatedAt().substring(5, 7);
+        day = item.getCreatedAt().substring(8, 10);
+        int koreanHour = Integer.parseInt(item.getCreatedAt().substring(11, 13));
+        koreanHour += 9;
+        MyLog.d("한국시간 : " + koreanHour);
+        hour = String.valueOf(koreanHour);
+        minute = item.getCreatedAt().substring(14, 16);
+        ((SingerAdapter.AViewHolder) holder).createdAtText.setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분");
+        //<=======시간표시 ========>
+
 
         ((SingerAdapter.AViewHolder) holder).nickNameText.setText(item.post_nickname);
         ((SingerAdapter.AViewHolder) holder).nickNameText.setTextColor(Color.parseColor("#000000"));
@@ -390,6 +422,8 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 mCurrentNickName으로 안하고 아래의 if문장에 직접 ((MyApp))~~.getMemberNickName으로했더니
                 이미지가 안뜨는경우도 있었다 내생각엔 memeberNickName가져오는 시간과 비교하는시간이
                 맞지않아서 안떴던거로 생각된다 그래서 oncreate에서전역변수로뺐음*/
+                MyLog.d("ㅠㅠ" + mCurrentNickName);
+                MyLog.d("ㅠㅠ" + singerItem.getName());
                 if (mCurrentNickName.equals(singerItem.getName())) {
                     ((BViewHolder) holder).removeComment.setVisibility(View.VISIBLE);
                     ((SingerAdapter.BViewHolder) holder).removeComment.setOnClickListener(new View.OnClickListener() {
@@ -402,7 +436,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            KeepLib.getInstance().deleteComment(item.id, singerItem.getId(),1008);
+                                            KeepLib.getInstance().deleteComment(item.id, singerItem.getId(), 1008);
                                             deleteItem(singerItem.getId()); // _아이디로 어레이리스트삭제
                                             adapter.notifyDataSetChanged();
                                             MyToast.s(context, "댓글이 삭제되었습니다.");
@@ -461,8 +495,8 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                         String commentId = response.body();
                         MyToast.s(context, "댓글이 등록되었습니다.");
                         adapter.addItem(new SingerItem(commentItem.getWriter(), contents, comment_like,
-                                ((MyApp) getApplication()).getMemberIconFilename(),commentId ,item.id));
-                        adapter.notifyItemChanged(adapter.getItemCount()-1);
+                                ((MyApp) getApplication()).getMemberIconFilename(), commentId, item.id));
+                        adapter.notifyItemChanged(adapter.getItemCount() - 1);
 
                     } else { // 등록 실패
                         int statusCode = response.code();
@@ -470,6 +504,7 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                         MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
                     }
                 }
+
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     MyLog.d(TAG, "no internet connectivity");
@@ -520,11 +555,19 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             TextView description;
             TextView nickNameText;
             TextView hits;
+            TextView sellPrice;
+            TextView osText;
+            TextView osLeftText;
+            LinearLayout osLayout;
             ImageView profileIconImage;
+            LinearLayout sellPriceLayout;
+            TextView createdAtText;
 
             public AViewHolder(View itemView) {
                 super(itemView);
-
+                createdAtText = (TextView) itemView.findViewById(R.id.created_at);
+                sellPrice = (TextView) itemView.findViewById(R.id.product_sell_price);
+                sellPriceLayout = (LinearLayout) itemView.findViewById(R.id.sell_price_layout);
                 imageItemList = (RecyclerView) itemView.findViewById(R.id.image_list);
                 nameText = (TextView) itemView.findViewById(R.id.name);
                 hits = (TextView) itemView.findViewById(R.id.hits);
@@ -533,6 +576,9 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
                 nickNameText = (TextView) itemView.findViewById(R.id.nickname);
                 keepImage = (ImageView) itemView.findViewById(R.id.keep);
                 profileIconImage = (ImageView) itemView.findViewById(R.id.post_profile_icon);
+                osText = (TextView) itemView.findViewById(R.id.product_os);
+                osLayout = (LinearLayout) itemView.findViewById(R.id.os_layout);
+                osLeftText = (TextView) itemView.findViewById(R.id.product_os_left);
             }
         }
 

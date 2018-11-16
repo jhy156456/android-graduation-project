@@ -43,11 +43,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+
+                android:ellipsize="end"
+                android:maxEms="15"
                 android:maxLines="1"
+
                 android:text="description"
                 android:textColor="#868686"
                 android:textSize="11sp" />
         </LinearLayout>
+
+        <!--점표시하려면 maxEms,maxLines,ellipsize3개를 같이 사용해야한다 !-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -16,8 +16,8 @@ public interface Constant {
     String ORDER_TYPE_FAVORITE = "keep_cnt";
     String ORDER_TYPE_RECENT = "reg_date";
 
-    public static final String NETWORK_URL ="http://192.168.216.103:8005/";
-            //"http://50812547.ngrok.io/";
+    public static final String NETWORK_URL = "http://192.168.216.103:8005/";
+            //"http://db6a587e.ngrok.io/";
             //"http://192.168.216.103:8005/";
 
     /*

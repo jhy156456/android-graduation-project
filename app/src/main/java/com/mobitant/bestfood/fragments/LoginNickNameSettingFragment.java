@@ -34,6 +34,7 @@ import com.mobitant.bestfood.remote.ServiceGenerator;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
@@ -54,6 +55,8 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
     private Button mBtRegister;
     public static final String TAG = RegisterFragment.class.getSimpleName();
     private CompositeSubscription mSubscriptions;
+    ArrayList<CheckBox> mCheckBoxes = new ArrayList<CheckBox>();
+    int selected_position;
 
     /**
      * FoodInfoItem 객체를 인자로 저장하는
@@ -111,8 +114,55 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
         });
 
         mBtRegister.setOnClickListener(view -> register());
+        setOneCheckBox();
     }
+    private void setOneCheckBox() {
 
+
+        mCheckBoxes.add(selectBuyer);
+        mCheckBoxes.add(selectSeller);
+        mCheckBoxes.add(selectSupporters);
+        selectBuyer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    for (int i = 0; i < mCheckBoxes.size(); i++) {
+                        if (mCheckBoxes.get(i) == view) selected_position = i;
+                        else mCheckBoxes.get(i).setChecked(false);
+                    }
+                } else {
+                    selected_position = -1;
+                }
+            }
+        });
+        selectSupporters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    for (int i = 0; i < mCheckBoxes.size(); i++) {
+                        if (mCheckBoxes.get(i) == view) selected_position = i;
+                        else mCheckBoxes.get(i).setChecked(false);
+                    }
+                } else {
+                    selected_position = -1;
+                }
+            }
+        });
+        selectSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    for (int i = 0; i < mCheckBoxes.size(); i++) {
+                        if (mCheckBoxes.get(i) == view) selected_position = i;
+                        else mCheckBoxes.get(i).setChecked(false);
+                    }
+                } else {
+                    selected_position = -1;
+                }
+            }
+        });
+
+    }
     private void checkNicName(String nickName) {
         mSubscriptions.add(ServiceGenerator.getRetrofit().duplicateCheck(nickName)
                 .observeOn(AndroidSchedulers.mainThread())

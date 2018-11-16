@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import customfonts.EditText_Helvatica_Meidum;
 import customfonts.EditText_Roboto_Regular;
 import customfonts.EditText__SF_Pro_Display_Medium;
+import customfonts.MyTextView_Roboto_Bold;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -58,6 +59,7 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
     private RecyclerView mMessagesView;
     private Boolean isConnected = true;
     private MessageAdapter mAdapter;
+    private MyTextView_Roboto_Bold otherPartNickName;
     String receiver;
     EndlessRecyclerViewScrollListener scrollListener;
     LinearLayoutManager layoutManager;
@@ -76,6 +78,7 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
         mMessagesView = (RecyclerView) findViewById(R.id.messages);
         mInputMessageView = (EditText__SF_Pro_Display_Medium) findViewById(R.id.message_input);
         chatRoomExit = (LinearLayout) findViewById(R.id.chat_room_exit);
+        otherPartNickName = (MyTextView_Roboto_Bold)findViewById(R.id.other_party_nick_name);
         ImageView sendButton = (ImageView) findViewById(R.id.send_button);
         ImageView chatRoomBack = (ImageView) findViewById(R.id.chat_room_back);
         setView();
@@ -124,9 +127,11 @@ public class ChatTalkContentsActivity extends AppCompatActivity implements View.
         if (participant.equals(((MyApp) getApplicationContext()).getMemberNickName())) {
             //참가자 닉네임과 내 닉네임이 같을경우 나는 praticipant이다 그러므로 receiver는 owner이다
             whoAmI = "participant";
+            otherPartNickName.setText(owner);
             receiver = owner;
         } else {//다를경우 나는 owner이다 그러므로 receiver는 participant이다
             whoAmI = "owner";
+            otherPartNickName.setText(participant);
             receiver = participant;
         }
         if (callActivity.equals("ChatSupportersFragment")) {

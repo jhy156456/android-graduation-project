@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-
+        app:layout_scrollFlags="scroll|enterAlways"
         />
 
 </android.support.design.widget.AppBarLayout>

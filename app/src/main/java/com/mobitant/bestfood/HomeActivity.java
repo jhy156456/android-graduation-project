@@ -161,9 +161,10 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     public void setNavLogin() {
-        menuItem = menu.getItem(4);
-        profileMenuItem = menu.getItem(6);
-        logoutMenuItem = menu.getItem(5);
+        menuItem = menu.getItem(3);
+        logoutMenuItem = menu.getItem(4);
+        profileMenuItem = menu.getItem(5);
+
         if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled", false)) {
             //자동로그인이 선택된적이 있다면
             loginProcess(((MyApp) getApplicationContext()).setting.getString("ID", ""));
@@ -275,7 +276,7 @@ public class HomeActivity extends AppCompatActivity implements
             nameText.setText("로그인해주세요");
             MyLog.d("로그인해주세요");
         } else {
-            nameText.setText(currentUser.name);
+            nameText.setText(currentUser.nickname);
             MyLog.d("currentUser.name : " + currentUser.name);
         }
     }
@@ -303,10 +304,6 @@ public class HomeActivity extends AppCompatActivity implements
             } else {
                 GoLib.getInstance().goKeepActivity(this);
             }
-        } else if (id == R.id.nav_register) {
-            if (currentUser.nickname == null || currentUser.nickname.equals("")) {
-            }
-            GoLib.getInstance().goBestFoodRegisterActivity(this, fromHomeActivity);
         } else if (id == R.id.nav_login) {
             GoLib.getInstance().goLoginActivity(this);
         } else if (id == R.id.nav_logout) {

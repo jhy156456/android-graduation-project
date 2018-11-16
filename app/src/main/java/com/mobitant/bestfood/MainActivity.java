@@ -36,10 +36,12 @@ public class MainActivity extends AppCompatActivity
     CircleImageView profileIconImage;
     Menu menu;
     MenuItem menuItem;
-    MenuItem profileMenuItem,logoutMenuItem;
+    MenuItem profileMenuItem, logoutMenuItem;
     NavigationView navigationView;
+
     /**
      * 액티비티와 네비게이션 뷰를 설정하고 BestFoodListFragment를 화면에 보여준다.
+     *
      * @param savedInstanceState 액티비티가 새로 생성되었을 경우, 이전 상태 값을 가지는 객체
      */
     @Override
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userItem = ((MyApp)getApplication()).getUserItem();
+        userItem = ((MyApp) getApplication()).getUserItem();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
-                                         R.string.navigation_drawer_close);
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 // <====================네비게이션 필요한 메뉴들 시작======================>
+
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
@@ -97,10 +100,11 @@ public class MainActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
-    public void setNavLogin(){
-        menuItem = menu.getItem(4);
-        profileMenuItem = menu.getItem(6);
-        logoutMenuItem = menu.getItem(5);
+
+    public void setNavLogin() {
+        menuItem = menu.getItem(3);
+        logoutMenuItem = menu.getItem(4);
+        profileMenuItem = menu.getItem(5);
         if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).getMemberNickname().equals("")) {
             menuItem.setTitle("로그인");
             profileMenuItem.setVisible(false);
@@ -113,6 +117,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
     /**
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
@@ -158,6 +163,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 네비게이션 메뉴를 클릭했을 때 호출되는 메소드
+     *
      * @param item 메뉴 아이템 객체
      * @return 메뉴 클릭 이벤트의 처리 여부
      */
@@ -170,16 +176,11 @@ public class MainActivity extends AppCompatActivity
             GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.content_main, BestFoodListFragment.newInstance());
 
-        }else if (id == R.id.nav_notice){
+        } else if (id == R.id.nav_notice) {
             GoLib.getInstance().goNotificationActivity(this);
-        }
-
-        else if (id == R.id.nav_keep) {
+        } else if (id == R.id.nav_keep) {
             GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.content_main, BestFoodKeepFragment.newInstance());
-
-        } else if (id == R.id.nav_register) {
-            GoLib.getInstance().goBestFoodRegisterActivity(this,fromMainActivity);
 
         } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
@@ -190,6 +191,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     // <====================네비게이션 필요한 메뉴들 끝======================>
+
     /**
      * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
      * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
@@ -200,6 +202,4 @@ public class MainActivity extends AppCompatActivity
         setNavLogin();
         setProfileView();
     }
-
-
 }

@@ -92,10 +92,8 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-
         MyApp myApp = ((MyApp) getActivity().getApplication());
         FoodInfoItem currentInfoItem = myApp.getFoodInfoItem();
-
         if (infoListAdapter != null && currentInfoItem != null) {
             infoListAdapter.setItem(currentInfoItem);
             myApp.setFoodInfoItem(null);
@@ -133,13 +131,17 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         orderHits.setOnClickListener(this);
         inputPost.setOnClickListener(this);
         searchKeyWord.setOnClickListener(this);
+
         searchKey.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 switch (actionId){
                     case EditorInfo.IME_ACTION_SEARCH:
                         keyWord = searchKey.getText().toString();
+                        MyLog.d("검색키워드 : " + keyWord);
+                        setRecyclerView();
                         listInfo(keyWord, memberSeq, orderType, 0,fromBestFoodListFragment);
+                        break;
 
                 }
                 return false;

@@ -127,6 +127,7 @@ public class RemoteLib {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 MyLog.e(TAG, "uploadFoodImage fail");
             }
+
         });
     }
     public void uploadFoodImagewithHandler(int infoSeq, String imageMemo, File file, final Handler handler) {
@@ -144,7 +145,6 @@ public class RemoteLib {
         RequestBody imageMemoBody =
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), imageMemo);
-
         Call<ResponseBody> call =
                 remoteService.uploadFoodImage(infoSeqBody, imageMemoBody, body);
         call.enqueue(new Callback<ResponseBody>() {
@@ -154,10 +154,14 @@ public class RemoteLib {
                 MyLog.d(TAG, "uploadFoodImage success");
                 handler.sendEmptyMessage(0);
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 MyLog.e(TAG, "uploadFoodImage fail");
+                /*
+                무슨이유때문인지는 모르겠지만 업로드에 실패하는 경우가 있을 수 있다
+                이럴경우 다시호출시킨다.
+                */
+                uploadFoodImagewithHandler(infoSeq,imageMemo,file,handler);
             }
         });
     }

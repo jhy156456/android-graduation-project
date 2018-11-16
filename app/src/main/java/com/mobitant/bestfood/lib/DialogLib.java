@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.mobitant.bestfood.R;
 import com.mobitant.bestfood.item.SingerItem;
@@ -68,6 +69,10 @@ public class DialogLib {
      */
     public void showKeepInsertDialog(Context context, final Handler handler,
                                      final int memberSeq, final int infoSeq) {
+        if(memberSeq ==0) {
+            Toast.makeText(context,"로그인이 필요합니다.",Toast.LENGTH_LONG).show();
+            return;
+        }
         new AlertDialog.Builder(context)
                 .setTitle(R.string.keep_insert)
                 .setMessage(R.string.keep_insert_message)

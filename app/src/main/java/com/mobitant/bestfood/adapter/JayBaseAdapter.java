@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import customfonts.MyTextView_SF_Pro_Display_Semibold;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -32,9 +33,11 @@ public class JayBaseAdapter extends BaseAdapter {
         this.context = context;
         this.bean = bean;
     }
-public void DataChange(Bean bean,int index){
-        this.bean.set(index,bean);
-}
+
+    public void DataChange(Bean bean, int index) {
+        this.bean.set(index, bean);
+    }
+
     @Override
     public int getCount() {
         return bean.size();
@@ -71,7 +74,7 @@ public void DataChange(Bean bean,int index){
             viewHolder.title = (TextView) convertView.findViewById(R.id.list_title);
             viewHolder.discription = (TextView) convertView.findViewById(R.id.list_description);
             viewHolder.postOS = (TextView) convertView.findViewById(R.id.post_os);
-
+            viewHolder.checkType=(MyTextView_SF_Pro_Display_Semibold) convertView.findViewById(R.id.check_type);
             //viewHolder.text = (TextView)convertView.findViewById(R.id.text);
 
 
@@ -91,30 +94,36 @@ public void DataChange(Bean bean,int index){
         Bean bean = (Bean) getItem(position);
 
 
-
-        if(position ==0) { //게시글 이미지 띄워주기 위함 IMAGE_URL ,MEMBER_ICON_URL 이 다름
+        if (position == 0) { //게시글 이미지 띄워주기 위함 IMAGE_URL ,MEMBER_ICON_URL 이 다름
             if (StringLib.getInstance().isBlank(bean.getImageFileName())) {
                 Picasso.with(context).load(R.drawable.bg_bestfood_drawer).into(viewHolder.imageView);
             } else {
                 Picasso.with(context).load(RemoteService.IMAGE_URL + bean.getImageFileName()).into(viewHolder.imageView);
             }
-        }
-        else { // 멤버 프로필 띄워주기 위함
+            viewHolder.checkType.setText("구매SW");
+        } else if(position==1) { // 멤버 프로필 띄워주기 위함
             if (StringLib.getInstance().isBlank(bean.getImageFileName())) {
                 Picasso.with(context).load(R.drawable.bg_bestfood_drawer).into(viewHolder.imageView);
             } else {
                 Picasso.with(context).load(RemoteService.MEMBER_ICON_URL + bean.getImageFileName()).into(viewHolder.imageView);
             }
+            viewHolder.checkType.setText("판매자");
+        }else if(position==2){
+            if (StringLib.getInstance().isBlank(bean.getImageFileName())) {
+                Picasso.with(context).load(R.drawable.ic_person).into(viewHolder.imageView);
+            } else {
+                Picasso.with(context).load(RemoteService.MEMBER_ICON_URL + bean.getImageFileName()).into(viewHolder.imageView);
+            }
+            viewHolder.checkType.setText("구매자");
         }
-        if(position ==3){//카드번호 아이템일경우 텍스트설정
+        else if (position == 3) {//카드번호 아이템일경우 텍스트설정
             viewHolder.imageView.setImageResource(R.drawable.visa);
-            viewHolder.title.setText("카드번호 : "+bean.getTitle());
-            viewHolder.discription.setText("소유주 : "+bean.getDiscription());
-        }else{
-            viewHolder.title.setText(bean.getTitle());
-            viewHolder.discription.setText(bean.getDiscription());
+            viewHolder.title.setText("카드번호 : " + bean.getTitle());
+            viewHolder.discription.setText("소유주 : " + bean.getDiscription());
+            viewHolder.checkType.setText("구매정보");
         }
-
+        viewHolder.title.setText(bean.getTitle());
+        viewHolder.discription.setText(bean.getDiscription());
         viewHolder.postOS.setText(bean.getDate());
 
         return convertView;
@@ -125,7 +134,7 @@ public void DataChange(Bean bean,int index){
         TextView title;
         TextView discription;
         TextView postOS;
-
+        MyTextView_SF_Pro_Display_Semibold checkType;
     }
 }
 

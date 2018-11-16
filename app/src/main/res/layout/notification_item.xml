@@ -16,6 +16,7 @@ card_view:cardElevation="4dp">
     android:orientation="horizontal">
 
     <View
+        android:id="@+id/left_color"
         android:layout_width="5dp"
         android:layout_height="100dp"
         android:background="@color/colorPrimary">
@@ -33,7 +34,7 @@ card_view:cardElevation="4dp">
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="제목"
-            android:textColor="@color/colorGray"
+            android:textColor="@color/black"
             android:textSize="14dp"
             android:textStyle="bold" />
 
@@ -45,13 +46,14 @@ card_view:cardElevation="4dp">
             android:gravity="center_vertical">
 
             <View
+                android:id="@+id/circle_color"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/circle_blue"></View>
 
             <com.mobitant.bestfood.TextViewImmacBytes
-
+                android:id="@+id/noti_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -74,8 +76,9 @@ card_view:cardElevation="4dp">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:text="Today : 3:20 am"
-                android:textColor="@color/colorLightGray"
+                android:textColor="@color/text_color_gray"
                 android:id="@+id/notification_create_at"
                 android:textSize="12dp"
                 android:textStyle="bold" />
@@ -101,7 +104,7 @@ card_view:cardElevation="4dp">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linear"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <com.mobitant.bestfood.TextViewImmacBytes
@@ -110,29 +113,7 @@ card_view:cardElevation="4dp">
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/gray_rectangle"
                 android:gravity="center"
-                android:text="general"
-                android:textColor="@color/colorGray"
-                android:textSize="10sp"
-                android:textStyle="bold" />
-
-            <com.mobitant.bestfood.TextViewImmacBytes
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/gray_rectangle"
-                android:gravity="center"
-                android:text="qoura"
-                android:textColor="@color/colorGray"
-                android:textSize="10sp"
-                android:textStyle="bold" />
-
-            <com.mobitant.bestfood.TextViewImmacBytes
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/gray_rectangle"
-                android:gravity="center"
-                android:text="stackoverflow"
+                android:text="Question"
                 android:textColor="@color/colorGray"
                 android:textSize="10sp"
                 android:textStyle="bold" />

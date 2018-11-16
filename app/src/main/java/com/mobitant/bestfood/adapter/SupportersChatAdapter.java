@@ -70,7 +70,7 @@ public class SupportersChatAdapter extends RecyclerView.Adapter<SupportersChatAd
             }
         });
         holder.supportersNickName.setText(currentUser.nickname);
-
+        holder.oneLineDescription.setText(currentUser.getOneLineDescription());
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(context).load(R.drawable.ic_person).into(holder.supportersMemberIconFileName);
         } else {
@@ -130,12 +130,13 @@ private void showDialog(String nickName,String memberIconFileName,int userSeq){
     class ViewHolder extends RecyclerView.ViewHolder {
         TextViewImmacBytes supportersNickName;
         CircularImageView supportersMemberIconFileName;
-
+TextViewImmacBytes oneLineDescription;
         public ViewHolder(View itemView) {
 
             super(itemView);
             supportersNickName = (TextViewImmacBytes) itemView.findViewById(R.id.supporters_nickname);
             supportersMemberIconFileName = (CircularImageView) itemView.findViewById(R.id.supporters_member_icon_filename);
+            oneLineDescription = (TextViewImmacBytes)itemView.findViewById(R.id.one_line_description);
         }
     }
 }

@@ -13,11 +13,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -65,7 +69,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
     int foodInfoSeq;
     String infoItemId;
     NotificationItem item;
-    ImageView profileIconImage;
+
     RecyclerView imageItemList;
     RecyclerView viewdlistView;
     SingerAdapter adapter;
@@ -88,8 +92,27 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = this.getActivity();
+        setHasOptionsMenu(true);
         View layout = inflater.inflate(R.layout.notification_fragment_info, container, false);
         return layout;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+       getActivity().getMenuInflater().inflate(R.menu.menu_close_buy, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        //home메뉴가 나오긴하는데 이것은.. notiactivity에서 불러온 gohome과 똑같은거라서
+        //아래애 onOptionsItemSelected에서 부모꺼 받아오는것같당....
+        menu.findItem(R.id.go_home).setVisible(false);
+        menu.findItem(R.id.go_notification_write).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -105,8 +128,6 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         infoItemId = getArguments().getString("SEQ");
         this.view = view;
         selectFoodInfo(infoItemId, memberSeq);
-
-
     }
 
     /*
@@ -137,14 +158,33 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         // scrollView = (ScrollView) findViewById(R.id.scroll_view);
 
         if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
-            Picasso.with(getContext()).load(R.drawable.ic_person).into(profileIconImage);
+            Picasso.with(getContext()).load(R.drawable.ic_person).into(((SingerAdapter.AViewHolder) holder).profileIconImage);
         } else {
             Picasso.with(getContext())
                     .load(RemoteService.MEMBER_ICON_URL + item.postMemberIconFilename)
-                    .into(profileIconImage);
+                    .into(((SingerAdapter.AViewHolder) holder).profileIconImage);
         }
+        //<=======시간표시 ========>
+        String year = "";
+        String month = "";
+        String day = "";
+        String hour = "";
+        String minute = "";
+        year = item.getCreate_at().substring(0, 4);
+        month = item.getCreate_at().substring(5, 7);
+        day = item.getCreate_at().substring(8, 10);
+        int koreanHour = Integer.parseInt(item.getCreate_at().substring(11, 13));
+        koreanHour += 9;
+        MyLog.d("한국시간 : " + koreanHour);
+        hour = String.valueOf(koreanHour);
+        minute = item.getCreate_at().substring(14, 16);
+        ((SingerAdapter.AViewHolder) holder).createdAtText.setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분");
+        //<=======시간표시 ========>
+        //문의하기 게시판이므로 판매가격과 OS칸 빼버림
+        ((SingerAdapter.AViewHolder) holder).sellPriceLayout.setVisibility(View.GONE);
+        ((SingerAdapter.AViewHolder) holder).osLayout.setVisibility(View.GONE);
 
-
+        ((SingerAdapter.AViewHolder) holder).nickNameText.setText(item.getNotiWriter().getNickname());
 
         if (!StringLib.getInstance().isBlank(item.getTitle())) {
             ((SingerAdapter.AViewHolder) holder).nameText.setText(item.getTitle());
@@ -386,21 +426,31 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
             TextView nameText;
             TextView tel;
             TextView description;
+            TextView nickNameText;
+            ImageView profileIconImage;
+            LinearLayout osLayout;
+            LinearLayout sellPriceLayout;
+            TextView createdAtText;
+
+
 
             public AViewHolder(View itemView) {
                 super(itemView);
-
+                createdAtText = (TextView) itemView.findViewById(R.id.created_at);
                 imageItemList = (RecyclerView) itemView.findViewById(R.id.image_list);
                 nameText = (TextView) itemView.findViewById(R.id.name);
                 tel = (TextView) itemView.findViewById(R.id.tel);
                 description = (TextView) itemView.findViewById(R.id.description);
+                profileIconImage = (ImageView) itemView.findViewById(R.id.post_profile_icon);
+                nickNameText = (TextView) itemView.findViewById(R.id.nickname);
+                osLayout = (LinearLayout)itemView.findViewById(R.id.os_layout);
+                sellPriceLayout = (LinearLayout)itemView.findViewById(R.id.sell_price_layout);
             }
         }
 
         public class BViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
             TextView textView2;
-            // TextView textView3;
             ImageView imageView;
             ImageView removeComment;
 
@@ -410,7 +460,6 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                 removeComment = (ImageView) itemView.findViewById(R.id.remove_comment);
                 //textView3 = (TextView) itemView.findViewById(R.id.textView3);
                 textView2 = (TextView) itemView.findViewById(R.id.textView2);
-
                 imageView = (ImageView) itemView.findViewById(R.id.imageView);
             }
         }

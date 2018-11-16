@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class ContestHitsFragment extends Fragment {
     private ArrayList<ProductGridModellClass> productGridModellClasses;
     private final String TAG = this.getClass().getSimpleName();
-String keyWord;
+    String keyWord;
     private RecyclerView recyclerview;
     private RecycleAdapteProductGrid mAdapter2;
     int memberSeq;
@@ -41,13 +41,13 @@ String keyWord;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.contest_fragment_popular, container, false);
-keyWord = "";
+        keyWord = "";
 
-        memberSeq = ((MyApp)this.getActivity().getApplication()).getMemberSeq();
+        memberSeq = ((MyApp) this.getActivity().getApplication()).getMemberSeq();
 
         //위의 reg_date는 조회순정렬을 만들고 바꿔주자
 
-        recyclerview = (RecyclerView)view.findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
 /*
         productGridModellClasses = new ArrayList<>();
 
@@ -58,8 +58,8 @@ keyWord = "";
 
         mAdapter2 = new RecycleAdapteProductGrid(getActivity(),productGridModellClasses);
         */
-        mAdapter2 = new RecycleAdapteProductGrid(getActivity(),new ArrayList<FoodInfoItem>());
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(),2);
+        mAdapter2 = new RecycleAdapteProductGrid(getActivity(), new ArrayList<FoodInfoItem>());
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerview.setLayoutManager(mLayoutManager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         recyclerview.setAdapter(mAdapter2);
@@ -67,11 +67,11 @@ keyWord = "";
         scrollListener = new EndlessRecyclerViewScrollListener((GridLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listInfo(keyWord,memberSeq,"hits_cnt", page,1001);
+                listInfo(keyWord, memberSeq, "hits_cnt", page, 1001);
             }
         };
         recyclerview.addOnScrollListener(scrollListener);
-        listInfo(keyWord,memberSeq, "hits_cnt", 0,1001);
+        listInfo(keyWord, memberSeq, "hits_cnt", 0, 1001);
 
 
         return view;
@@ -79,14 +79,15 @@ keyWord = "";
 
     /**
      * 서버에서 맛집 정보를 조회한다.
-     * @param memberSeq 사용자 시퀀스
-     * @param orderType 맛집 정보 정렬 순서
+     *
+     * @param memberSeq   사용자 시퀀스
+     * @param orderType   맛집 정보 정렬 순서
      * @param currentPage 현재 페이지
      */
-    private void listInfo(String keyWord, int memberSeq,String orderType, final int currentPage,int from) {
+    private void listInfo(String keyWord, int memberSeq, String orderType, final int currentPage, int from) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(keyWord,memberSeq,orderType, currentPage,from);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(keyWord, memberSeq, orderType, currentPage, from);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,
@@ -97,7 +98,7 @@ keyWord = "";
                     mAdapter2.addItemList(list);
 
                     if (mAdapter2.getItemCount() == 0) {
-                        Toast.makeText(getContext(),"데이터 없다",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "데이터 없다", Toast.LENGTH_LONG).show();
                     } else {
                     }
                 }

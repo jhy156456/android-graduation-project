@@ -25,6 +25,7 @@ public class FoodInfoItem {
     public int post_category;
     @SerializedName("post_member_icon_filename") public String postMemberIconFilename;
     @SerializedName("reg_date") public String regDate;
+    @SerializedName("created_at") private String createdAt;
     @SerializedName("post_updated_datetime") public String updatedDate;
     @SerializedName("comments") private ArrayList<NotificationCommentItem> commentItems;
     @SerializedName("is_keep") public boolean isKeep;
@@ -33,6 +34,13 @@ public class FoodInfoItem {
     @SerializedName("_id") public String id;
 
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public ArrayList<NotificationCommentItem> getCommentItems() {
         return commentItems;

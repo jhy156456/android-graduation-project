@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/GalaxyZooThemeToolbarDarkOverflow">
+    <!--위에 android:theme를바꿔주니까 제목이랑 드로어버튼이 검정으로바뀜!-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:layout_scrollFlags="scroll|enterAlways"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="#d0d8e8" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <customfonts.TextViewSFProDisplayMedium
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="7"
+            android:background="@color/sort_by_bg"
+            android:gravity="center"
+            android:text="정렬"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1.5"
+            android:elevation="2dp"
+            android:tag="sticky"
+
+            app:tabGravity="center"
+            app:tabIndicatorColor="#118df0"
+            app:tabIndicatorHeight="3.9dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#3b3b3b"
+            app:tabTextAppearance="@style/MyMenuTextAppearance1"
+            app:tabTextColor="#a9a9b0" />
+
+    </LinearLayout>
+</android.support.design.widget.AppBarLayout>

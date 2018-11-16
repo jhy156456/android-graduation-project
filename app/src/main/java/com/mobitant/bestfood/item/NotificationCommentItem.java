@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class NotificationCommentItem {
     private String contents;
     private String writer;
-    private String created_at;
+    @SerializedName("created_at") private String createdAt;
     private String postId;
     private int comment_like;
     @SerializedName("_id") private String id;
@@ -54,12 +54,12 @@ public class NotificationCommentItem {
         this.writer = writer;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public int getComment_like() {
@@ -75,7 +75,7 @@ public class NotificationCommentItem {
         return "NotificationCommentItem{" +
                 "contents='" + contents + '\'' +
                 ", writer='" + writer + '\'' +
-                ", created_at='" + created_at + '\'' +
+
                 ", postId='" + postId + '\'' +
                 ", comment_like=" + comment_like +
                 ", id='" + id + '\'' +

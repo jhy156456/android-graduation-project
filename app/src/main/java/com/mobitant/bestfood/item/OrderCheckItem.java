@@ -1,5 +1,7 @@
 package com.mobitant.bestfood.item;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class OrderCheckItem implements Serializable {
@@ -16,12 +18,20 @@ public class OrderCheckItem implements Serializable {
     private int postSeq;
     private int postMemberSeq;
     private int buyerMemberSeq;
+    @SerializedName("created_at") private String createdAt;
 
     private String buyerMemberNickName;
     private String CardHorder;
     private String created_at;
     private String updated_at;
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getCardNumber() {
         return cardNumber;

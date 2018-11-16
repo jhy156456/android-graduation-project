@@ -133,11 +133,6 @@ public class SupportersActivity extends AppCompatActivity implements
             GoLib.getInstance().goNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
             GoLib.getInstance().goKeepActivity(this);
-        } else if (id == R.id.nav_register) {
-            if (currentUser.nickname == null || currentUser.nickname.equals("")) {
-            }
-            GoLib.getInstance().goBestFoodRegisterActivity(this, fromHomeActivity);
-
         } else if (id == R.id.nav_login) {
             GoLib.getInstance().goLoginActivity(this);
         } else if (id == R.id.nav_logout) {
@@ -190,7 +185,7 @@ public class SupportersActivity extends AppCompatActivity implements
             nameText.setText("로그인해주세요");
             MyLog.d("로그인해주세요");
         } else {
-            nameText.setText(currentUser.name);
+            nameText.setText(currentUser.nickname);
             MyLog.d("currentUser.name : " + currentUser.name);
         }
     }
@@ -242,8 +237,6 @@ public class SupportersActivity extends AppCompatActivity implements
     }
 
 
-
-
     private class MyPagerAdapter extends FragmentPagerAdapter {
         public final int PAGE_COUNT = 2;
         private final String[] mTabsTitle = {"Supporters", "Messages"};
@@ -284,9 +277,9 @@ public class SupportersActivity extends AppCompatActivity implements
     }
 
     public void setNavLogin() {
-        menuItem = menu.getItem(4);
-        profileMenuItem = menu.getItem(6);
-        logoutMenuItem = menu.getItem(5);
+        menuItem = menu.getItem(3);
+        logoutMenuItem = menu.getItem(4);
+        profileMenuItem = menu.getItem(5);
         if (((MyApp) getApplication()).setting.getBoolean("Auto_Login_enabled", false)) {
             //자동로그인 체크되어있으면 로그인상태이고 회원이므로
             profileMenuItem.setVisible(true);

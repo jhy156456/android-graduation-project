@@ -20,7 +20,16 @@ public class NotificationItem {
     @SerializedName("_id") public String id;
     @SerializedName("image_filename") public String imageFilename;
     @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
+    @SerializedName("writer") private NotiWriterItem notiWriter;
 
+
+    public NotiWriterItem getNotiWriter() {
+        return notiWriter;
+    }
+
+    public void setNotiWriter(NotiWriterItem notiWriter) {
+        this.notiWriter = notiWriter;
+    }
 
     public String getTitle() {
         return title;

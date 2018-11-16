@@ -29,11 +29,6 @@
 
 
             </LinearLayout>
-
-
-
-
-
             <customfonts.MyTextView
                 android:id="@+id/buy_title"
                 android:paddingTop="16dp"
@@ -52,9 +47,6 @@
                 android:textSize="16dp"
                 android:textColor="#333333"
                 />
-
-
-
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -65,7 +57,6 @@
 
 
         <ListView
-
             android:layout_marginBottom="89dp"
             android:id="@+id/listview"
             android:layout_width="match_parent"
@@ -97,8 +88,6 @@
         android:gravity="center"
 
         >
-
-
             <customfonts.MyTextView
                 android:layout_weight="1"
                 android:id="@+id/total1"

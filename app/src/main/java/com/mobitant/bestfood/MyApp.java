@@ -18,6 +18,7 @@ public class MyApp extends Application {
     public SharedPreferences setting;
     public SharedPreferences.Editor editor;
     private boolean isNewBestFood;
+    private boolean isNewContest;
     private boolean isLogin;
     private boolean isNewNotification;
     private static MyApp instance;
@@ -44,6 +45,7 @@ public class MyApp extends Application {
         isNewBestFood = false;
         isNewNotification =false;
         isChatExitButton = false;
+        isNewContest = false;
     }
 
     @Override
@@ -83,7 +85,14 @@ public class MyApp extends Application {
         this.userItem = userItem;
     }
 
-    //로그인 끝//
+    public boolean isNewContest() {
+        return isNewContest;
+    }
+
+    public void setNewContest(boolean newContest) {
+        isNewContest = newContest;
+    }
+//로그인 끝//
 
     //원래 public MemberInfoItem
     public User getMemberInfoItem() {

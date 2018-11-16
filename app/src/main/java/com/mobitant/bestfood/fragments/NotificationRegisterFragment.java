@@ -25,6 +25,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -101,6 +104,7 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
     String [] saveImageFileName = new String[20];
     ImageItem [] saveImageItem = new ImageItem[20];
     Uri[] saveUri = new Uri[20];
+    int saveImageFileCheckCount = 0;
     int mSelectedImagesListCount =0;
     int i=0;
     int count=0;
@@ -133,7 +137,7 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true); //프래그먼트 툴바변경을위해 필요함
         notificationItem = new NotificationItem();
         MyLog.d(TAG, "notificationItem " + notificationItem);
 
@@ -151,7 +155,28 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
         context = this.getActivity();
         return inflater.inflate(R.layout.notification_fragment_register_input, container, false);
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_close, menu);
+    }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        //home메뉴가 나오긴하는데 이것은.. notiactivity에서 불러온 gohome과 똑같은거라서
+        //아래애 onOptionsItemSelected에서 부모꺼 받아오는것같당....
+        menu.findItem(R.id.go_home).setVisible(false);
+        menu.findItem(R.id.go_notification_write).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_close:
+                GoLib.getInstance().goBackFragment(getFragmentManager());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     /**
      * onCreateView() 메소드 뒤에 호출되며 맛집 정보를 입력할 뷰들을 생성한다.
      * @param view onCreateView() 메소드에 의해 반환된 뷰
@@ -175,7 +200,6 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
             saveImageFileName[j] = new String();
             saveImageItem[j] = new ImageItem();
         }
-
         imageMemoEdit = (EditText) view.findViewById(R.id.register_image_memo);
 
         ImageView imageRegister = (ImageView) view.findViewById(R.id.bestfood_image_register);
@@ -489,9 +513,12 @@ public class NotificationRegisterFragment extends BaseFragment implements View.O
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ((MyApp)getActivity().getApplication()).setIsNewNotification(true);
-            progressOFF();
-            GoLib.getInstance().goBackFragment(getFragmentManager());
+            saveImageFileCheckCount++;
+            if (saveImageFileCheckCount == mSelectedImagesListCount) {
+                ((MyApp) getActivity().getApplication()).setIsNewNotification(true);
+                progressOFF();
+                context.finish();
+            }
         }
     };
 

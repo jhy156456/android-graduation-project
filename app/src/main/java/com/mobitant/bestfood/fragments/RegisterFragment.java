@@ -39,6 +39,7 @@ import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.remote.ServiceGenerator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -64,13 +65,12 @@ public class RegisterFragment extends Fragment {
     private TextInputLayout mTiPassword;
     private TextInputLayout mTiNickName;
     private ProgressBar mProgressbar;
-    EditText sextypeEdit;
-    EditText birthEdit;
     TextView isDuplicated;
-    private EditText phoneEdit;
     CheckBox selectBuyer, selectSeller, selectSupporters;
     String nickName;
     private CompositeSubscription mSubscriptions;
+    ArrayList<CheckBox> mCheckBoxes = new ArrayList<CheckBox>();
+    int selected_position;
 
     @Nullable
     @Override
@@ -121,8 +121,58 @@ public class RegisterFragment extends Fragment {
         });
         mBtRegister.setOnClickListener(view -> register());
         mTvLogin.setOnClickListener(view -> goToLogin());
+
+        setOneCheckBox();
     }
 
+
+    private void setOneCheckBox() {
+
+
+        mCheckBoxes.add(selectBuyer);
+        mCheckBoxes.add(selectSeller);
+        mCheckBoxes.add(selectSupporters);
+        selectBuyer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    for (int i = 0; i < mCheckBoxes.size(); i++) {
+                        if (mCheckBoxes.get(i) == view) selected_position = i;
+                        else mCheckBoxes.get(i).setChecked(false);
+                    }
+                } else {
+                    selected_position = -1;
+                }
+            }
+        });
+        selectSupporters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    for (int i = 0; i < mCheckBoxes.size(); i++) {
+                        if (mCheckBoxes.get(i) == view) selected_position = i;
+                        else mCheckBoxes.get(i).setChecked(false);
+                    }
+                } else {
+                    selected_position = -1;
+                }
+            }
+        });
+        selectSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    for (int i = 0; i < mCheckBoxes.size(); i++) {
+                        if (mCheckBoxes.get(i) == view) selected_position = i;
+                        else mCheckBoxes.get(i).setChecked(false);
+                    }
+                } else {
+                    selected_position = -1;
+                }
+            }
+        });
+
+    }
 
     private void register() {
 
@@ -274,7 +324,7 @@ public class RegisterFragment extends Fragment {
         mSubscriptions.unsubscribe();
     }
 
-    private String getPhoneNumber(){
+    private String getPhoneNumber() {
         // 1. mobile
         String mobile = null;
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);

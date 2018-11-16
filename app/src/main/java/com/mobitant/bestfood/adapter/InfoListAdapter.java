@@ -38,7 +38,8 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 어댑터 생성자
-     * @param context 컨텍스트 객체
+     *
+     * @param context  컨텍스트 객체
      * @param resource 아이템을 보여주기 위해 사용할 리소스 아이디
      * @param itemList 아이템 리스트
      */
@@ -52,10 +53,11 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 특정 아이템의 변경사항을 적용하기 위해 기본 아이템을 새로운 아이템으로 변경한다.
+     *
      * @param newItem 새로운 아이템
      */
     public void setItem(FoodInfoItem newItem) {
-        for (int i=0; i < itemList.size(); i++) {
+        for (int i = 0; i < itemList.size(); i++) {
             FoodInfoItem item = itemList.get(i);
 
             if (item.seq == newItem.seq) {
@@ -68,6 +70,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 현재 아이템 리스트에 새로운 아이템 리스트를 추가한다.
+     *
      * @param itemList 새로운 아이템 리스트
      */
     public void addItemList(ArrayList<FoodInfoItem> itemList) {
@@ -77,11 +80,12 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 즐겨찾기 상태를 변경한다.
-     * @param seq 맛집 정보 시퀀스
+     *
+     * @param seq  맛집 정보 시퀀스
      * @param keep 즐겨찾기 추가 유무
      */
     private void changeItemKeep(int seq, boolean keep) {
-        for (int i=0; i < itemList.size(); i++) {
+        for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).seq == seq) {
                 itemList.get(i).isKeep = keep;
                 notifyItemChanged(i);
@@ -92,6 +96,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 아이템 크기를 반환한다.
+     *
      * @return 아이템 크기
      */
     @Override
@@ -101,7 +106,8 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 뷰홀더(ViewHolder)를 생성하기 위해 자동으로 호출된다.
-     * @param parent 부모 뷰그룹
+     *
+     * @param parent   부모 뷰그룹
      * @param viewType 새로운 뷰의 뷰타입
      * @return 뷰홀더 객체
      */
@@ -114,7 +120,8 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 뷰홀더(ViewHolder)와 아이템을 리스트 위치에 따라 연동한다.
-     * @param holder 뷰홀더 객체
+     *
+     * @param holder   뷰홀더 객체
      * @param position 리스트 위치
      */
     @Override
@@ -127,7 +134,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
         } else {
             holder.keep.setImageResource(R.drawable.ic_keep_off);
         }
-
+        holder.OS.setText(item.os);
         holder.name.setText(item.name);
         holder.description.setText(StringLib.getInstance().getSubString(context,
                 item.description, Constant.MAX_LENGTH_DESCRIPTION));
@@ -137,7 +144,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoLib.getInstance().goBestFoodInfoActivity(context, item.seq,item.post_nickname);
+                GoLib.getInstance().goBestFoodInfoActivity(context, item.seq, item.post_nickname);
             }
         });
 
@@ -157,8 +164,9 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
 
     /**
      * 이미지를 설정한다.
-     * @param imageView  이미지를 설정할 뷰
-     * @param fileName 이미지 파일이름
+     *
+     * @param imageView 이미지를 설정할 뷰
+     * @param fileName  이미지 파일이름
      */
     private void setImage(ImageView imageView, String fileName) {
         if (StringLib.getInstance().isBlank(fileName)) {
@@ -200,10 +208,11 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.ViewHo
         ImageView keep;
         TextView name;
         TextView description;
+        TextView OS;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
+            OS = (TextView) itemView.findViewById(R.id.os);
             image = (ImageView) itemView.findViewById(R.id.image);
             keep = (ImageView) itemView.findViewById(R.id.keep);
             name = (TextView) itemView.findViewById(R.id.name);

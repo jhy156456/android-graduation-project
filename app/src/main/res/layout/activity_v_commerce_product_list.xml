@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,63 +7,27 @@
     android:orientation="vertical"
     tools:context="com.mobitant.bestfood.ContestActivity">
 
-    <LinearLayout
+
+    <include layout="@layout/contest_toolbar" />
+    <!--
+        탭레이아웃,뷰페이저가있는 경우 툴바스크롤시 감추게만드려면
+        AppBarLayout안에 탭레이아웃이 있어야 작동된다!!!!!!!!!!!!!!!!!!!!!!
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="1dp"
+        android:background="@color/View_line" />
+-->
 
 
-        <include layout="@layout/toolbar" />
+    <!--Viewpager used-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/View_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/sort_by_bg"
-            android:orientation="horizontal">
-
-            <customfonts.TextViewSFProDisplayMedium
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="7"
-                android:background="@color/sort_by_bg"
-                android:gravity="center"
-                android:text="정렬"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1.5"
-                android:elevation="2dp"
-                android:tag="sticky"
-
-                app:tabGravity="center"
-                app:tabIndicatorColor="#118df0"
-                app:tabIndicatorHeight="3.9dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="#3b3b3b"
-                app:tabTextAppearance="@style/MyMenuTextAppearance1"
-                app:tabTextColor="#a9a9b0" />
-
-        </LinearLayout>
-        <!--Viewpager used-->
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
-
-        </android.support.v4.view.ViewPager>
+    </android.support.v4.view.ViewPager>
 
 
-    </LinearLayout>
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

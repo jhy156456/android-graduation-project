@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import customfonts.MyTextView_Roboto_Bold;
 
 
 /**
@@ -50,10 +50,11 @@ public class RecycleAdapteProductGrid extends RecyclerView.Adapter<RecycleAdapte
         ImageView image;
         LinearLayout linear;
         ImageView keep;
-
+        MyTextView_Roboto_Bold contestNickName;
 
         public MyViewHolder(View view) {
             super(view);
+            contestNickName = (MyTextView_Roboto_Bold)view.findViewById(R.id.contest_nick_name);
             title = (TextView) view.findViewById(R.id.contest_item_title) ;
             image = (ImageView) view.findViewById(R.id.image);
             keep = (ImageView) itemView.findViewById(R.id.keep);
@@ -113,7 +114,7 @@ public class RecycleAdapteProductGrid extends RecyclerView.Adapter<RecycleAdapte
                 GoLib.getInstance().goBestFoodInfoActivity(context, item.seq,item.post_nickname);
             }
         });
-
+        holder.contestNickName.setText(item.post_nickname);
         holder.keep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
