@@ -12,8 +12,8 @@
         android:required="true"/>
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="SoMeeting"
+        android:icon="@mipmap/ic_icon"
+        android:label="소모임"
         android:supportsRtl="true"
         android:name=".MyApp"
 
@@ -55,6 +55,8 @@
         <activity android:name=".SupportersActivity" />
         <activity android:name=".ChatContentsActivity" />
         <activity android:name=".ChatTalkContentsActivity" />
+        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".OrderHistoryActivity" />
         <activity
             android:name=".ProfileActivity2"
             android:theme="@style/AppTheme.Profile"/>

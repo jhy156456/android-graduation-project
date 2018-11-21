@@ -186,22 +186,71 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
             case R.id.action_modify:
                 break;
             case R.id.action_delete:
+                infoDelete();
+
                 break;
             case R.id.action_buy:
                 orderCheckItem = new OrderCheckItem();
                 orderCheckItem.setPostSeq(item.seq);
+                orderCheckItem.setPostPrice(item.getSell_price());
                 orderCheckItem.setInfoTitle(item.name);
                 orderCheckItem.setPostNickName(item.post_nickname);// 구매화면 전환해서 정보를 보여주기위함
                 orderCheckItem.setPostMemberIconFilename(item.postMemberIconFilename);// 구매화면 전환해서 정보를 보여주기위함
                 if (item.totalImageFilename.size() == 0) {
                     orderCheckItem.setInfoFirstImageFilename("");
-                } else
-                    orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
+                } else orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
                 orderCheckItem.setInfoContent(item.description);
                 GoLib.getInstance().goBuyActivity(this, orderCheckItem);
+                break;
         }
 
         return super.onOptionsItemSelected(mItem);
+    }
+
+    private void infoDelete() {
+
+        new AlertDialog.Builder(context)
+                .setTitle("게시글삭제")
+                .setMessage("삭제하시겠습니까?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteInfo(item.id, 1002);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
+    }
+    private void deleteInfo(String postId, int from) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+        Call<String> call = remoteService.removeInfo(postId, from);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    MyLog.d("삭제시 일로?");
+                    //왜 일로 안들어오는지 모르겠지만..
+                    //finish()를 onitemselected에 놔야할듯하다!
+                    MyToast.s(context, "게시글이 삭제되었습니다.");
+                    ((MyApp)getApplicationContext()).setIsNewBestfood(true);
+                    finish();
+                } else { // 등록 실패
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                MyLog.d(TAG, "no internet connectivity");
+            }
+        });
     }
 
     /**

@@ -93,9 +93,10 @@
 
 
             <customfonts.MyTextView_Roboto_Regular
+                android:id="@+id/profile_view_one_line_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="타입"
+                android:text="한줄설명을 입력하세요"
                 android:textColor="#b7c4cb"
                 android:textSize="17sp" />
 

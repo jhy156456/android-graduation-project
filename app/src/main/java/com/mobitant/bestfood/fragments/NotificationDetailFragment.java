@@ -32,11 +32,13 @@ import com.mobitant.bestfood.adapter.InfoImageAdapter;
 import com.mobitant.bestfood.item.NotificationCommentItem;
 import com.mobitant.bestfood.item.NotificationItem;
 import com.mobitant.bestfood.item.ImageItem;
+import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.SingerItem;
 
 import com.mobitant.bestfood.lib.DialogLib;
 import com.mobitant.bestfood.lib.EtcLib;
 
+import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.KeepLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.MyToast;
@@ -110,10 +112,47 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         menu.findItem(R.id.go_notification_write).setVisible(false);
     }
 
+    /**
+     * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
+     * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
+     * 여기서는 모든 버튼이 액티비티를 종료한다.
+     */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(MenuItem mItem) {
+        //원래 MenuItem item 이였는데 지금보고있는 게시물의 변수명인 item과 같아서 오류가났었다
+        //그래서 item을 메뉴아이템인 mItem으로 변경했다.
+        switch (mItem.getItemId()) {
+            case android.R.id.home:
+                GoLib.getInstance().goBackFragment(getFragmentManager());
+                break;
+            case R.id.action_close:
+                GoLib.getInstance().goBackFragment(getFragmentManager());
+                break;
+            case R.id.go_home:
+                GoLib.getInstance().goHomeActivity(getActivity());
+                break;
+            case R.id.action_modify:
+                break;
+            case R.id.action_delete:
+                break;
+            case R.id.action_buy:
+                orderCheckItem = new OrderCheckItem();
+                orderCheckItem.setPostSeq(item.seq);
+                orderCheckItem.setPostPrice(item.getSell_price());
+                orderCheckItem.setInfoTitle(item.name);
+                orderCheckItem.setPostNickName(item.post_nickname);// 구매화면 전환해서 정보를 보여주기위함
+                orderCheckItem.setPostMemberIconFilename(item.postMemberIconFilename);// 구매화면 전환해서 정보를 보여주기위함
+                if (item.totalImageFilename.size() == 0) {
+                    orderCheckItem.setInfoFirstImageFilename("");
+                } else
+                    orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
+                orderCheckItem.setInfoContent(item.description);
+                GoLib.getInstance().goBuyActivity(this, orderCheckItem);
+        }
+
+        return super.onOptionsItemSelected(mItem);
     }
+
 
     /**
      * onCreateView() 메소드 뒤에 호출되며 화면 뷰들을 설정한다.

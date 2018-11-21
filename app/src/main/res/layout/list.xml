@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,9 +13,8 @@
         <LinearLayout
             android:id="@+id/list_linear"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <customfonts.MyTextView_SF_Pro_Display_Semibold
                 android:id="@+id/check_type"
                 android:layout_width="wrap_content"
@@ -23,13 +22,13 @@
                 android:layout_gravity="center"
                 android:text="아이디"
                 android:textStyle="bold" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image"
-                android:layout_width="217px"
-                android:layout_height="217px"
-                android:gravity="center"
-                android:src="@mipmap/ic_launcher" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:src="@mipmap/ic_launcher" />
 
         </LinearLayout>
 

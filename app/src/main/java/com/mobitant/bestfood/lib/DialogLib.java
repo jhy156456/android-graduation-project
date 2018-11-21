@@ -3,10 +3,12 @@ package com.mobitant.bestfood.lib;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
 import com.mobitant.bestfood.R;
+import com.mobitant.bestfood.SupportersActivity;
 import com.mobitant.bestfood.item.SingerItem;
 import com.mobitant.bestfood.remote.RemoteService;
 import com.mobitant.bestfood.remote.ServiceGenerator;
@@ -60,6 +62,27 @@ public class DialogLib {
             })
             .show();
 }
+    public void goSupportersDialog(Context context){
+
+        new AlertDialog.Builder(context)
+                .setTitle("로그인")
+                .setMessage("로그인이 필요합니다. 로그인 하시겠습니까?")
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(context, SupportersActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                })
+                .show();
+    }
     /**
      * 즐겨찾기 추가 다이얼로그 화면을 보여준다.
      * @param context 컨텍스트 객체

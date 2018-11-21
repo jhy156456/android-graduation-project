@@ -9,6 +9,7 @@ import com.kakao.auth.KakaoSDK;
 import com.mobitant.bestfood.adapter.KakaoSDKAdapter;
 import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.User;
+
 /**
  * 앱 전역에서 사용할 수 있는 클래스
  */
@@ -41,9 +42,10 @@ public class MyApp extends Application {
     public static void setCurrentActivity(Activity currentActivity) {
         MyApp.currentActivity = currentActivity;
     }
+
     public MyApp() {
         isNewBestFood = false;
-        isNewNotification =false;
+        isNewNotification = false;
         isChatExitButton = false;
         isNewContest = false;
     }
@@ -99,9 +101,11 @@ public class MyApp extends Application {
         if (userItem == null) userItem = new User();
         return userItem;
     }
-public String getMemberNickname(){
+
+    public String getMemberNickname() {
         return userItem.nickname;
-}
+    }
+
     public int getMemberSeq() {
         return userItem.seq;
     }
@@ -130,12 +134,39 @@ public String getMemberNickname(){
     public boolean getIsNewNotification() {
         return isNewBestFood;
     }
+
     public void setIsNewNotification(boolean isNewNotification) {
         this.isNewNotification = isNewNotification;
     }
+
     public String getMemberIconFilename() {
         return userItem.memberIconFilename;
     }
+    public void setMemberIconFilename(String memberIconFilename) {
+        userItem.memberIconFilename = memberIconFilename;
+    }
+
+    public String getSexType() {
+        return userItem.sextype;
+    }
+
+    public String getBirthDay() {
+        return userItem.birthday;
+    }
+    public void setUserBirtDay(String birthDay){
+        this.userItem.birthday=birthDay;
+    }
+    public void setUserSexType(String sexType){
+        this.userItem.sextype = sexType;
+    }
+    public String getUserOneLineDescription(){
+        return this.userItem.getOneLineDescription();
+    }
+    public void setUserOneLineDescription(String description){
+        this.userItem.setOneLineDescription(description);
+    }
+
+
     public Boolean getChatExitButton() {
         return isChatExitButton;
     }

@@ -1,49 +1,54 @@
 package com.mobitant.bestfood;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
-import com.mobitant.bestfood.R;
-import com.mobitant.bestfood.adapter.CategoryPagerAdapterProductGrid;
+import com.mobitant.bestfood.adapter.NotificationsAdapter;
+import com.mobitant.bestfood.custom.EndlessRecyclerViewScrollListener;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
-import com.mobitant.bestfood.fragments.NotificationRegisterFragment;
+import com.mobitant.bestfood.item.NotificationsModel;
+import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.User;
 import com.mobitant.bestfood.lib.DialogLib;
 import com.mobitant.bestfood.lib.GoLib;
 import com.mobitant.bestfood.lib.MyLog;
 import com.mobitant.bestfood.lib.StringLib;
 import com.mobitant.bestfood.remote.RemoteService;
+import com.mobitant.bestfood.remote.ServiceGenerator;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
-public class ContestActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
-
-    private TabLayout tabLayout;
-    private Typeface mTypeface;
-    private Typeface mTypefaceBold;
-    public static final int fromContest = 1001;
-    CategoryPagerAdapterProductGrid adapter;
-    ViewPager viewPager1;
+public class NotificationsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private final String TAG = this.getClass().getSimpleName();
+    TextView textView;
+    EndlessRecyclerViewScrollListener scrollListener;
+    private ArrayList<NotificationsModel> modelfoodrecyclerArrayList;
+    private RecyclerView recyclerview;
+    private NotificationsAdapter adapter;
     // <====================네비게이션 필요한 메뉴들 시작======================>
     Menu menu;
     MenuItem menuItem;
@@ -54,182 +59,108 @@ public class ContestActivity extends AppCompatActivity  implements NavigationVie
     View headerLayout;
     CircleImageView profileIconImage;
     // <====================네비게이션 필요한 메뉴들 끝======================>
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_v_commerce_product_list);
-
-        setToolBar();
+        setContentView(R.layout.notifications);
+        setToolbar();
         // <====================네비게이션 필요한 메뉴들 시작======================>
         setNavigationView();
         // <====================네비게이션 필요한 메뉴들 끝======================>
-        tabLayout = findViewById(R.id.tab_layout);
-
-//        View root = tabLayout.getChildAt(0);
-//        if (root instanceof LinearLayout) {
-//            ((LinearLayout) root).setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-//            GradientDrawable drawable = new GradientDrawable();
-//            drawable.setColor(getResources().getColor(R.color.line));
-//            drawable.setSize(2, 1);
-//            ((LinearLayout) root).setDividerPadding(10);
-//            ((LinearLayout) root).setDividerDrawable(drawable);
-
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.addTab(tabLayout.newTab().setText("조회"));
-        tabLayout.addTab(tabLayout.newTab().setText("즐겨찾기"));
-        tabLayout.addTab(tabLayout.newTab().setText("등록"));
-      /*  Typeface mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
-        int tabsCount = vg.getChildCount();
-        for (int j = 0; j < tabsCount; j++) {
-            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
-            int tabChildsCount = vgTab.getChildCount();
-            for (int i = 0; i < tabChildsCount; i++) {
-                View tabViewChild = vgTab.getChildAt(i);
-                if (tabViewChild instanceof TextView) {
-                    ((TextView) tabViewChild).setTypeface(mTypeface, Typeface.NORMAL);
-                }
-            }
-        }*/
-        setCustomFontAndStyle(tabLayout, 0);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        viewPager1 = (ViewPager) findViewById(R.id.pager);
-
-        setAdapter();
-
-        //폰트 입히기위해 필요한듯? Flipy앱에서 가져옴
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                TextView tabTextView = new TextView(this);
-                tab.setCustomView(tabTextView);
-                tabTextView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                tabTextView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                tabTextView.setText(tab.getText());
-                tabTextView.setTextColor(Color.parseColor("#acacac"));
-                // First tab is the selected tab, so if i==0 then set BOLD typeface
-                if (i == 0) {
-                    tabTextView.setTypeface(null, Typeface.BOLD);
-                    tabTextView.setTextColor(Color.parseColor("#000000"));
-                }
-
-            }
-
-        }
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager1.setCurrentItem(tab.getPosition());
-                TextView textView = (TextView) tab.getCustomView();
-                textView.setTextColor(Color.parseColor("#000000"));
-                textView.setTypeface(null, Typeface.BOLD);
-                //setCustomFontAndStyle(tabLayout, tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                TextView text = (TextView) tab.getCustomView();
-                text.setTextColor(Color.parseColor("#acacac"));
-                text.setTypeface(null, Typeface.NORMAL);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-
-    public void setAdapter() {
-        adapter = new CategoryPagerAdapterProductGrid(getSupportFragmentManager(), 3);
-        viewPager1.setAdapter(adapter);
-        viewPager1.setOffscreenPageLimit(1);
-        viewPager1.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
+        recyclerview = findViewById(R.id.recyclerview);
+        setRecyclerView();
+        getOrderHistroy(0);
 
     }
-
-    /**
-     * 오른쪽 상단 메뉴를 구성한다.
-     * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.notificationactivity_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.homeactivity_toolbar_menu, menu);
         return true;
     }
-
-    /**
-     * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
-     * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
-     * 여기서는 모든 버튼이 액티비티를 종료한다.
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.go_home:
-                GoLib.getInstance().goHomeActivity(this);
-                break;
-            case R.id.go_notification_write:
-                GoLib.getInstance().goBestFoodRegisterActivity(this, fromContest);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (((MyApp) getApplicationContext()).isNewContest() == true) {
-            setAdapter();
-            ((MyApp) getApplicationContext()).setNewContest(false);
-        }
-        setNavLogin();
-        setProfileView();
-    }
-
-    private void setCustomFontAndStyle(TabLayout tabLayout, Integer position) {
-        mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
-        mTypefaceBold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
-        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
-        int tabsCount = vg.getChildCount();
-        for (int j = 0; j < tabsCount; j++) {
-            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
-            int tabChildsCount = vgTab.getChildCount();
-            for (int i = 0; i < tabChildsCount; i++) {
-                View tabViewChild = vgTab.getChildAt(i);
-                if (tabViewChild instanceof TextView) {
-                    if (j == position) {
-                        ((TextView) tabViewChild).setTypeface(mTypefaceBold, Typeface.NORMAL);
-                    } else {
-                        ((TextView) tabViewChild).setTypeface(mTypeface, Typeface.NORMAL);
-                    }
-                }
-            }
-        }
-
-    }
-
     /**
      * 툴바를 설정한다.
      */
-    private void setToolBar() {
+    private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("같이해요");
+            actionBar.setTitle("공지사항");
         }
+    }
+    /**
+     * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
+     * 오른쪽 상단 메뉴를 클릭했을 때의 동작을 지정한다.
+     * 여기서는 모든 버튼이 액티비티를 종료한다.
+     * @param item 메뉴 아이템 객체
+     * @return 메뉴를 처리했다면 true, 그렇지 않다면 false
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+        return true;
+    }
+    private void setRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(NotificationsActivity.this);
+        recyclerview.setLayoutManager(layoutManager);
+        recyclerview.setItemAnimator(new DefaultItemAnimator());
+        modelfoodrecyclerArrayList = new ArrayList<>();
+        adapter = new NotificationsAdapter(NotificationsActivity.this, new ArrayList<NotificationsModel>());
+        recyclerview.setAdapter(adapter);
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                getOrderHistroy(page);
+            }
+        };
+        recyclerview.addOnScrollListener(scrollListener);
+    }
+
+    private void getOrderHistroy(final int current_page) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        Call<ArrayList<NotificationsModel>> call = remoteService.getNotification(current_page);
+        call.enqueue(new Callback<ArrayList<NotificationsModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<NotificationsModel>> call,
+                                   Response<ArrayList<NotificationsModel>> response) {
+                ArrayList<NotificationsModel> list = response.body();
+                if (response.isSuccessful() && list != null) {
+                    adapter.addItemList(list);
+
+                    /*if (infoListAdapter.getItemCount() == 0) {
+                        noDataText.setVisibility(View.VISIBLE);
+                    } else {
+                        noDataText.setVisibility(View.GONE);
+                    }*/
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<NotificationsModel>> call, Throwable t) {
+                MyLog.d(TAG, "no internet connectivity");
+                MyLog.d(TAG, t.toString());
+            }
+        });
     }
     // <====================네비게이션 필요한 메뉴들 시작======================>
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        setNavLogin();
+        setProfileView();
+    }
 
 
     public void setNavigationView() {
-        drawer = (DrawerLayout) findViewById(R.id.contest_drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
@@ -321,7 +252,7 @@ public class ContestActivity extends AppCompatActivity  implements NavigationVie
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
-                GoLib.getInstance().goProfileActivity(ContestActivity.this);
+                GoLib.getInstance().goProfileActivity(NotificationsActivity.this);
             }
         });
 
@@ -351,16 +282,12 @@ public class ContestActivity extends AppCompatActivity  implements NavigationVie
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ContestActivity.this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationsActivity.this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
     // <====================네비게이션 필요한 메뉴들 끝======================>
-
-
-
-
-
 }
+

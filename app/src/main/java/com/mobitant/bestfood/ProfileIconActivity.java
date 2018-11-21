@@ -73,7 +73,7 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.profile_setting);
+            actionBar.setTitle(R.string.profile_image_setting);
         }
     }
 
@@ -258,7 +258,7 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
      */
     private void uploadProfileIcon() {
         RemoteLib.getInstance().uploadMemberIcon(memberInfoItem.id, profileIconFile);
-
         memberInfoItem.memberIconFilename = profileIconFilename + ".png";
+        ((MyApp)getApplicationContext()).setMemberIconFilename(memberInfoItem.memberIconFilename);
     }
 }

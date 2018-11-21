@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contest_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.mobitant.bestfood.ContestActivity">
+    android:fitsSystemWindows="true"
+    tools:context="com.mobitant.bestfood.ContestActivity"
+    tools:openDrawer="start">
 
 
-    <include layout="@layout/contest_toolbar" />
-    <!--
-        탭레이아웃,뷰페이저가있는 경우 툴바스크롤시 감추게만드려면
-        AppBarLayout안에 탭레이아웃이 있어야 작동된다!!!!!!!!!!!!!!!!!!!!!!
-
-    <View
+    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/View_line" />
--->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-    <!--Viewpager used-->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <include layout="@layout/contest_toolbar" />
+        <!--
+            탭레이아웃,뷰페이저가있는 경우 툴바스크롤시 감추게만드려면
+            AppBarLayout안에 탭레이아웃이 있어야 작동된다!!!!!!!!!!!!!!!!!!!!!!
 
-    </android.support.v4.view.ViewPager>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/View_line" />
+    -->
 
 
-</android.support.design.widget.CoordinatorLayout>
+        <!--Viewpager used-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </android.support.v4.view.ViewPager>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
+</android.support.v4.widget.DrawerLayout>

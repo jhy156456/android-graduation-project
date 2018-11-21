@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import customfonts.MyTextView_Roboto_Regular;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,9 +46,8 @@ import retrofit2.Response;
 4. 내가쓴글이 아닐경우
     ->구경만할 수 있게해야함.
  */
-public class MemberProfile extends AppCompatActivity implements View.OnClickListener{
+public class MemberProfile extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
-    String[] items = {"","메세지 보내기","안녕","나야"};
     User currentUser;
     User memberProfle;//보려는 멤버 프로필
     Context context;
@@ -55,9 +55,11 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     //bestfood
     ImageView profileIconImage;
     ImageView profileChange;
+    int mySeq;
     //bestfood
 
     TextView userNickName;
+    MyTextView_Roboto_Regular profileViewOneLineDescription;
     EndlessRecyclerViewScrollListener scrollListener;
     InfoListAdapter infoListAdapter;
     TextView noDataText;
@@ -72,13 +74,18 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
         currentUser = ((MyApp) getApplication()).getUserItem();//로그인한 사용자..
         bestFoodList = (RecyclerView) findViewById(R.id.list);
         noDataText = (TextView) findViewById(R.id.no_data);
+        profileIconImage = (ImageView) findViewById(R.id.profile_icon);
+        profileChange = (ImageView) findViewById(R.id.profile_change);
+        userNickName = (TextView) findViewById(R.id.user_profile_nickname);
+        profileViewOneLineDescription = (MyTextView_Roboto_Regular) findViewById(R.id.profile_view_one_line_description);
+        mySeq = ((MyApp)getApplicationContext()).getMemberSeq();
         setToolbar();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
         if (bundle.getString("callActivity").equals("BestFoodInfoActivity")
-                ||bundle.getString("callActivity").equals("SupportersActivity")) { // info에서 상대방 프로필보기 누른경우
+                || bundle.getString("callActivity").equals("SupportersActivity")) { // info에서 상대방 프로필보기 누른경우
             int wantMemberSeq = (int) bundle.getInt("data");
             int mySeq = (int) bundle.getInt("MySeq");
             //로그인한 상태이고 내가쓴 게시글에있는 프로필을 누른경우
@@ -86,7 +93,7 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
                 setViewMyProfile();
                 setMyProfileImage();
                 setRecyclerView(((MyApp) getApplication()).getMemberSeq());
-                listInfo(((MyApp) getApplication()).getMemberSeq(), 0);
+                listInfo(((MyApp) getApplication()).getMemberSeq(), mySeq,0);
             } else { //내가아닌 사람의 프로필을 누른경우
                 setMemberProfileView();
                 selectUserInfo(wantMemberSeq);
@@ -95,30 +102,46 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
             setViewMyProfile();
             setMyProfileImage();
             setRecyclerView(((MyApp) getApplication()).getMemberSeq());
-            listInfo(((MyApp) getApplication()).getMemberSeq(), 0);
+            listInfo(((MyApp) getApplication()).getMemberSeq(),mySeq, 0);
         }
 
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle.getString("callActivity").equals("BestFoodInfoActivity")
+                || bundle.getString("callActivity").equals("SupportersActivity")) { // info에서 상대방 프로필보기 누른경우
+            int wantMemberSeq = (int) bundle.getInt("data");
+            int mySeq = (int) bundle.getInt("MySeq");
+            //로그인한 상태이고 내가쓴 게시글에있는 프로필을 누른경우
+            if (((MyApp) getApplication()).isLogin() == true && mySeq == ((MyApp) getApplication()).getMemberSeq()) {
+                setViewMyProfile();
+                setMyProfileImage();
+            } else { //내가아닌 사람의 프로필을 누른경우
+                setMemberProfileView();
+            }
+        } else { // 내 프로필설정 누른경우
+            setViewMyProfile();
+            setMyProfileImage();
 
-    public void setMemberProfileView(){
-        profileIconImage = (ImageView) findViewById(R.id.profile_icon);
-        profileChange = (ImageView) findViewById(R.id.profile_change);
-        profileChange.setVisibility(View.GONE);
-        userNickName = (TextView) findViewById(R.id.user_profile_nickname);
+        }
     }
+
+    public void setMemberProfileView() {
+        profileChange.setVisibility(View.GONE);
+    }
+
     /*
     뷰화면 구현
      */
-public void setViewMyProfile() {
-    profileIconImage = (ImageView) findViewById(R.id.profile_icon);
-    profileChange = (ImageView) findViewById(R.id.profile_change);
-    profileChange.setOnClickListener(this);
-    userNickName = (TextView) findViewById(R.id.user_profile_nickname);
-    userNickName.setText(currentUser.nickname);
-
-
-}
+    public void setViewMyProfile() {
+        profileChange.setOnClickListener(this);
+        userNickName.setText(currentUser.nickname);
+        profileViewOneLineDescription.setText(currentUser.getOneLineDescription());
+    }
 
     /**
      * 리사이클러뷰를 설정하고 스크롤 리스너를 추가한다.
@@ -134,20 +157,21 @@ public void setViewMyProfile() {
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listInfo(wantMemberSeq, page);
+                listInfo(wantMemberSeq,mySeq,  page);
             }
         };
         bestFoodList.addOnScrollListener(scrollListener);
     }
+
     /**
      * 서버에서 맛집 정보를 조회한다.
+     *
      * @param wantMemberSeq 사용자 시퀀스
-     * @param currentPage 현재 페이지
+     * @param currentPage   현재 페이지
      */
-    private void listInfo(int wantMemberSeq,final int currentPage) {
+    private void listInfo(int wantMemberSeq, int mySeq,final int currentPage) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
-        Call<ArrayList<FoodInfoItem>> call = remoteService.postedProfileListSoftwareInfo(wantMemberSeq, currentPage);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.postedProfileListSoftwareInfo(wantMemberSeq,mySeq ,currentPage);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,
@@ -174,7 +198,7 @@ public void setViewMyProfile() {
     }
 
 
-    private void setMemberProfileImage(){
+    private void setMemberProfileImage() {
         if (StringLib.getInstance().isBlank(memberProfle.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
         } else {
@@ -188,7 +212,7 @@ public void setViewMyProfile() {
     /**
      * 사용자 정보를 기반으로 프로필 아이콘을 설정한다.
      */
-    private void setMyProfileImage(){
+    private void setMyProfileImage() {
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
         } else {
@@ -197,6 +221,7 @@ public void setViewMyProfile() {
                     .into(profileIconImage);
         }
     }
+
     /**
      * 액티비티 툴바를 설정한다.
      */
@@ -213,6 +238,7 @@ public void setViewMyProfile() {
 
     /**
      * 서버에서 유저 정보를 조회한다.
+     *
      * @param wantMemberSeq 유저정보시퀀스
      */
     private void selectUserInfo(int wantMemberSeq) {
@@ -222,11 +248,11 @@ public void setViewMyProfile() {
             @Override
             public void onResponse(Call<User> call, retrofit2.Response<User> response) {
 
-                memberProfle=response.body();
+                memberProfle = response.body();
                 userNickName.setText(memberProfle.nickname);
                 setMemberProfileImage();
                 setRecyclerView(wantMemberSeq);
-                listInfo(wantMemberSeq, 0);
+                listInfo(wantMemberSeq, mySeq, 0);
             }
 
             @Override
@@ -241,6 +267,7 @@ public void setViewMyProfile() {
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
+     *
      * @param menu 메뉴 객체
      * @return 메뉴를 보여준다면 true, 보여주지 않는다면 false
      */
@@ -255,6 +282,7 @@ public void setViewMyProfile() {
      * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
      * 오른쪽 상단 메뉴를 클릭했을 때의 동작을 지정한다.
      * 여기서는 모든 버튼이 액티비티를 종료한다.
+     *
      * @param item 메뉴 아이템 객체
      * @return 메뉴를 처리했다면 true, 그렇지 않다면 false
      */
@@ -275,6 +303,7 @@ public void setViewMyProfile() {
     /**
      * 프로필 아이콘이나 프로필 아이콘 변경 뷰를 클릭했을 때, 프로필 아이콘을 변경할 수 있도록
      * startProfileIconChange() 메소드를 호출한다.
+     *
      * @param v 클릭한 뷰 객체
      */
     @Override

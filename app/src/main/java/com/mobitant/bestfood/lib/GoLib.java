@@ -16,6 +16,8 @@ import com.mobitant.bestfood.MainActivity;
 import com.mobitant.bestfood.MainActivity2;
 import com.mobitant.bestfood.MemberProfile;
 import com.mobitant.bestfood.NotificationActivity;
+import com.mobitant.bestfood.NotificationsActivity;
+import com.mobitant.bestfood.OrderHistoryActivity;
 import com.mobitant.bestfood.ProfileActivity;
 import com.mobitant.bestfood.SoftwareBuyActivity;
 import com.mobitant.bestfood.adapter.NotificationAdapter;
@@ -124,6 +126,16 @@ public class GoLib {
     public void goProfileActivity(Context context) {
         Intent intent = new Intent(context, MemberProfile.class);
         intent.putExtra("callActivity","NavigationClick");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+    public void goOrderHistoryActivity(Context context) {
+        Intent intent = new Intent(context, OrderHistoryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+    public void goRealNotificationActivity(Context context) {
+        Intent intent = new Intent(context, NotificationsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

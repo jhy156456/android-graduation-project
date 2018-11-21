@@ -16,9 +16,9 @@ public interface Constant {
     String ORDER_TYPE_FAVORITE = "keep_cnt";
     String ORDER_TYPE_RECENT = "reg_date";
 
-    public static final String NETWORK_URL = "http://192.168.216.103:8005/";
-            //"http://db6a587e.ngrok.io/";
-            //"http://192.168.216.103:8005/";
+    public static final String NETWORK_URL ="http://192.168.216.178:8005/";
+            //"http://3546d37c.ngrok.io/";
+            //"http://192.168.216.178:8005/";
 
     /*
     #나가기버튼클릭 :
@@ -45,6 +45,7 @@ public interface Constant {
 
     /*
     게시글 :
+    NotificationsActivity(공지사항) -> 1009
     MainActivity -> RegisterActivity : 1003
     ListFragment -> RegisterActivity : 1002
     ContestActivity -> RegisterActivity : 1001

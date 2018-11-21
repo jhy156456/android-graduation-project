@@ -11,5 +11,6 @@
     <item
         android:id="@+id/go_write"
         android:title="@string/go_write"
+        android:icon="@drawable/ic_write"
         app:showAsAction="ifRoom"/>
 </menu>

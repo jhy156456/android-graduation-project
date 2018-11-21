@@ -123,9 +123,15 @@ public class HomeActivity extends AppCompatActivity implements
         supportersLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, SupportersActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                if (((MyApp) context.getApplicationContext()).getMemberNickname() == null
+                        || ((MyApp) context.getApplicationContext()).equals("")) {
+                    DialogLib.getInstance().goSupportersDialog(context);
+                } else {
+                    Intent intent = new Intent(context, SupportersActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+
                 //finish();
             }
         });
@@ -160,39 +166,10 @@ public class HomeActivity extends AppCompatActivity implements
         mDemoSlider.addOnPageChangeListener(this);
     }
 
-    public void setNavLogin() {
-        menuItem = menu.getItem(3);
-        logoutMenuItem = menu.getItem(4);
-        profileMenuItem = menu.getItem(5);
 
-        if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled", false)) {
-            //자동로그인이 선택된적이 있다면
-            loginProcess(((MyApp) getApplicationContext()).setting.getString("ID", ""));
-            profileMenuItem.setVisible(true);
-            menuItem.setVisible(false);
-            logoutMenuItem.setVisible(true);
-        } else if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled_Kakao", false)) {
-            MyLog.d("카카오 일로오세욤");
-            isPastKaKaoLogin(((MyApp) getApplicationContext()).setting.getString("KakaoEmail", ""),
-                    ((MyApp) getApplicationContext()).setting.getString("KakaoNickName", ""));
-            profileMenuItem.setVisible(true);
-            menuItem.setVisible(false);
-            logoutMenuItem.setVisible(true);
-        } else if (currentUser.nickname == null || currentUser.nickname.equals("")) { // 비회원
-            menuItem.setVisible(true);
-            menuItem.setTitle("로그인");
-            profileMenuItem.setVisible(false);
-            logoutMenuItem.setVisible(false);
-        } else { //자동로그인 클릭 안했을경우
-            profileMenuItem.setVisible(true);
-            menuItem.setVisible(false);
-            logoutMenuItem.setVisible(true);
-        }
-    }
 
 
     private void loginProcess(String email) {
-
         //정보 받아와서 setUseritem하기 위함임 밑에 m.subscription으로 로그인해서 set하는건 어떻게하는건가..알아야하는데..
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
         Call<User> call = remoteService.selectMemberInfo(email);
@@ -297,7 +274,7 @@ public class HomeActivity extends AppCompatActivity implements
                     R.id.home_linearlayout, BestFoodListFragment.newInstance());
             //GoLib.getInstance().goBestFoodMainActivity(this);
         } else if (id == R.id.nav_notice) {
-            GoLib.getInstance().goNotificationActivity(this);
+            GoLib.getInstance().goRealNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
             if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).equals("")) {
                 DialogLib.getInstance().inputPostDialog(this);
@@ -320,7 +297,11 @@ public class HomeActivity extends AppCompatActivity implements
             ((MyApp) getApplicationContext()).setUserItem(currentUser);
             setNavLogin();
             setProfileView();
-        } else if (id == R.id.nav_profile) {
+        }else if(id==R.id.nav_order){
+            GoLib.getInstance().goOrderHistoryActivity(this);
+        }
+
+        else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
         } else if (id == R.id.nav_question) {
             if (((MyApp) getApplicationContext()).getMemberNickname() == null || ((MyApp) getApplicationContext()).equals("")) {
@@ -333,7 +314,39 @@ public class HomeActivity extends AppCompatActivity implements
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void setNavLogin() {
+        menuItem = menu.getItem(3);
+        logoutMenuItem = menu.getItem(4);
+        profileMenuItem = menu.getItem(5);
+        if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled", false)) {
+            //자동로그인이 선택된적이 있다면
+            //아래문장은 홈액티비티 이후엔 실행하지 않도록만들자
+            //이 아래의 elseif문장을 없애고
+            loginProcess(((MyApp) getApplicationContext()).setting.getString("ID", ""));
+            profileMenuItem.setVisible(true);
+            menuItem.setVisible(false);
+            logoutMenuItem.setVisible(true);
+        } else if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled_Kakao", false)) {
+            MyLog.d("카카오 일로오세욤");
+            //아래문장은 홈액티비티 이후엔 실행하지 않도록 하자..
+            isPastKaKaoLogin(((MyApp) getApplicationContext()).setting.getString("KakaoEmail", ""),
+                    ((MyApp) getApplicationContext()).setting.getString("KakaoNickName", ""));
+            profileMenuItem.setVisible(true);
+            menuItem.setVisible(false);
+            logoutMenuItem.setVisible(true);
+        } else if (currentUser.nickname == null || currentUser.nickname.equals("")) { // 비회원
+            menuItem.setVisible(true);
+            menuItem.setTitle("로그인");
+            profileMenuItem.setVisible(false);
+            logoutMenuItem.setVisible(false);
+        } else { //자동로그인 클릭 안했을경우
+            profileMenuItem.setVisible(true);
+            menuItem.setVisible(false);
+            logoutMenuItem.setVisible(true);
+        }
+    }
 
+    // <====================네비게이션 필요한 메뉴들 끝======================>
     @Override
     public void onSliderClick(BaseSliderView slider) {
     }
@@ -397,7 +410,6 @@ public class HomeActivity extends AppCompatActivity implements
                     MyLog.d(TAG, "response error " + response.errorBody());
                 }
             }
-
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");

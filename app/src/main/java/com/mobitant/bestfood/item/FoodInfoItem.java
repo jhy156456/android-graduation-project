@@ -32,7 +32,20 @@ public class FoodInfoItem {
     @SerializedName("image_filename") public String imageFilename;
     @SerializedName("total_image_filename") public ArrayList<ImageItem> totalImageFilename = new ArrayList<>();
     @SerializedName("_id") public String id;
+    @SerializedName("post_tag")private ArrayList<String> postTag = new ArrayList<>();
 
+
+
+    public void addPostTag(String addValue){
+        this.postTag.add(addValue);
+    }
+    public ArrayList<String> getPostTag() {
+        return postTag;
+    }
+
+    public void setPostTag(ArrayList<String> postTag) {
+        this.postTag = postTag;
+    }
 
     public String getCreatedAt() {
         return createdAt;

@@ -43,7 +43,8 @@ dependencies {
     implementation 'com.daimajia.slider:library:1.1.5@aar'
 //카카오톡 로그인을위해 추가함
     implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
-
+//라운드 이미뷰(피드미에서가져옴)을위해 추가함
+    implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation project(':multipleimagepickerlibrary')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'

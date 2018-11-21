@@ -7,6 +7,7 @@ import com.mobitant.bestfood.item.FoodInfoItem;
 import com.mobitant.bestfood.item.KeepItem;
 import com.mobitant.bestfood.item.NotificationCommentItem;
 import com.mobitant.bestfood.item.NotificationItem;
+import com.mobitant.bestfood.item.NotificationsModel;
 import com.mobitant.bestfood.item.OrderCheckItem;
 import com.mobitant.bestfood.item.OrderItem;
 import com.mobitant.bestfood.item.ProductGridModellClass;
@@ -54,7 +55,7 @@ public interface RemoteService {
 
     @GET("user/{user_type}")
     Call<ArrayList<User>> listSupporters(@Path("user_type") String userType,
-                                         @Query("my_nick_name")String myNickName,
+                                         @Query("my_nick_name") String myNickName,
                                          @Query("current_page") int page);
 
     @GET("user/chat/{user_nickname}")
@@ -137,7 +138,9 @@ public interface RemoteService {
 
     @POST("/food/info")
     Call<String> insertFoodInfo(@Body FoodInfoItem infoItem);
-
+    @GET("/food/info/remove")
+    Call<String> removeInfo(@Query("post_id")String postId,
+                            @Query("from") int from);
     @Multipart
     @POST("/food/info/image")
     Call<ResponseBody> uploadFoodImage(@Part("info_seq") RequestBody infoSeq,
@@ -151,6 +154,22 @@ public interface RemoteService {
                                                @Query("current_page") int currentPage,
                                                @Query("post_category") int post_category);
 
+    @GET("/order/list")
+    Call<ArrayList<OrderCheckItem>> getOrderHistory(@Query("member_nick_name") String memberNickName,
+                                                  @Query("current_page") int currentPage);
+    @GET("/Notification/list")
+    Call<ArrayList<NotificationsModel>> getNotification(@Query("current_page") int page);
+
+
+
+    @GET("/food/list/tag")
+    Call<ArrayList<FoodInfoItem>> listFoodInfowithTag(@Query("post_tag") ArrayList<String> postTag,
+                                                      @Query("key_word") String keyWord,
+                                                      @Query("member_seq") int memberSeq,
+                                                      @Query("order_type") String orderType,
+                                                      @Query("current_page") int currentPage,
+                                                      @Query("post_category") int post_category);
+
     @GET("/food/list")
     Call<ArrayList<ProductGridModellClass>> listContestInfo(@Query("member_seq") int memberSeq,
                                                             @Query("board_type") int boardType,
@@ -160,6 +179,7 @@ public interface RemoteService {
 
     @GET("/food/postedlist")
     Call<ArrayList<FoodInfoItem>> postedProfileListSoftwareInfo(@Query("member_seq") int wantMemberSeq,
+                                                                @Query("my_seq")int mySeq,
                                                                 @Query("current_page") int currentPage);
 
     //즐겨찾기
@@ -194,10 +214,11 @@ public interface RemoteService {
 
     @POST("users/{email}/password")
     Observable<Response> resetPasswordFinish(@Path("email") String email, @Body User user);
-/*    과거에 카카오톡으로 로그인한적이 있는지 조사
-    있다면 그값 불러와서 MyApp User에 두고
-    없다면 닉네임설정하는화면으로 넘어감*/
+
+    /*    과거에 카카오톡으로 로그인한적이 있는지 조사
+        있다면 그값 불러와서 MyApp User에 두고
+        없다면 닉네임설정하는화면으로 넘어감*/
     @GET("/users/kakao/{email}/{name}")
-    Call<User>  isPastKaKaoLogin(@Path("email") String email, @Path("name") String name);
+    Call<User> isPastKaKaoLogin(@Path("email") String email, @Path("name") String name);
     //로그인 관련 라우팅 끝
 }

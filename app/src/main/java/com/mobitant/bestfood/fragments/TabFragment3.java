@@ -43,6 +43,7 @@ public class TabFragment3 extends BaseFragment implements View.OnClickListener {
     Typeface fonts1, fonts2;
     User buyerUser;
     MyTextView textView;
+    MyTextView total;
     private ArrayList<Bean> Bean;
     private JayBaseAdapter baseAdapter;
 
@@ -52,11 +53,15 @@ public class TabFragment3 extends BaseFragment implements View.OnClickListener {
         orderItem = new OrderItem();
         listview = (ListView) view.findViewById(R.id.listview);
         buyerUser = ((MyApp) getActivity().getApplicationContext()).getUserItem();
+        total = (MyTextView)view.findViewById(R.id.total2);
         textView = view.findViewById(R.id.order_pay);
         textView.setOnClickListener(this);
         orderCheckItem = (OrderCheckItem) getArguments().getSerializable("orderCheckItem");
         Bean = new ArrayList<Bean>();
 
+
+
+        total.setText(orderCheckItem.getPostPrice());
         //구매아이템
         Bean bean = new Bean(orderCheckItem.getInfoFirstImageFilename(), orderCheckItem.getInfoTitle()
                 , orderCheckItem.getInfoContent(), orderCheckItem.getPostRegisterDate());
@@ -118,9 +123,10 @@ public TabFragment3(String sellerNickName, String sellerPostMemberIconFilename){
             progressON("구매중...");
 
             orderCheckItem.setBuyerMemberSeq(buyerUser.seq);
+            orderCheckItem.setBuyerMemberNickName(buyerUser.nickname);
             orderCheckItem.setCardHorder(orderItem.getCard_holder());
-            orderCheckItem.setCardNumber(orderItem.getCard_number());
-            orderCheckItem.setBuyerMemberNickName(orderItem.getBuyer_nickname());
+            orderCheckItem.setCardNumber(orderItem.getCard_number()); //게시글등록자 정보는 BestFoodInfoActivity에서 셋팅했음.
+            MyLog.d("orderCheckItem값 : " + orderCheckItem);
             save();
             this.getActivity().finish();
             progressOFF();
@@ -137,15 +143,15 @@ public TabFragment3(String sellerNickName, String sellerPostMemberIconFilename){
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    progressOFF();
+
                     MyToast.s(getContext(), "구매신청완료");
+
                 } else { // 등록 실패
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     MyLog.d(TAG, "fail " + statusCode + errorBody.toString());
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");

@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         oneLineDescription.setText(currentItem.getOneLineDescription());
 
         sextypeEdit = (EditText) findViewById(R.id.profile_sextype);
-        sextypeEdit.setText(currentItem.birthday);
+        sextypeEdit.setText(currentItem.sextype);
         nameEdit = (TextView) findViewById(R.id.profile_name);
         nameEdit.setText(currentItem.name);
 
@@ -238,6 +238,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         item.sextype = sextypeEdit.getText().toString();
         item.birthday = birthEdit.getText().toString().replace(" ", "");
         item.setOneLineDescription(oneLineDescription.getText().toString());
+        item.nickname = ((MyApp)getApplicationContext()).getMemberNickname();
         return item;
     }
 
@@ -314,7 +315,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    String seq = response.body();
+         /*           String seq = response.body();
                     try {
                         currentItem.seq = Integer.parseInt(seq);
                         if (currentItem.seq == 0) {
@@ -324,11 +325,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     } catch (Exception e) {
                         MyToast.s(context, R.string.member_insert_fail_message);
                         return;
-                    }
-                    currentItem.name = newItem.name;
-                    currentItem.sextype = newItem.sextype;
-                    currentItem.birthday = newItem.birthday;
-                    currentItem.setOneLineDescription(newItem.getOneLineDescription());
+                    }*/
+                    ((MyApp)getApplicationContext()).setUserOneLineDescription(newItem.getOneLineDescription());
+                    ((MyApp)getApplicationContext()).setUserSexType(newItem.sextype);
+                    ((MyApp)getApplicationContext()).setUserBirtDay(newItem.birthday);
                     finish();
                 }
             }

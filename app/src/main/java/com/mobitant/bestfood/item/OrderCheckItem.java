@@ -5,33 +5,39 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class OrderCheckItem implements Serializable {
-
-    private  String infoFirstImageFilename;
+    @SerializedName("info_first_image_file_name")
+    private String infoFirstImageFilename;
+    @SerializedName("seller_nickname")
     private String postNickName; // 구매화면 전환해서 정보를 보여주기위함
+    @SerializedName("post_member_icon_file_name")
     private String postMemberIconFilename;
-    private String infoTitle;
+    @SerializedName("info_title") private String infoTitle;
     private String infoContent;
     private String postRegisterDate;
     private String postPhoneNumber;
     private String postRealName;
+    @SerializedName("card_number")
     private String cardNumber;
     private int postSeq;
     private int postMemberSeq;
     private int buyerMemberSeq;
-    @SerializedName("created_at") private String createdAt;
-
+    @SerializedName("buyer_nickname")
     private String buyerMemberNickName;
+    @SerializedName("card_holder")
     private String CardHorder;
     private String created_at;
     private String updated_at;
+    @SerializedName("post_price")
+    private String postPrice;
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getPostPrice() {
+        return postPrice;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setPostPrice(String postPrice) {
+        this.postPrice = postPrice;
     }
+
 
     public String getCardNumber() {
         return cardNumber;

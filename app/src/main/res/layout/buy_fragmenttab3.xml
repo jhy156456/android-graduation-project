@@ -43,7 +43,7 @@
                 android:id="@+id/buy_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="309, Baker Street, 390022 NY"
+                android:text="@string/buy_check"
                 android:textSize="16dp"
                 android:textColor="#333333"
                 />

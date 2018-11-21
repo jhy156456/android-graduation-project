@@ -48,6 +48,7 @@
             android:maxLines="1"
             android:padding="@dimen/spacing_large"
             android:textSize="@dimen/text_size_small2" />
+
         <EditText
             android:id="@+id/sell_price"
             android:layout_width="match_parent"
@@ -61,18 +62,17 @@
             android:maxLines="1"
             android:padding="@dimen/spacing_large"
             android:textSize="@dimen/text_size_small2"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <TableLayout
             android:id="@+id/table_layout"
             android:layout_width="wrap_content"
             android:layout_height="73dp"
-            android:layout_margin="4dp"
             android:layout_below="@+id/top_layout"
+            android:layout_margin="4dp"
             android:layout_marginTop="@dimen/spacing_small"
             android:background="@drawable/bg_round"
-            android:stretchColumns="0,1,2,3"
-            >
+            android:stretchColumns="0,1,2,3">
 
             <TableRow
                 android:layout_width="wrap_content"
@@ -84,14 +84,9 @@
                     android:layout_gravity="left">
 
                     <CheckBox
-                        android:id="@+id/select_android"
+                        android:id="@+id/select_and"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="0dp"
                         android:text="안드로이드"
                         android:textSize="12dp" />
                 </LinearLayout>
@@ -99,58 +94,38 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    >
+                    android:layout_gravity="left">
 
                     <CheckBox
                         android:id="@+id/select_ios"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="0dp"
                         android:text="아이폰"
                         android:textSize="12dp" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    >
+                    android:layout_gravity="left">
 
                     <CheckBox
                         android:id="@+id/select_web"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="0dp"
                         android:text="웹페이지"
                         android:textSize="12dp" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    >
+                    android:layout_gravity="left">
 
                     <CheckBox
-                        android:id="@+id/select_d"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
+                        android:id="@+id/select_db"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="0dp"
                         android:text="데이터베이스"
                         android:textSize="12dp" />
 
@@ -165,18 +140,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    >
+                    android:layout_gravity="left">
 
                     <CheckBox
-                        android:id="@+id/select_sql"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
+                        android:id="@+id/select_server"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="0dp"
                         android:text="서버"
                         android:textSize="12dp" />
 
@@ -185,18 +154,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    >
+                    android:layout_gravity="left">
 
                     <CheckBox
-                        android:id="@+id/select_yea"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
+                        android:id="@+id/select_big"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="0dp"
                         android:text="빅데이터"
                         android:textSize="12dp" />
 
@@ -205,26 +168,19 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    >
+                    android:layout_gravity="left">
 
                     <CheckBox
-                        android:padding="0dp"
-                        android:id="@+id/select_h"
+                        android:id="@+id/select_ai"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="0dp"
+                        android:padding="0dp"
                         android:text="인공지능"
                         android:textSize="12dp" />
 
                 </LinearLayout>
             </TableRow>
         </TableLayout>
-
 
 
         <include layout="@layout/image_content_main" />
@@ -245,20 +201,19 @@
 !-->
 
 
-
-
         <EditText
             android:id="@+id/register_image_memo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_small"
             android:layout_above="@+id/bottom_layout"
+            android:layout_margin="@dimen/spacing_small"
             android:background="@drawable/bg_round"
             android:gravity="top"
+            android:hint="@string/input_bestfood_image_memo"
             android:lines="7"
             android:maxLength="200"
-            android:hint="@string/input_bestfood_image_memo"
             android:textSize="@dimen/text_size_small2" />
+
         <LinearLayout
             android:id="@+id/current_text_layout"
             android:layout_width="match_parent"

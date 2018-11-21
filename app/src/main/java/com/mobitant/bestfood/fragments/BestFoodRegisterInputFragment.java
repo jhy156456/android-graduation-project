@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -58,6 +59,7 @@ import com.squareup.picasso.Target;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,12 +112,18 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
 
 
     RelativeLayout image_relative;
-    File imageFile;
     String imageFilename;
     EditText imageMemoEdit;
     ImageItem imageItem;
     boolean isSavingImage = false;
     boolean isImageLoad = false;
+    CheckBox selectAnd;
+    CheckBox selectIos;
+    CheckBox selectServer;
+    CheckBox selectBig;
+    CheckBox selectDb;
+    CheckBox selectAi;
+    CheckBox selectWeb;
 
     /**
      * FoodInfoItem 객체를 인자로 저장하는
@@ -224,6 +232,17 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
         prevButton.setOnClickListener(this);
         Button nextButton = (Button) view.findViewById(R.id.next);
         nextButton.setOnClickListener(this);
+
+
+        selectAnd = (CheckBox) view.findViewById(R.id.select_and);
+        selectIos = (CheckBox) view.findViewById(R.id.select_ios);
+        selectServer = (CheckBox) view.findViewById(R.id.select_server);
+        selectBig = (CheckBox) view.findViewById(R.id.select_big);
+        selectDb = (CheckBox) view.findViewById(R.id.select_db);
+        selectAi = (CheckBox) view.findViewById(R.id.select_ai);
+        selectWeb = (CheckBox) view.findViewById(R.id.select_web);
+
+
     }
 
 
@@ -240,6 +259,7 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
         infoItem.description = descriptionEdit.getText().toString();
         infoItem.postMemberIconFilename = ((MyApp) getActivity().getApplication()).getMemberIconFilename();
         infoItem.memberSeq = ((MyApp) getActivity().getApplication()).getMemberSeq();
+        infoItem.addPostTag(" ");
         infoItem.setSell_price(sellPrice.getText().toString());
 
         MyLog.d(TAG, "onClick imageItem " + infoItem);
@@ -248,6 +268,16 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
             GoLib.getInstance().goFragment(getFragmentManager(),
                     R.id.content_main, BestFoodListFragment.newInstance());
         } else if (v.getId() == R.id.next) {
+            ArrayList<String> postTag = new ArrayList<>();
+            if (selectAi.isChecked() == true) postTag.add("SelectAnd");
+            if (selectDb.isChecked() == true) postTag.add("SelectDb");
+            if (selectWeb.isChecked() == true) postTag.add("SelectWeb");
+            if (selectIos.isChecked() == true) postTag.add("SelectIos");
+            if (selectAnd.isChecked() == true) postTag.add("SelectAnd");
+            if (selectServer.isChecked() == true) postTag.add("SelectServer");
+            if (selectBig.isChecked() == true) postTag.add("SelectBig");
+            infoItem.setPostTag(postTag);
+
             save();
         } else if (v.getId() == R.id.bestfood_image_register) {
             showImageDialog(context);
@@ -269,6 +299,8 @@ public class BestFoodRegisterInputFragment extends BaseFragment implements View.
             return;
         }
         progressON("저장중...");
+
+
         insertFoodInfo();
     }
 

@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.mobitant.bestfood.fragments.BestFoodListFragment;
 import com.mobitant.bestfood.fragments.ChatTalkFragment;
 import com.mobitant.bestfood.fragments.FirstFragment;
@@ -125,32 +127,41 @@ public class SupportersActivity extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if (id == R.id.nav_list) {
             GoLib.getInstance().goFragment(getSupportFragmentManager(),
                     R.id.home_linearlayout, BestFoodListFragment.newInstance());
             //GoLib.getInstance().goBestFoodMainActivity(this);
         } else if (id == R.id.nav_notice) {
-            GoLib.getInstance().goNotificationActivity(this);
+            GoLib.getInstance().goRealNotificationActivity(this);
         } else if (id == R.id.nav_keep) {
-            GoLib.getInstance().goKeepActivity(this);
+            if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).equals("")) {
+                DialogLib.getInstance().inputPostDialog(this);
+            } else {
+                GoLib.getInstance().goKeepActivity(this);
+            }
         } else if (id == R.id.nav_login) {
             GoLib.getInstance().goLoginActivity(this);
         } else if (id == R.id.nav_logout) {
-            ((MyApp) getApplication()).editor.remove("ID");
-            ((MyApp) getApplication()).editor.remove("PW");
-            ((MyApp) getApplication()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplication()).editor.clear();
-            ((MyApp) getApplication()).editor.commit();
-
+            ((MyApp) getApplicationContext()).editor.remove("ID");
+            ((MyApp) getApplicationContext()).editor.remove("PW");
+            ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
+            ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
+            ((MyApp) getApplicationContext()).editor.clear();
+            ((MyApp) getApplicationContext()).editor.commit();
             currentUser = new User();
-            Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-            ((MyApp) getApplication()).setUserItem(currentUser);
+            requestLogout();
+            ((MyApp) getApplicationContext()).setUserItem(currentUser);
             setNavLogin();
             setProfileView();
+        } else if (id == R.id.nav_order) {
+            GoLib.getInstance().goOrderHistoryActivity(this);
         } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
         } else if (id == R.id.nav_question) {
-            if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).equals("")) {
+            if (((MyApp) getApplicationContext()).getMemberNickname() == null || ((MyApp) getApplicationContext()).equals("")) {
                 DialogLib.getInstance().inputPostDialog(this);
             } else {
                 GoLib.getInstance().goNotificationActivity(this);
@@ -161,6 +172,34 @@ public class SupportersActivity extends AppCompatActivity implements
         return true;
     }
 
+    public void setNavLogin() {
+        menuItem = menu.getItem(3);
+        logoutMenuItem = menu.getItem(4);
+        profileMenuItem = menu.getItem(5);
+        if (((MyApp) getApplication()).getMemberNickname() == null || ((MyApp) getApplication()).getMemberNickname().equals("")) { // 비회원
+            menuItem.setVisible(true);
+            menuItem.setTitle("로그인");
+            profileMenuItem.setVisible(false);
+            logoutMenuItem.setVisible(false);
+        } else { //홈액티비티가 아니기때문에 카카오로그인여부,소모임회원여부,서버요청필요없이 띄워주면됨
+            profileMenuItem.setVisible(true);
+            menuItem.setVisible(false);
+            logoutMenuItem.setVisible(true);
+        }
+    }
+    private void requestLogout() {
+        UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SupportersActivity.this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
     /**
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
@@ -213,7 +252,13 @@ public class SupportersActivity extends AppCompatActivity implements
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setTitle("서포터즈");
+        }
     }
+
     // <====================네비게이션 필요한 메뉴들 시작 끝======================>
 
 
@@ -273,27 +318,6 @@ public class SupportersActivity extends AppCompatActivity implements
         @Override
         public CharSequence getPageTitle(int position) {
             return mTabsTitle[position];
-        }
-    }
-
-    public void setNavLogin() {
-        menuItem = menu.getItem(3);
-        logoutMenuItem = menu.getItem(4);
-        profileMenuItem = menu.getItem(5);
-        if (((MyApp) getApplication()).setting.getBoolean("Auto_Login_enabled", false)) {
-            //자동로그인 체크되어있으면 로그인상태이고 회원이므로
-            profileMenuItem.setVisible(true);
-            menuItem.setVisible(false);
-            logoutMenuItem.setVisible(true);
-        } else if (currentUser.nickname == null || currentUser.nickname.equals("")) { // 비회원
-            menuItem.setVisible(true);
-            menuItem.setTitle("로그인");
-            profileMenuItem.setVisible(false);
-            logoutMenuItem.setVisible(false);
-        } else { //자동로그인 클릭 안했을경우
-            profileMenuItem.setVisible(true);
-            menuItem.setVisible(false);
-            logoutMenuItem.setVisible(true);
         }
     }
 

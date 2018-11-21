@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,8 +61,20 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
     EndlessRecyclerViewScrollListener scrollListener;
     int listTypeValue = 1; //아마 2가 격자형식이였을듯?
     String orderType;
+    Button checkSearch;
+    CheckBox selectAnd;
+    CheckBox selectIos;
+    CheckBox selectServer;
+    CheckBox selectBig;
+    CheckBox selectDb;
+    CheckBox selectAi;
+    CheckBox selectWeb;
+
+    ArrayList<String> postTag = new ArrayList<>();
+
     /**
      * BestFoodListFragment 인스턴스를 생성한다.
+     *
      * @return BestFoodListFragment 인스턴스
      */
     public static BestFoodListFragment newInstance() {
@@ -70,15 +84,16 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
 
     /**
      * fragment_bestfood_list.xml 기반으로 뷰를 생성한다.
-     * @param inflater XML를 객체로 변환하는 LayoutInflater 객체
-     * @param container null이 아니라면 부모 뷰
+     *
+     * @param inflater           XML를 객체로 변환하는 LayoutInflater 객체
+     * @param container          null이 아니라면 부모 뷰
      * @param savedInstanceState null이 아니라면 이전에 저장된 상태를 가진 객체
      * @return 생성한 뷰 객체
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = this.getActivity();
-        memberSeq = ((MyApp)this.getActivity().getApplication()).getMemberSeq();
+        memberSeq = ((MyApp) this.getActivity().getApplication()).getMemberSeq();
         keyWord = "";
         View layout = inflater.inflate(R.layout.fragment_bestfood_list, container, false);
         return layout;
@@ -98,16 +113,17 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
             infoListAdapter.setItem(currentInfoItem);
             myApp.setFoodInfoItem(null);
         }
-        if(myApp.getIsNewBestfood() == true){
+        if (myApp.getIsNewBestfood() == true) {
             setRecyclerView();
-            listInfo(keyWord,memberSeq,orderType,0,fromBestFoodListFragment);
+            listInfo(keyWord, memberSeq, orderType, 0, fromBestFoodListFragment);
             myApp.setIsNewBestfood(false);
         }
     }
 
     /**
      * onCreateView() 메소드 뒤에 호출되며 화면 뷰들을 설정한다.
-     * @param view onCreateView() 메소드에 의해 반환된 뷰
+     *
+     * @param view               onCreateView() 메소드에 의해 반환된 뷰
      * @param savedInstanceState null이 아니라면 이전에 저장된 상태를 가진 객체
      */
     @Override
@@ -119,12 +135,12 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
 
         bestFoodList = (RecyclerView) view.findViewById(R.id.list);
         noDataText = (TextView) view.findViewById(R.id.no_data);
-        searchKeyWord = (ImageView)view.findViewById(R.id.search_key_word);
-        searchKey = (EditText_Roboto_Regular)view.findViewById(R.id.search_key);
+        searchKeyWord = (ImageView) view.findViewById(R.id.search_key_word);
+        searchKey = (EditText_Roboto_Regular) view.findViewById(R.id.search_key);
         orderRecent = (TextView) view.findViewById(R.id.order_recent);
         orderFavorite = (TextView) view.findViewById(R.id.order_favorite);
         orderHits = (TextView) view.findViewById(R.id.order_hits);
-        inputPost = (TextView)view.findViewById(R.id.input_post);
+        inputPost = (TextView) view.findViewById(R.id.input_post);
 
         orderRecent.setOnClickListener(this);
         orderFavorite.setOnClickListener(this);
@@ -132,28 +148,58 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         inputPost.setOnClickListener(this);
         searchKeyWord.setOnClickListener(this);
 
+
+        selectAnd = (CheckBox) view.findViewById(R.id.select_and);
+        selectIos = (CheckBox) view.findViewById(R.id.select_ios);
+        selectServer = (CheckBox) view.findViewById(R.id.select_server);
+        selectBig = (CheckBox) view.findViewById(R.id.select_big);
+        selectDb = (CheckBox) view.findViewById(R.id.select_db);
+        selectAi = (CheckBox) view.findViewById(R.id.select_ai);
+        selectWeb = (CheckBox) view.findViewById(R.id.select_web);
+        checkSearch = (Button) view.findViewById(R.id.check_search);
+        checkSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (selectAi.isChecked() == true) postTag.add("SelectAnd");
+                if (selectDb.isChecked() == true) postTag.add("SelectDb");
+                if (selectWeb.isChecked() == true) postTag.add("SelectWeb");
+                if (selectIos.isChecked() == true) postTag.add("SelectIos");
+                if (selectAnd.isChecked() == true) postTag.add("SelectAnd");
+                if (selectServer.isChecked() == true) postTag.add("SelectServer");
+                if (selectBig.isChecked() == true) postTag.add("SelectBig");
+                if (!selectAi.isChecked() && !selectDb.isChecked() && !selectWeb.isChecked()
+                        && !selectIos.isChecked() && !selectAnd.isChecked() && !selectServer.isChecked()
+                        && !selectBig.isChecked()) {
+                    setRecyclerView();
+                    listInfo(keyWord, memberSeq, orderType, 0, fromBestFoodListFragment);
+                } else {
+                    setRecyclerView();
+                    listInfowithTag(keyWord, memberSeq, orderType, 0, postTag, fromBestFoodListFragment);
+                }
+                postTag.clear();
+            }
+        });
+
         searchKey.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                switch (actionId){
+                switch (actionId) {
                     case EditorInfo.IME_ACTION_SEARCH:
                         keyWord = searchKey.getText().toString();
                         MyLog.d("검색키워드 : " + keyWord);
                         setRecyclerView();
-                        listInfo(keyWord, memberSeq, orderType, 0,fromBestFoodListFragment);
+                        listInfo(keyWord, memberSeq, orderType, 0, fromBestFoodListFragment);
                         break;
-
                 }
                 return false;
             }
         });
-      //listType.setOnClickListener(this);
+        //listType.setOnClickListener(this);
 
         setRecyclerView();
-        listInfo(keyWord,memberSeq, orderType, 0,fromBestFoodListFragment);
+        listInfo(keyWord, memberSeq, orderType, 0, fromBestFoodListFragment);
     }
-
-
 
 
     /**
@@ -171,7 +217,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listInfo(keyWord,memberSeq,orderType, page,fromBestFoodListFragment);
+                listInfo(keyWord, memberSeq, orderType, page, fromBestFoodListFragment);
             }
         };
         bestFoodList.addOnScrollListener(scrollListener);
@@ -179,14 +225,18 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
 
     /**
      * 서버에서 맛집 정보를 조회한다.
-     * @param memberSeq 사용자 시퀀스
-     * @param orderType 맛집 정보 정렬 순서
+     *
+     * @param memberSeq   사용자 시퀀스
+     * @param orderType   맛집 정보 정렬 순서
      * @param currentPage 현재 페이지
      */
-    private void listInfo(String keyWord,int memberSeq,String orderType, final int currentPage,int fromBestFoodListFragment) {
+    private void listInfo(String keyWord, int memberSeq, String orderType,
+                          final int currentPage,
+                          int fromBestFoodListFragment) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(keyWord,memberSeq,orderType, currentPage,fromBestFoodListFragment);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(keyWord, memberSeq, orderType,
+                currentPage, fromBestFoodListFragment);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,
@@ -214,6 +264,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
 
     /**
      * 각종 버튼에 대한 클릭 처리를 정의한다.
+     *
      * @param v 클릭한 뷰에 대한 정보
      */
     @Override
@@ -232,24 +283,24 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
             orderType = Constant.ORDER_TYPE_HITS;
             setOrderTextColor(R.color.text_color_black,
                     R.color.text_color_black, R.color.text_color_green);
-        }
-        else if(v.getId() == R.id.input_post){
+        } else if (v.getId() == R.id.input_post) {
             if (((MyApp) context.getApplicationContext()).getMemberNickname() == null
                     || ((MyApp) context.getApplicationContext()).equals("")) {
-                    DialogLib.getInstance().inputPostDialog(context);
-            }else{
-                GoLib.getInstance().goBestFoodRegisterActivity(context,fromBestFoodListFragment);
+                DialogLib.getInstance().inputPostDialog(context);
+            } else {
+                GoLib.getInstance().goBestFoodRegisterActivity(context, fromBestFoodListFragment);
             }
-        }else if(v.getId() == R.id.search_key_word){
-            keyWord =  searchKey.getText().toString();
+        } else if (v.getId() == R.id.search_key_word) {
+            keyWord = searchKey.getText().toString();
         }
         setRecyclerView();
-        listInfo(keyWord, memberSeq, orderType, 0,fromBestFoodListFragment);
+        listInfo(keyWord, memberSeq, orderType, 0, fromBestFoodListFragment);
     }
 
 
     /**
      * 맛집 정보 정렬 방식의 텍스트 색상을 설정한다.
+     *
      * @param color1 거리순 색상
      * @param color2 인기순 색상
      * @param color3 최근순 색상
@@ -263,5 +314,41 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
     /**
      * 리사이클러뷰의 리스트 형태를 변경한다.
      */
+    /**
+     * 서버에서 맛집 정보를 조회한다.
+     *
+     * @param memberSeq   사용자 시퀀스
+     * @param orderType   맛집 정보 정렬 순서
+     * @param currentPage 현재 페이지
+     */
+    private void listInfowithTag(String keyWord, int memberSeq, String orderType,
+                                 final int currentPage, ArrayList<String> postTag,
+                                 int fromBestFoodListFragment) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+        Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfowithTag(postTag, keyWord, memberSeq, orderType,
+                currentPage, fromBestFoodListFragment);
+        call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<FoodInfoItem>> call,
+                                   Response<ArrayList<FoodInfoItem>> response) {
+                ArrayList<FoodInfoItem> list = response.body();
 
+                if (response.isSuccessful() && list != null) {
+                    infoListAdapter.addItemList(list);
+
+                    if (infoListAdapter.getItemCount() == 0) {
+                        noDataText.setVisibility(View.VISIBLE);
+                    } else {
+                        noDataText.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<FoodInfoItem>> call, Throwable t) {
+                MyLog.d(TAG, "no internet connectivity");
+                MyLog.d(TAG, t.toString());
+            }
+        });
+    }
 }

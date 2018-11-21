@@ -84,7 +84,7 @@ public class JayBaseAdapter extends BaseAdapter {
             // viewHolder.text.setTypeface(fonts1);
             viewHolder.postOS.setTypeface(fonts1);
             convertView.setTag(viewHolder);
-//폰트입히기끝
+            //폰트입히기끝
 
         } else {
 
