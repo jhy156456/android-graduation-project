@@ -26,14 +26,25 @@ public class User implements Serializable {
     public String sextype;
     public String birthday;
     @SerializedName("member_icon_filename")
-    public String memberIconFilename;
+    public String memberIconFilename=" ";
     @SerializedName("reg_date")
     public String regDate;
     private String chatParticipantOrOwner;
+    @SerializedName("is_kakao_user")
     private Boolean isKakaoUser;
+    @SerializedName("kakao_id")
+    private String kakaoId;
     //0 : 카카오회원
     //1 : 소모임회원
 
+
+    public String getKakaoId() {
+        return kakaoId;
+    }
+
+    public void setKakaoId(String kakaoId) {
+        this.kakaoId = kakaoId;
+    }
 
     public String getOneLineDescription() {
         return oneLineDescription;

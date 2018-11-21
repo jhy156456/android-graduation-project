@@ -133,7 +133,11 @@ public class MainActivity extends AppCompatActivity
 
         if (StringLib.getInstance().isBlank(userItem.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        }  else if (userItem.memberIconFilename.length()>=30){
+            Picasso.with(this).load(userItem.memberIconFilename).into(profileIconImage);
+        }
+
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + userItem.memberIconFilename)
                     .into(profileIconImage);

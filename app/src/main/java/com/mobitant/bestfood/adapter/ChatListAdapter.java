@@ -107,7 +107,10 @@ public ChatTalkData getItem(int index){
 
             if (StringLib.getInstance().isBlank(productItems.getOwnerMemberIconFileName())) {
                 Picasso.with(context).load(R.drawable.ic_person).into(holder.image);
-            } else {
+            } else if (productItems.getOwnerMemberIconFileName().length()>=30){
+                Picasso.with(context).load(productItems.getOwnerMemberIconFileName()).into(holder.image);
+            }
+            else {
                 Picasso.with(context)
                         .load(RemoteService.MEMBER_ICON_URL +productItems.getOwnerMemberIconFileName())
                         .into(holder.image);
@@ -131,7 +134,11 @@ public ChatTalkData getItem(int index){
             holder.description.setText(productItems.getLast_chat_contents());
             if (StringLib.getInstance().isBlank(productItems.getParticipantMemberIconFileName())) {
                 Picasso.with(context).load(R.drawable.ic_person).into(holder.image);
-            } else {
+            }
+            else if (productItems.getParticipantMemberIconFileName().length()>=30){
+                Picasso.with(context).load(productItems.getParticipantMemberIconFileName()).into(holder.image);
+            }
+            else {
                 Picasso.with(context)
                         .load(RemoteService.MEMBER_ICON_URL +productItems.getParticipantMemberIconFileName())
                         .into(holder.image);

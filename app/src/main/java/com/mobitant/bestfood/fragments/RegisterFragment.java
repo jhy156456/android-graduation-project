@@ -175,37 +175,30 @@ public class RegisterFragment extends Fragment {
     }
 
     private void register() {
-
         setError();
-
         String name = mEtName.getText().toString();
         String email = mEtEmail.getText().toString();
         String password = mEtPassword.getText().toString();
         String nickName = mEtNickName.getText().toString();
         String memberType = "";
         int err = 0;
-
         if (!validateFields(name)) {
             err++;
             mTiName.setError("Name should not be empty !");
         }
-
         if (!validateEmail(email)) {
             err++;
-            mTiEmail.setError("Email should be valid !");
+            mTiEmail.setError("유효하지 않은 이메일입니다.");
         }
-
         if (!validateFields(password)) {
-
             err++;
             mTiPassword.setError("Password should not be empty !");
         }
         if (!validateFields(nickName)) {
-
             err++;
             mTiNickName.setError("닉네임을 입력하세요!");
         }
-        if (selectSupporters == null || selectSeller == null || selectBuyer == null) {
+        if (!selectSupporters.isChecked()&&!selectSeller.isChecked()&&!selectBuyer.isChecked()) {
             err++;
             Toast.makeText(getContext(), "유형을 선택하세요!", Toast.LENGTH_LONG).show();
         }
@@ -224,7 +217,6 @@ public class RegisterFragment extends Fragment {
             registerProcess(user);
 
         } else {
-
             showSnackBarMessage("Enter Valid Details !");
         }
     }
@@ -248,7 +240,7 @@ public class RegisterFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse, this::handleError));
-        getFragmentManager().popBackStack();
+
     }
 
     private void handleCheckResponse(Response response) {
@@ -277,6 +269,7 @@ public class RegisterFragment extends Fragment {
     private void handleResponse(Response response) {
         mProgressbar.setVisibility(View.GONE);
         showSnackBarMessage(response.getMessage());
+        getFragmentManager().popBackStack();
     }
 
     private void handleError(Throwable error) {

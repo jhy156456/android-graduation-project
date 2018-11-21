@@ -2,6 +2,7 @@ package com.mobitant.bestfood.fragments;
 
 
 import android.Manifest;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -44,9 +45,9 @@ import rx.subscriptions.CompositeSubscription;
 import static com.mobitant.bestfood.utils.Validation.validateEmail;
 import static com.mobitant.bestfood.utils.Validation.validateFields;
 
-public class LoginNickNameSettingFragment extends android.app.Fragment  {
-    private EditText mEtNickName;
-    private TextInputLayout mTiNickName;
+public class LoginNickNameSettingFragment extends Fragment {
+    private EditText mEtNickName, mEtEmail;
+    private TextInputLayout mTiNickName, mTiEmail;
     TextView isDuplicated;
     CheckBox selectBuyer, selectSeller, selectSupporters;
     String nickName;
@@ -61,6 +62,7 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
     /**
      * FoodInfoItem 객체를 인자로 저장하는
      * BestFoodRegisterInputFragment 인스턴스를 생성해서 반환한다.
+     *
      * @return BestFoodRegisterImageFragment 인스턴스
      */
     public static LoginNickNameSettingFragment newInstance(User userItem) {
@@ -76,7 +78,6 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nick_name_setting, container, false);
         mSubscriptions = new CompositeSubscription();
-
         if (getArguments() != null) {
             mKakaoUser = (User) getArguments().getSerializable("User");
         }
@@ -84,6 +85,7 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
         initViews(view);
         return view;
     }
+
     private void initViews(View v) {
         mEtNickName = (EditText) v.findViewById(R.id.et_nickname);
         mProgressbar = (ProgressBar) v.findViewById(R.id.progress);
@@ -92,6 +94,10 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
         selectSeller = (CheckBox) v.findViewById(R.id.select_seller);
         selectSupporters = (CheckBox) v.findViewById(R.id.select_supporters);
         mBtRegister = (Button) v.findViewById(R.id.btn_register);
+        mTiEmail = (TextInputLayout) v.findViewById(R.id.ti_email);
+        mEtEmail = (EditText) v.findViewById(R.id.et_login_setting_email);
+        if (!mKakaoUser.getEmail().equals(" ")) mTiEmail.setVisibility(View.GONE);
+
         mEtNickName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -116,9 +122,8 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
         mBtRegister.setOnClickListener(view -> register());
         setOneCheckBox();
     }
+
     private void setOneCheckBox() {
-
-
         mCheckBoxes.add(selectBuyer);
         mCheckBoxes.add(selectSeller);
         mCheckBoxes.add(selectSupporters);
@@ -163,12 +168,14 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
         });
 
     }
+
     private void checkNicName(String nickName) {
         mSubscriptions.add(ServiceGenerator.getRetrofit().duplicateCheck(nickName)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleCheckResponse, this::handleCheckError));
     }
+
     private void handleCheckResponse(Response response) {
         isDuplicated.setText(response.getMessage());
     }
@@ -195,12 +202,13 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
     private void handleResponse(Response response) {
         mProgressbar.setVisibility(View.GONE);
         showSnackBarMessage(response.getMessage());
-        ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoEmail", mKakaoUser.getEmail());
+        ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoId", mKakaoUser.getKakaoId());
         ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoNickName", mKakaoUser.name);
         ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled_Kakao", true);
         ((MyApp) getActivity().getApplicationContext()).editor.commit();
         getActivity().finish();
     }
+
     private void handleError(Throwable error) {
 
         mProgressbar.setVisibility(View.GONE);
@@ -218,19 +226,29 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
 
         }
     }
+
     private void showSnackBarMessage(String message) {
 
         if (getView() != null) {
             Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
         }
     }
+
     private void register() {
         String nickName = mEtNickName.getText().toString();
+        String email = " ";
+        if (mKakaoUser.getEmail().equals(" ")||mKakaoUser.getEmail().equals("")) email = mEtEmail.getText().toString();
+        else email = mKakaoUser.getEmail();
         String memberType = "";
+        MyLog.d("이메일값 : " + email);
         int err = 0;
-        if (selectSupporters == null || selectSeller == null || selectBuyer == null) {
+        if (!selectSupporters.isChecked()&& !selectSeller.isChecked()&& !selectBuyer.isChecked()) {
             err++;
             Toast.makeText(getContext(), "유형을 선택하세요!", Toast.LENGTH_LONG).show();
+        }
+        if (!validateEmail(email)) {
+            err++;
+            mTiEmail.setError("유효하지 않은 이메일입니다.");
         }
         if (err == 0) {
             if (selectBuyer.isChecked()) memberType = "Buyer";
@@ -239,23 +257,35 @@ public class LoginNickNameSettingFragment extends android.app.Fragment  {
             User user = new User();
             user.setName(mKakaoUser.name);
             user.setUserType(memberType);
-            user.setEmail(mKakaoUser.getEmail());
+            if (mKakaoUser.getEmail().equals(" ")){
+                user.setEmail(email);
+                mKakaoUser.setEmail(email);
+            }
+            else {
+                user.setEmail(mKakaoUser.getEmail());
+            }
             user.setPassword("kakao");
             user.setNickName(nickName);
             user.setPhone(getPhoneNumber());
+            user.setKakaoId(mKakaoUser.getKakaoId());
+            user.memberIconFilename = mKakaoUser.memberIconFilename;
+            user.setKakaoUser(true);
+            ((MyApp) getActivity().getApplicationContext()).setUserItem(user);
             mProgressbar.setVisibility(View.VISIBLE);
             registerProcess(user);
         } else {
             showSnackBarMessage("Enter Valid Details !");
         }
     }
+
     private void registerProcess(User user) {
         mSubscriptions.add(ServiceGenerator.getRetrofit().register(user)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse, this::handleError));
     }
-    private String getPhoneNumber(){
+
+    private String getPhoneNumber() {
         // 1. mobile
         String mobile = null;
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);

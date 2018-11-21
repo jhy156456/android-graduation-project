@@ -89,7 +89,7 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
             int wantMemberSeq = (int) bundle.getInt("data");
             int mySeq = (int) bundle.getInt("MySeq");
             //로그인한 상태이고 내가쓴 게시글에있는 프로필을 누른경우
-            if (((MyApp) getApplication()).isLogin() == true && mySeq == ((MyApp) getApplication()).getMemberSeq()) {
+            if (((MyApp) getApplication()).isLogin() == true && wantMemberSeq== ((MyApp) getApplication()).getMemberSeq()) {
                 setViewMyProfile();
                 setMyProfileImage();
                 setRecyclerView(((MyApp) getApplication()).getMemberSeq());
@@ -117,7 +117,10 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
             int wantMemberSeq = (int) bundle.getInt("data");
             int mySeq = (int) bundle.getInt("MySeq");
             //로그인한 상태이고 내가쓴 게시글에있는 프로필을 누른경우
-            if (((MyApp) getApplication()).isLogin() == true && mySeq == ((MyApp) getApplication()).getMemberSeq()) {
+            MyLog.d("원트시큐 : " + wantMemberSeq);
+            MyLog.d("마이시큐" + mySeq);
+            MyLog.d("내시큐 : " + ((MyApp) getApplication()).getMemberSeq());
+            if (wantMemberSeq == ((MyApp) getApplication()).getMemberSeq()) {
                 setViewMyProfile();
                 setMyProfileImage();
             } else { //내가아닌 사람의 프로필을 누른경우
@@ -138,6 +141,7 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     뷰화면 구현
      */
     public void setViewMyProfile() {
+        profileChange.setVisibility(View.VISIBLE);
         profileChange.setOnClickListener(this);
         userNickName.setText(currentUser.nickname);
         profileViewOneLineDescription.setText(currentUser.getOneLineDescription());
@@ -201,7 +205,11 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     private void setMemberProfileImage() {
         if (StringLib.getInstance().isBlank(memberProfle.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        }
+        else if (memberProfle.memberIconFilename.length()>=30){
+            Picasso.with(this).load(memberProfle.memberIconFilename).into(profileIconImage);
+        }
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + memberProfle.memberIconFilename)
                     .into(profileIconImage);
@@ -215,7 +223,11 @@ public class MemberProfile extends AppCompatActivity implements View.OnClickList
     private void setMyProfileImage() {
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        }    else if (currentUser.memberIconFilename.length()>=30){
+            Picasso.with(this).load(currentUser.memberIconFilename).into(profileIconImage);
+        }
+
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + currentUser.memberIconFilename)
                     .into(profileIconImage);

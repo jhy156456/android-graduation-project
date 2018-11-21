@@ -202,7 +202,7 @@ public class NotificationsActivity extends AppCompatActivity implements Navigati
             ((MyApp) getApplicationContext()).editor.remove("ID");
             ((MyApp) getApplicationContext()).editor.remove("PW");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoId");
             ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
             ((MyApp) getApplicationContext()).editor.clear();

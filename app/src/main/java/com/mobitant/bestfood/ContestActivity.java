@@ -182,7 +182,7 @@ public class ContestActivity extends AppCompatActivity  implements NavigationVie
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (((MyApp) getApplicationContext()).isNewContest() == true) {
+        if (((MyApp) getApplicationContext()).isNewContest()) {
             setAdapter();
             ((MyApp) getApplicationContext()).setNewContest(false);
         }
@@ -271,7 +271,7 @@ public class ContestActivity extends AppCompatActivity  implements NavigationVie
             ((MyApp) getApplicationContext()).editor.remove("ID");
             ((MyApp) getApplicationContext()).editor.remove("PW");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoId");
             ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
             ((MyApp) getApplicationContext()).editor.clear();
@@ -327,7 +327,11 @@ public class ContestActivity extends AppCompatActivity  implements NavigationVie
 
         if (StringLib.getInstance().isBlank(((MyApp)getApplicationContext()).getMemberIconFilename())) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        } else if (((MyApp)getApplicationContext()).getMemberIconFilename().length()>=30){
+            Picasso.with(this).load(((MyApp)getApplicationContext()).getMemberIconFilename()).into(profileIconImage);
+        }
+
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + ((MyApp)getApplicationContext()).getMemberIconFilename())
                     .into(profileIconImage);

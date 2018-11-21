@@ -104,14 +104,22 @@ public class JayBaseAdapter extends BaseAdapter {
         } else if(position==1) { // 멤버 프로필 띄워주기 위함
             if (StringLib.getInstance().isBlank(bean.getImageFileName())) {
                 Picasso.with(context).load(R.drawable.bg_bestfood_drawer).into(viewHolder.imageView);
-            } else {
+            }      else if (bean.getImageFileName().length()>=30){
+                Picasso.with(context).load(bean.getImageFileName()).into(viewHolder.imageView);
+            }
+
+            else {
                 Picasso.with(context).load(RemoteService.MEMBER_ICON_URL + bean.getImageFileName()).into(viewHolder.imageView);
             }
             viewHolder.checkType.setText("판매자");
         }else if(position==2){
             if (StringLib.getInstance().isBlank(bean.getImageFileName())) {
                 Picasso.with(context).load(R.drawable.ic_person).into(viewHolder.imageView);
-            } else {
+            }  else if (bean.getImageFileName().length()>=30){
+                Picasso.with(context).load(bean.getImageFileName()).into(viewHolder.imageView);
+            }
+
+            else {
                 Picasso.with(context).load(RemoteService.MEMBER_ICON_URL + bean.getImageFileName()).into(viewHolder.imageView);
             }
             viewHolder.checkType.setText("구매자");

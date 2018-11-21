@@ -16,10 +16,10 @@ public interface Constant {
     String ORDER_TYPE_FAVORITE = "keep_cnt";
     String ORDER_TYPE_RECENT = "reg_date";
 
-    public static final String NETWORK_URL ="http://192.168.216.178:8005/";
-            //"http://3546d37c.ngrok.io/";
-            //"http://192.168.216.178:8005/";
-
+    public static final String NETWORK_URL = "http://graduationserver.ap-northeast-2.elasticbeanstalk.com/";
+            //"http://1af33470.ngrok.io/";
+            //"http://192.168.0.31:8005/";
+//"http://graduationserver.ap-northeast-2.elasticbeanstalk.com/";
     /*
     #나가기버튼클릭 :
     -roomDB 참가수필드 1삭제,

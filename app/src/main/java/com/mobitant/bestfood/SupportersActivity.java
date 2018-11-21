@@ -146,7 +146,7 @@ public class SupportersActivity extends AppCompatActivity implements
             ((MyApp) getApplicationContext()).editor.remove("ID");
             ((MyApp) getApplicationContext()).editor.remove("PW");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoId");
             ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
             ((MyApp) getApplicationContext()).editor.clear();
@@ -214,7 +214,11 @@ public class SupportersActivity extends AppCompatActivity implements
         });
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        }
+        else if (currentUser.memberIconFilename.length()>=30){
+            Picasso.with(this).load(currentUser.memberIconFilename).into(profileIconImage);
+        }
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + currentUser.memberIconFilename)
                     .into(profileIconImage);

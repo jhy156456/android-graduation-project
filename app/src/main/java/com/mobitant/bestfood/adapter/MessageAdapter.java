@@ -82,7 +82,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             viewHolder.setUsername(message.getSender());
             if (StringLib.getInstance().isBlank(message.getSenderId().getMember_icon_filename())) {
                 Picasso.with(context).load(R.drawable.ic_person).into(viewHolder.circle_image);
-            } else {
+            }
+            else if (message.getSenderId().getMember_icon_filename().length()>=30){
+                Picasso.with(context).load(message.getSenderId().getMember_icon_filename()).into(viewHolder.circle_image);
+            }
+            else {
                 Picasso.with(context)
                         .load(RemoteService.MEMBER_ICON_URL + message.getSenderId().getMember_icon_filename())
                         .into(viewHolder.circle_image);

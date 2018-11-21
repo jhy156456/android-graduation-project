@@ -12,6 +12,7 @@ import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
@@ -30,15 +31,23 @@ public class MainActivity2 extends AppCompatActivity implements ResetPasswordDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
         if (savedInstanceState == null) {
-
             loadFragment();
         }
+        UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Toast.makeText(HomeActivity.this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     private void loadFragment() {
-
         if (mLoginFragment == null) {
             mLoginFragment = new LoginFragment();
         }
@@ -70,8 +79,6 @@ public class MainActivity2 extends AppCompatActivity implements ResetPasswordDia
 
     }
 
-
-
     /**
      * 다른 액티비티를 실행한 결과를 처리하는 메소드
      * (실제로는 프래그먼트로 onActivityResult 호출을 전달하기 위한 목적으로 작성)
@@ -85,4 +92,5 @@ public class MainActivity2 extends AppCompatActivity implements ResetPasswordDia
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 }

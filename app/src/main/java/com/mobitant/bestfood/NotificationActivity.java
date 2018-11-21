@@ -147,7 +147,7 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
             ((MyApp) getApplicationContext()).editor.remove("ID");
             ((MyApp) getApplicationContext()).editor.remove("PW");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoId");
             ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
             ((MyApp) getApplicationContext()).editor.clear();
@@ -204,7 +204,11 @@ public class NotificationActivity extends AppCompatActivity implements Navigatio
 
         if (StringLib.getInstance().isBlank(userItem.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        }
+        else if (userItem.memberIconFilename.length()>=30){
+            Picasso.with(this).load(userItem.memberIconFilename).into(profileIconImage);
+        }
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + userItem.memberIconFilename)
                     .into(profileIconImage);

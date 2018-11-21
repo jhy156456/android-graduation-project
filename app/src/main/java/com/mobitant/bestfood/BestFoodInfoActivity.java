@@ -302,7 +302,10 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
         //멤버 프로필 이미지 설정
         if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(((SingerAdapter.AViewHolder) holder).profileIconImage);
-        } else {
+        }else if (item.postMemberIconFilename.length()>=30){
+            Picasso.with(this).load(item.postMemberIconFilename).into(((SingerAdapter.AViewHolder) holder).profileIconImage);
+        }
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + item.postMemberIconFilename)
                     .into(((SingerAdapter.AViewHolder) holder).profileIconImage);
@@ -461,7 +464,11 @@ public class BestFoodInfoActivity extends AppCompatActivity implements View.OnCl
 
                 if (StringLib.getInstance().isBlank(singerItem.memberIconFileName)) {
                     Picasso.with(context).load(R.drawable.ic_person).into(((BViewHolder) holder).imageView);
-                } else {
+                }else if (singerItem.memberIconFileName.length()>=30){
+                    Picasso.with(context).load(singerItem.memberIconFileName).into(((BViewHolder) holder).imageView);
+                }
+
+                else {
                     Picasso.with(context)
                             .load(RemoteService.MEMBER_ICON_URL + singerItem.memberIconFileName)
                             .into(((BViewHolder) holder).imageView);

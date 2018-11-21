@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -36,12 +37,14 @@ import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.LoginButton;
 import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 
+import com.mobitant.bestfood.HomeActivity;
 import com.mobitant.bestfood.MainActivity;
 import com.mobitant.bestfood.MainActivity2;
 import com.mobitant.bestfood.MyApp;
@@ -86,18 +89,17 @@ public class LoginFragment extends Fragment {
     private LoginButton kakaoButton;
     private SessionCallback callback;
     private User kakaoUser;
-
+    public static int kakaoOnSucessCount;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         callback = new SessionCallback();//아래와 이코드가 setonclick안에있으면 callback이 진행되지않았음...
         Session.getCurrentSession().addCallback(callback);
+        kakaoOnSucessCount = 0;
         mSubscriptions = new CompositeSubscription();
         initViews(view);
         initSharedPreferences();
-
-
         return view;
     }
 
@@ -115,9 +117,9 @@ public class LoginFragment extends Fragment {
         kakaoButton = (LoginButton) v.findViewById(R.id.com_kakao_login);
 
         kakaoButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
+
                 Session.getCurrentSession().checkAndImplicitOpen();
             }
         });
@@ -231,31 +233,22 @@ public class LoginFragment extends Fragment {
     }
 
     private void handleResponse(Response response) {
-
         mProgressBar.setVisibility(View.GONE);
-
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(Constants.TOKEN, response.getToken());
         editor.putString(Constants.EMAIL, response.getMessage());
         editor.apply();
-
         mEtEmail.setText(null);
         mEtPassword.setText(null);
-
         getActivity().finish();
 
     }
 
     private void handleError(Throwable error) {
-
         mProgressBar.setVisibility(View.GONE);
-
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
-
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showSnackBarMessage(response.getMessage());
@@ -264,7 +257,6 @@ public class LoginFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-
             showSnackBarMessage("Network Error !");
         }
     }
@@ -285,22 +277,25 @@ public class LoginFragment extends Fragment {
     }
 
     private void showDialog() {
-
         ResetPasswordDialog fragment = new ResetPasswordDialog();
-
         fragment.show(getFragmentManager(), ResetPasswordDialog.TAG);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        /*
+        아래코드를 추가하니까 카카오 로그인 후 onsucess가 2번호출되는게 없어졌다
+        원리는모르겠고.. 분명히 서버요청도 1번만하게해서 프래그먼트 변경도 1번만실행될텐데
+        왜 앱이 중지되는지도 모르겠다 ㅠㅠ
+        */
+        Session.getCurrentSession().removeCallback(callback);
         mSubscriptions.unsubscribe();
     }
 
     private class SessionCallback implements ISessionCallback {
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
-
         }
 
         @Override
@@ -310,7 +305,6 @@ public class LoginFragment extends Fragment {
                 public void onFailure(ErrorResult errorResult) {
                     int ErrorCode = errorResult.getErrorCode();
                     int ClientErrorCode = -777;
-
                     if (ErrorCode == ClientErrorCode) {
                         Toast.makeText(getActivity(), "카카오톡 서버의 네트워크가 불안정합니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                     } else {
@@ -320,7 +314,6 @@ public class LoginFragment extends Fragment {
 
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
-
                 }
 
                 @Override
@@ -330,28 +323,38 @@ public class LoginFragment extends Fragment {
                     MyLog.d("프로필 닉네임 : " + result.getNickname());
                     MyLog.d("프로필 이메일 : " + result.getKakaoAccount().getEmail());
                     MyLog.d("프로필 이미지URL : " + result.getProfileImagePath());
+                    MyLog.d("카카오아이디 : " + result.getId());
                     String name = result.getNickname();
                     kakaoUser = new User();
                     kakaoUser.setName(name);
-                    kakaoUser.setEmail(result.getKakaoAccount().getEmail());
+                    kakaoUser.setKakaoId(String.valueOf(result.getId()));
+                    if(result.getKakaoAccount().getEmail() ==null) kakaoUser.setEmail(" ");
+                    else kakaoUser.setEmail(result.getKakaoAccount().getEmail());
                     kakaoUser.setKakaoUser(false);
-                    isPastKaKaoLogin(result.getKakaoAccount().getEmail(), name);
-                    new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    Log.i("tag", "This'll run 300 milliseconds later");
-                                }
-                            },
-                            5000);
-                    return;
+                    if(result.getProfileImagePath()==null) kakaoUser.memberIconFilename =" ";
+                    else kakaoUser.memberIconFilename = result.getProfileImagePath();
+                    if(kakaoOnSucessCount==0) {
+                        MyLog.d("서버요청 if문");
+                        kakaoOnSucessCount++;
+                        isPastKaKaoLogin(String.valueOf(result.getId()),kakaoUser.getName(),fragmentHandler);
+                    }
                 }
             });
         }
     }
-
+    Handler fragmentHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment fragment = LoginNickNameSettingFragment.newInstance(kakaoUser);
+            fragment.getArguments();
+            ft.replace(R.id.fragmentFrame, fragment).addToBackStack(null);
+            ft.commit();
+        }
+    };
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         MyLog.d("여기서 불름?");
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             MyLog.d("안에서 불름?");
@@ -360,7 +363,7 @@ public class LoginFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void isPastKaKaoLogin(String email, String name) {
+    public void isPastKaKaoLogin(String email, String name, final Handler handler) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
         Call<User> call = remoteService.isPastKaKaoLogin(email, name);
         call.enqueue(new Callback<User>() {
@@ -368,11 +371,10 @@ public class LoginFragment extends Fragment {
             public void onResponse(Call<User> call, retrofit2.Response<User> response) {
                 User loadingUser = response.body();
                 if (response.isSuccessful()) {
-                        MyLog.d("로딩유저 : " + loadingUser);
+                    MyLog.d("로딩유저 : " + loadingUser);
                     if (loadingUser == null) {//과거에 로그인한적이 없어염->닉네임 설정칸으로갑시다
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.replace(R.id.fragmentFrame, LoginNickNameSettingFragment.newInstance(kakaoUser));
-                        ft.commit();
+                        MyLog.d("과거 카카오로그인 x");
+                        handler.sendEmptyMessage(0);
                     } else { //과거에 로그인한적 있어염 -> 그대로 자동로그인값 활성화시키고 종료시키자
                         MyLog.d("과거로그인");
                         ((MyApp) getActivity().getApplicationContext()).setUserItem((User) response.body());
@@ -383,15 +385,15 @@ public class LoginFragment extends Fragment {
                     MyLog.d(TAG, "response error " + response.errorBody());
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");
             }
         });
     }
-
     public void setAutoLogin(User userItem) {
-        ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoEmail", userItem.getEmail());
+        ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoId", userItem.getKakaoId());
         ((MyApp) getActivity().getApplicationContext()).editor.putString("KakaoNickName", userItem.name);
         ((MyApp) getActivity().getApplicationContext()).editor.putBoolean("Auto_Login_enabled_Kakao", true);
         ((MyApp) getActivity().getApplicationContext()).editor.commit();

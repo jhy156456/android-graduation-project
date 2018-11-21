@@ -219,6 +219,6 @@ public interface RemoteService {
         있다면 그값 불러와서 MyApp User에 두고
         없다면 닉네임설정하는화면으로 넘어감*/
     @GET("/users/kakao/{email}/{name}")
-    Call<User> isPastKaKaoLogin(@Path("email") String email, @Path("name") String name);
+    Call<User> isPastKaKaoLogin(@Path("email") String id, @Path("name") String name);
     //로그인 관련 라우팅 끝
 }

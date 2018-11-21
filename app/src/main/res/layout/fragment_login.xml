@@ -8,20 +8,21 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/formBack"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/register_background" />
+
         <RelativeLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_vertical_margin"
 
-            android:layout_margin="@dimen/activity_vertical_margin">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/img_logo"
@@ -63,24 +64,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호"
-                    android:inputType="textPassword"
                     android:imeOptions="actionDone"
-                    />
+                    android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ti_password"
-                >
+                android:layout_below="@+id/ti_password">
+
                 <CheckBox
-                    android:text="자동로그인"
-                    android:textColor="@color/bg_white"
                     android:id="@+id/select_autologin"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:text="자동로그인"
+                    android:textColor="@color/bg_white" />
             </LinearLayout>
+
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
@@ -93,15 +94,12 @@
 
 
             <com.kakao.usermgmt.LoginButton
-                android:layout_below="@+id/btn_login"
                 android:id="@+id/com_kakao_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                />
-
-
+                android:layout_below="@+id/btn_login"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
 
 
             <TextView
@@ -130,7 +128,7 @@ android:paddingLeft="4dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/button_margin"
                 android:layout_marginBottom="@dimen/button_margin"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
     </FrameLayout>

@@ -73,7 +73,11 @@ public class SupportersChatAdapter extends RecyclerView.Adapter<SupportersChatAd
         holder.oneLineDescription.setText(currentUser.getOneLineDescription());
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(context).load(R.drawable.ic_person).into(holder.supportersMemberIconFileName);
-        } else {
+        }            else if (currentUser.memberIconFilename.length()>=30){
+            Picasso.with(context).load(currentUser.memberIconFilename).into(holder.supportersMemberIconFileName);
+        }
+
+        else {
             Picasso.with(context)
                     .load(RemoteService.MEMBER_ICON_URL + currentUser.memberIconFilename)
                     .into(holder.supportersMemberIconFileName);

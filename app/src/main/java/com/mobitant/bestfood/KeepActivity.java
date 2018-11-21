@@ -98,15 +98,22 @@ public class KeepActivity extends AppCompatActivity implements NavigationView.On
             actionBar.setTitle(R.string.nav_keep);
         }
     }
-
+    /**
+     * 오른쪽 상단 메뉴를 구성한다.
+     * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.homeactivity_toolbar_menu, menu);
+        return true;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem mItem) {
         //원래 MenuItem item 이였는데 지금보고있는 게시물의 변수명인 item과 같아서 오류가났었다
         //그래서 item을 메뉴아이템인 mItem으로 변경했다.
         switch (mItem.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
+            case R.id.go_home:
+                GoLib.getInstance().goHomeActivity(this);
         }
         return super.onOptionsItemSelected(mItem);
     }
@@ -224,7 +231,7 @@ public class KeepActivity extends AppCompatActivity implements NavigationView.On
             ((MyApp) getApplicationContext()).editor.remove("ID");
             ((MyApp) getApplicationContext()).editor.remove("PW");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoId");
             ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
             ((MyApp) getApplicationContext()).editor.clear();

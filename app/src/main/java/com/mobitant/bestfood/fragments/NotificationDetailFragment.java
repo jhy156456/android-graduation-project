@@ -110,6 +110,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         //아래애 onOptionsItemSelected에서 부모꺼 받아오는것같당....
         menu.findItem(R.id.go_home).setVisible(false);
         menu.findItem(R.id.go_notification_write).setVisible(false);
+        menu.findItem(R.id.action_buy).setVisible(false);
     }
 
     /**
@@ -135,19 +136,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                 break;
             case R.id.action_delete:
                 break;
-            case R.id.action_buy:
-                orderCheckItem = new OrderCheckItem();
-                orderCheckItem.setPostSeq(item.seq);
-                orderCheckItem.setPostPrice(item.getSell_price());
-                orderCheckItem.setInfoTitle(item.name);
-                orderCheckItem.setPostNickName(item.post_nickname);// 구매화면 전환해서 정보를 보여주기위함
-                orderCheckItem.setPostMemberIconFilename(item.postMemberIconFilename);// 구매화면 전환해서 정보를 보여주기위함
-                if (item.totalImageFilename.size() == 0) {
-                    orderCheckItem.setInfoFirstImageFilename("");
-                } else
-                    orderCheckItem.setInfoFirstImageFilename(item.totalImageFilename.get(0).fileName);
-                orderCheckItem.setInfoContent(item.description);
-                GoLib.getInstance().goBuyActivity(this, orderCheckItem);
+
         }
 
         return super.onOptionsItemSelected(mItem);
@@ -198,7 +187,11 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
 
         if (StringLib.getInstance().isBlank(item.postMemberIconFilename)) {
             Picasso.with(getContext()).load(R.drawable.ic_person).into(((SingerAdapter.AViewHolder) holder).profileIconImage);
-        } else {
+        }
+        else if (item.postMemberIconFilename.length()>=30){
+            Picasso.with(getContext()).load(item.postMemberIconFilename).into(((SingerAdapter.AViewHolder) holder).profileIconImage);
+        }
+        else {
             Picasso.with(getContext())
                     .load(RemoteService.MEMBER_ICON_URL + item.postMemberIconFilename)
                     .into(((SingerAdapter.AViewHolder) holder).profileIconImage);
@@ -328,7 +321,11 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
                 ((BViewHolder) holder).textView2.setText(singerItem.getMobile());
                 if (StringLib.getInstance().isBlank(singerItem.memberIconFileName)) {
                     Picasso.with(context).load(R.drawable.ic_person).into(((BViewHolder) holder).imageView);
-                } else {
+                }        else if (singerItem.memberIconFileName.length()>=30){
+                    Picasso.with(context).load(singerItem.memberIconFileName).into(((BViewHolder) holder).imageView);
+                }
+
+                else {
                     Picasso.with(context)
                             .load(RemoteService.MEMBER_ICON_URL + singerItem.memberIconFileName)
                             .into(((BViewHolder) holder).imageView);

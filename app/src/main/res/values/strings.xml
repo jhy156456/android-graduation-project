@@ -120,7 +120,7 @@
 
     <string name="openDrawer">open_drawer</string>
     <string name="closeDrawer">close_drawer</string>
-    <string name="nick_name_setting_description">소모임에서 사용하실 닉네임과\n타입을 선택해주세요\n선택하신 닉네임은
+    <string name="nick_name_setting_description">소모임에서 사용하실 닉네임,\n타입과 이메일을 입력해주세요\n선택하신 닉네임은
     변경이 불가능합니다.</string>
 
     <string name="no_noti">문의사항이 없습니다.</string>

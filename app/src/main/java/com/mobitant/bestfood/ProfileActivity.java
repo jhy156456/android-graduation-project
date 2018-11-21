@@ -77,7 +77,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         if (StringLib.getInstance().isBlank(currentItem.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        }
+        else if (currentItem.memberIconFilename.length()>=30){
+            Picasso.with(this).load(currentItem.memberIconFilename).into(profileIconImage);
+        }
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + currentItem.memberIconFilename)
                     .into(profileIconImage);

@@ -99,7 +99,12 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
 
         if (StringLib.getInstance().isBlank(memberInfoItem.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        }
+        else if (memberInfoItem.memberIconFilename.length()>=30){
+            Picasso.with(this).load(memberInfoItem.memberIconFilename).into(profileIconImage);
+        }
+
+        else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + memberInfoItem.memberIconFilename)
                     .into(profileIconImage);
@@ -134,12 +139,13 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
     /**
      * 오른쪽 상단 메뉴를 구성한다.
      * 닫기 메뉴만이 설정되어 있는 menu_close.xml를 지정한다.
+     *
      * @param menu 메뉴 객체
      * @return 메뉴를 보여준다면 true, 보여주지 않는다면 false
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_close, menu);
+        getMenuInflater().inflate(R.menu.menu_submit, menu);
         return true;
     }
 
@@ -147,6 +153,7 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
      * 왼쪽 화살표 메뉴(android.R.id.home)를 클릭했을 때와
      * 오른쪽 상단 닫기 메뉴를 클릭했을 때의 동작을 지정한다.
      * 여기서는 모든 버튼이 액티비티를 종료한다.
+     *
      * @param item 메뉴 아이템 객체
      * @return 메뉴를 처리했다면 true, 그렇지 않다면 false
      */
@@ -154,10 +161,10 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+              finish();
                 break;
 
-            case R.id.action_close:
+            case R.id.action_submit:
                 finish();
                 break;
         }
@@ -251,6 +258,13 @@ public class ProfileIconActivity extends AppCompatActivity implements View.OnCli
             Picasso.with(this).load(profileIconFile).into(profileIconImage);
             uploadProfileIcon();
         }
+    }
+    /**
+     * 뒤로가기 버튼을 클릭했을 때, close() 메소드를 호출한다.
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     /**

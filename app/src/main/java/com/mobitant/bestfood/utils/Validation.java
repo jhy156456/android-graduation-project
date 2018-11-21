@@ -8,11 +8,8 @@ public class Validation {
     public static boolean validateFields(String name){
 
         if (TextUtils.isEmpty(name)) {
-
             return false;
-
         } else {
-
             return true;
         }
     }

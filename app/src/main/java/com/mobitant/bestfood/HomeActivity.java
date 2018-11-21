@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements
     CircleImageView profileIconImage;
     Menu menu;
     MenuItem menuItem;
-    MenuItem profileMenuItem, logoutMenuItem;
+    MenuItem profileMenuItem, logoutMenuItem, orderMenuItem;
     SliderLayout mDemoSlider;
     NavigationView navigationView;
     TextView nameText;
@@ -167,8 +167,6 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-
-
     private void loginProcess(String email) {
         //정보 받아와서 setUseritem하기 위함임 밑에 m.subscription으로 로그인해서 set하는건 어떻게하는건가..알아야하는데..
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
@@ -185,7 +183,6 @@ public class HomeActivity extends AppCompatActivity implements
                     MyLog.d("홈액티비티 커렌트유저 : " + currentUser);
                     MyLog.d("홈액티비티 아이템  : " + item);
                     setProfileView();
-
                 } else {
                     Toast.makeText(HomeActivity.this, "아이디 혹은 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                     MyLog.d(TAG, "not success");
@@ -224,8 +221,15 @@ public class HomeActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         currentUser = ((MyApp) getApplicationContext()).getMemberInfoItem();
-        setNavLogin();
         setProfileView();
+        setNavLogin();
+
+        /*
+        setProfileView();이거는 서버요청하고 멤버아이콘파일내임을 가지고서 프로필을 갱신해야하므로
+        setNavLogin이끝나는곳에 넣어줌 흠근데.. 프로필수정하고 홈으로왔을때 다시 실행시킬 수도 있기때문에..!
+        여기도놓고 카카오로그인함수//일반유저로그인함수 요청끝나는부분에 추가하는게 좋을듯합니다~
+        */
+
     }
 // <====================네비게이션 필요한 메뉴들 시작======================>
 
@@ -241,9 +245,13 @@ public class HomeActivity extends AppCompatActivity implements
                 GoLib.getInstance().goProfileActivity(HomeActivity.this);
             }
         });
+        MyLog.d("커렌트유저 : " + currentUser);
         if (StringLib.getInstance().isBlank(currentUser.memberIconFilename)) {
             Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
-        } else {
+        } else if (currentUser.memberIconFilename.length()>=30){
+            Picasso.with(this).load(currentUser.memberIconFilename).into(profileIconImage);
+        } else
+        {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + currentUser.memberIconFilename)
                     .into(profileIconImage);
@@ -287,7 +295,7 @@ public class HomeActivity extends AppCompatActivity implements
             ((MyApp) getApplicationContext()).editor.remove("ID");
             ((MyApp) getApplicationContext()).editor.remove("PW");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled");
-            ((MyApp) getApplicationContext()).editor.remove("KakaoEmail");
+            ((MyApp) getApplicationContext()).editor.remove("KakaoId");
             ((MyApp) getApplicationContext()).editor.remove("KakaoNickName");
             ((MyApp) getApplicationContext()).editor.remove("Auto_Login_enabled_Kakao");
             ((MyApp) getApplicationContext()).editor.clear();
@@ -297,11 +305,9 @@ public class HomeActivity extends AppCompatActivity implements
             ((MyApp) getApplicationContext()).setUserItem(currentUser);
             setNavLogin();
             setProfileView();
-        }else if(id==R.id.nav_order){
+        } else if (id == R.id.nav_order) {
             GoLib.getInstance().goOrderHistoryActivity(this);
-        }
-
-        else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_profile) {
             GoLib.getInstance().goProfileActivity(this);
         } else if (id == R.id.nav_question) {
             if (((MyApp) getApplicationContext()).getMemberNickname() == null || ((MyApp) getApplicationContext()).equals("")) {
@@ -314,10 +320,12 @@ public class HomeActivity extends AppCompatActivity implements
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void setNavLogin() {
         menuItem = menu.getItem(3);
         logoutMenuItem = menu.getItem(4);
         profileMenuItem = menu.getItem(5);
+        orderMenuItem = menu.getItem(6);
         if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled", false)) {
             //자동로그인이 선택된적이 있다면
             //아래문장은 홈액티비티 이후엔 실행하지 않도록만들자
@@ -326,24 +334,29 @@ public class HomeActivity extends AppCompatActivity implements
             profileMenuItem.setVisible(true);
             menuItem.setVisible(false);
             logoutMenuItem.setVisible(true);
+            orderMenuItem.setVisible(true);
         } else if (((MyApp) getApplicationContext()).setting.getBoolean("Auto_Login_enabled_Kakao", false)) {
             MyLog.d("카카오 일로오세욤");
             //아래문장은 홈액티비티 이후엔 실행하지 않도록 하자..
-            isPastKaKaoLogin(((MyApp) getApplicationContext()).setting.getString("KakaoEmail", ""),
+            isPastKaKaoLogin(((MyApp) getApplicationContext()).setting.getString("KakaoId",""),
                     ((MyApp) getApplicationContext()).setting.getString("KakaoNickName", ""));
             profileMenuItem.setVisible(true);
             menuItem.setVisible(false);
             logoutMenuItem.setVisible(true);
+            orderMenuItem.setVisible(true);
         } else if (currentUser.nickname == null || currentUser.nickname.equals("")) { // 비회원
             menuItem.setVisible(true);
             menuItem.setTitle("로그인");
             profileMenuItem.setVisible(false);
             logoutMenuItem.setVisible(false);
+            orderMenuItem.setVisible(false);
         } else { //자동로그인 클릭 안했을경우
             profileMenuItem.setVisible(true);
             menuItem.setVisible(false);
             logoutMenuItem.setVisible(true);
+            orderMenuItem.setVisible(true);
         }
+
     }
 
     // <====================네비게이션 필요한 메뉴들 끝======================>
@@ -398,18 +411,23 @@ public class HomeActivity extends AppCompatActivity implements
         });
     }
 
-    public void isPastKaKaoLogin(String email, String name) {
+    public void isPastKaKaoLogin(String email,String name) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-        Call<User> call = remoteService.isPastKaKaoLogin(email, name);
+        Call<User> call = remoteService.isPastKaKaoLogin(email,name);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, retrofit2.Response<User> response) {
                 if (response.isSuccessful()) {
                     ((MyApp) getApplicationContext()).setUserItem(response.body());
+                    currentUser = response.body();
+                    if(currentUser == null) currentUser = new User();
+                    MyLog.d("커렌트유저 : " + currentUser);
+                    setProfileView();
                 } else { // 등록 실패
                     MyLog.d(TAG, "response error " + response.errorBody());
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 MyLog.d(TAG, "no internet connectivity");
