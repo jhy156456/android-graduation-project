@@ -266,7 +266,7 @@ public class LoginNickNameSettingFragment extends Fragment {
             }
             user.setPassword("kakao");
             user.setNickName(nickName);
-            user.setPhone(getPhoneNumber());
+            user.setPhone("+1555521555412342");
             user.setKakaoId(mKakaoUser.getKakaoId());
             user.memberIconFilename = mKakaoUser.memberIconFilename;
             user.setKakaoUser(true);

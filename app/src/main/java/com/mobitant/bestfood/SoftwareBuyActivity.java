@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.mobitant.bestfood.adapter.PagerAdapter1;
@@ -117,7 +118,8 @@ public class SoftwareBuyActivity extends AppCompatActivity implements TabFragmen
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_close, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_close, menu);
         return true;
     }
 

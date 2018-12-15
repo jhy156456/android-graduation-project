@@ -110,7 +110,7 @@ public class NotificationDetailFragment extends android.support.v4.app.Fragment 
         //아래애 onOptionsItemSelected에서 부모꺼 받아오는것같당....
         menu.findItem(R.id.go_home).setVisible(false);
         menu.findItem(R.id.go_notification_write).setVisible(false);
-        menu.findItem(R.id.action_buy).setVisible(false);
+        //menu.findItem(R.id.action_buy).setVisible(false);
     }
 
     /**

@@ -7,8 +7,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
+        android:largeHeap="true"
         android:required="true"/>
     <application
         android:allowBackup="true"
@@ -26,7 +29,7 @@
         <!--카카오 로그인을위한 코드 끝!-->
         <activity
             android:name=".PermissionActivity"
-            android:label="SoMeeting"
+            android:label="소모임"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

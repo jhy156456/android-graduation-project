@@ -212,7 +212,7 @@ public class RegisterFragment extends Fragment {
             user.setEmail(email);
             user.setPassword(password);
             user.setNickName(nickName);
-            user.setPhone(getPhoneNumber());
+            user.setPhone("+1555521555412342");
             mProgressbar.setVisibility(View.VISIBLE);
             registerProcess(user);
 

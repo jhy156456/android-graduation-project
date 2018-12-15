@@ -41,11 +41,7 @@ User currentUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        currentUser =  ((MyApp)getActivity().getApplication()).getUserItem();
-
-
        fragment1OrderItem = new OrderItem();//안하면 여기에쓸때 널값에러났음
-
-
         View layout = inflater.inflate(R.layout.buy_fragmenttab1, container, false);
         return layout;
     }
@@ -58,9 +54,7 @@ User currentUser;
         name = view.findViewById(R.id.name2);
         phoneNumber = view.findViewById(R.id.phonenumber2);
         email = view.findViewById(R.id.email2);
-
         setView();
-
         setBuyerInfo();
         textView.setOnClickListener(this);
     }

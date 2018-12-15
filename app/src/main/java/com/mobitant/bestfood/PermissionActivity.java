@@ -214,7 +214,7 @@ public class PermissionActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
 
                 DeviceInfo device = getDeviceInfo();
-                params.put("mobile", device.getMobile());
+                params.put("mobile", device.getMobile()); //"+1555521555412342"
                 params.put("osVersion", device.getOsVersion());
                 params.put("model", device.getModel());
                 params.put("display", device.getDisplay());

@@ -16,9 +16,9 @@ public interface Constant {
     String ORDER_TYPE_FAVORITE = "keep_cnt";
     String ORDER_TYPE_RECENT = "reg_date";
 
-    public static final String NETWORK_URL = "http://graduationserver.ap-northeast-2.elasticbeanstalk.com/";
+    public static final String NETWORK_URL = "http://192.168.216.255:8005/";
             //"http://1af33470.ngrok.io/";
-            //"http://192.168.0.31:8005/";
+            //"http://192.168.1.99:8005/";
 //"http://graduationserver.ap-northeast-2.elasticbeanstalk.com/";
     /*
     #나가기버튼클릭 :
